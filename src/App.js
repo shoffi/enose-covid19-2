@@ -1,38 +1,53 @@
-import React, { Component } from 'react';
-import Nav from './components/Nav';
-import Home from './components/Pages/Home';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import Nav from "./components/Nav";
+import Home from "./components/Pages/Home";
 
 class App extends Component {
-  
-  constructor (props) {
-    super(props);
+    constructor(props) {
+        
+        super(props);
 
-    this.state = {
-      nurseId: '',
-      isConnected: false
+        this.state = {
+            nurseId: "",
+            isConnected: false,
+        };
+
+        this.setNurseId = this.setNurseId.bind(this);
     }
 
-    this.setNurseId = this.setNurseId.bind(this);
+  connect() {
+    this.setState({
+        isConnected: true,
+    });
   }
 
-  connect () {
+  setNurseId(event) {
     this.setState({
-      isConnected: true
-    })
+         nurseId: event.target.value,
+    });
   }
 
-  setNurseId (event) {
-    this.setState({
-      nurseId: event.target.value
-    })
-  }
-  
-  render () {
+  render() {
     return (
       <div className="">
-        <Nav></Nav>
+        <Nav
+            nurseId={this.state.nurseId}
+        />
         <div className="content">
-          <Home connect={this.connect} setNurseId={this.setNurseId} nurseId={this.state.nurseId} />
+          <Router>
+            <Route path='/' exact>
+              <Home
+                connect={this.connect}
+                setNurseId={this.setNurseId}
+                nurseId={this.state.nurseId}
+              />
+            </Route>
+            <Route path='/menu' exact>
+              
+            </Route>
+          </Router>
         </div>
       </div>
     );

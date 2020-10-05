@@ -12,7 +12,8 @@ class Nav extends Component {
                 </button>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
+                    <ul className="navbar-nav ml-auto mr-auto">
+                        <div style={{fontWeight:'bold'}}>ID Perawat: {this.props.nurseId}</div>
                     </ul>
                     <Clock></Clock>
                 </div>

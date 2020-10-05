@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class Home extends Component {
     constructor(props) {
         super(props);
-
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            redirect: null
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({nurseId: event.target.value});
-    }
-
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.props.nurseId);
+    handleSubmit(event) { 
         event.preventDefault();
+        this.setState({
+            redirect: '/menu'
+        })
     }
 
     render() {
-        console.log(this.props)
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+
         return (
             <div className="text-center col-md-4 ml-auto mr-auto">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>ID Perawat: {this.props.nurseId}</label>
+                        <label>ID Perawat:</label>
                         <input className="form-control" type="text" value={this.props.nurseId} onChange={this.props.setNurseId} />
                     </div>
                     <input type="submit" value="Connect" />
