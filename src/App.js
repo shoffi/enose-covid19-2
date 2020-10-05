@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Nav from "./components/Nav";
 import Home from "./components/Pages/Home";
+import Menu from "./components/Pages/Menu";
 
 class App extends Component {
     constructor(props) {
@@ -38,14 +39,14 @@ class App extends Component {
         <div className="content">
           <Router>
             <Route path='/' exact>
-              <Home
-                connect={this.connect}
-                setNurseId={this.setNurseId}
-                nurseId={this.state.nurseId}
-              />
+                <Home
+                    connect={this.connect}
+                    setNurseId={this.setNurseId}
+                    nurseId={this.state.nurseId}
+                />
             </Route>
             <Route path='/menu' exact>
-              
+                <Menu/>
             </Route>
           </Router>
         </div>
