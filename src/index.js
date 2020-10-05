@@ -9,7 +9,7 @@ import './styles/main.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App></App>
   </React.StrictMode>,
   document.getElementById('root')
 );
