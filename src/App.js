@@ -11,6 +11,8 @@ class App extends Component {
       nurseId: '',
       isConnected: false
     }
+
+    this.setNurseId = this.setNurseId.bind(this);
   }
 
   connect () {
@@ -30,7 +32,7 @@ class App extends Component {
       <div className="">
         <Nav></Nav>
         <div className="content">
-          <Home connect={this.connect} setNurseId={this.setNurseId} />
+          <Home connect={this.connect} setNurseId={this.setNurseId} nurseId={this.state.nurseId} />
         </div>
       </div>
     );
