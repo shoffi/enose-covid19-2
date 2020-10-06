@@ -14,6 +14,9 @@ class AmbilSample extends Component {
 
     handleSubmit (event) {
         event.preventDefault()
+        this.setState({
+            redirect: '/main-chart'
+        })
     }
 
     render () {
@@ -23,7 +26,7 @@ class AmbilSample extends Component {
         
         return (
             <>
-                <button style={{width:'100%'}} className="btn btn-warning" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
+                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
                 <div className="mt-5">
                     <div className="text-center col-md-4 ml-auto mr-auto">
                         <form onSubmit={this.handleSubmit}>
@@ -31,7 +34,11 @@ class AmbilSample extends Component {
                                 <label>ID Pasien:</label>
                                 <input className="form-control" type="text" value={this.props.patientId} onChange={this.props.setPatientId} />
                             </div>
-                            <input type="submit" value="Start" />
+                            <div className="form-group">
+                                <input type="checkbox" aria-label="Checkbox for following text input" />
+                                <label className="ml-2">Negatif</label>
+                            </div>
+                            <input type="submit" value="Start Sampling" />
                         </form>
                     </div>
                 </div>

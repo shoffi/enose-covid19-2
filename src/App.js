@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Home from "./components/Pages/Home";
 import Menu from "./components/Pages/Menu";
 import AmbilSample from "./components/Pages/AmbilSample";
+import MainChart from "./components/Pages/MainChart";
 
 class App extends Component {
     constructor(props) {
@@ -73,6 +74,10 @@ class App extends Component {
             </Route>
             <Route path='/data-baru' exact>
                 <Menu/>
+            </Route>
+
+            <Route path='/main-chart' exact>
+                <MainChart></MainChart>
             </Route>
 
           </Router>
