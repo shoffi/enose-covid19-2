@@ -7,14 +7,10 @@ class Home extends Component {
         this.state = {
             redirect: null
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) { 
-        event.preventDefault();
-        this.setState({
-            redirect: '/menu'
-        })
+    handleSubmit() { 
+        
     }
 
     render() {
@@ -23,25 +19,28 @@ class Home extends Component {
         }
 
         return (
-            <div className="text-center col-md-12 mt-3 ml-auto mr-auto d-flex">
-                <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
-                    <div className="card-body">
-                        <button style={{width:'100%'}} className="btn btn-primary">Ambil Sample</button>
+            <>
+                <button style={{width:'100%'}} className="btn btn-warning" onClick={() => this.setState({redirect: '/'})}>Kembali</button>
+                <div className="text-center col-md-12 mt-3 ml-auto mr-auto d-flex">
+                    <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
+                        <div className="card-body">
+                            <button style={{width:'100%'}} className="btn btn-primary" onClick={() => this.setState({redirect: '/ambil-sample'})}>Ambil Sample</button>
+                        </div>
                     </div>
-                </div>
 
-                <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
-                    <div className="card-body">
-                        <button style={{width:'100%'}} className="btn btn-primary">History</button>
+                    <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
+                        <div className="card-body">
+                            <button disabled style={{width:'100%'}} className="btn btn-primary">History</button>
+                        </div>
                     </div>
-                </div>
 
-                <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
-                    <div className="card-body">
-                        <button disabled style={{width:'100%'}} className="btn btn-primary">Data baru</button>
+                    <div className="card" style={{width: '400px', display: 'inline-block', margin: "20px"}}>
+                        <div className="card-body">
+                            <button disabled style={{width:'100%'}} className="btn btn-primary">Data baru</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
