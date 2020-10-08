@@ -36,7 +36,7 @@ class AmbilSample extends Component {
                             </div>
                             <div className="form-group">
                                 <input type="checkbox" aria-label="Checkbox for following text input" />
-                                <label className="ml-2">Negatif</label>
+                                <label className="ml-2">Negatif Covid-19</label>
                             </div>
                             <input type="submit" value="Start Sampling" />
                         </form>
