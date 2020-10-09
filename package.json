@@ -1,5 +1,6 @@
 {
   "name": "enose-covid19",
+  "main": "electron/main.js",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,7 +15,8 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export BROWSER=none && react-scripts start",
+    "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -33,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^10.1.3"
   }
 }
