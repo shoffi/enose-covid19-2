@@ -12,9 +12,10 @@ class Home extends Component {
 
     handleSubmit(event) { 
         event.preventDefault();
+        this.props.connect();
         this.setState({
             redirect: '/menu'
-        })
+        });
     }
 
     render() {
