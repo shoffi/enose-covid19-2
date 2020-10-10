@@ -1,6 +1,7 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
-import Chart from "chart.js"
+import Chart from "chart.js";
+const { ipcRenderer } = window;
 
 class MainChart extends Component {
     constructor(props) {
@@ -18,43 +19,70 @@ class MainChart extends Component {
         this.myChart = new Chart (this.chartRef.current, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['0','0','0','0','0','0','0','0','0','0'],
                 datasets: [
                     {
-                        label: 'MQ 2',
-                        fill: false,
-                        data: [12, 8, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(132, 99, 255, 0.2)',
-                        ],
+                        label: 'MQ2_LPG',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)'
+                            'red',
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        fill: false
                     },
                     {
-                        label: 'MQ 3',
-                        fill: false,
-                        data: [13, 15, 1, 7, 8, 2],
-                        backgroundColor: [
-                            'rgba(132, 255, 255, 0.2)',
-                        ],
+                        label: 'MQ2_CO',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
                         borderColor: [
-                            'rgba(132, 255, 255, 1)'
+                            'orange',
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        fill: false
                     },
                     {
-                        label: 'MQ 4',
-                        fill: false,
-                        data: [2, 13, 10, 5, 9, 5],
-                        backgroundColor: [
-                            'rgba(132, 255, 255, 0.2)',
-                        ],
+                        label: 'MQ2_SMOKE',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
                         borderColor: [
-                            'rgba(67, 255, 34, 1)'
+                            'pink',
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ2_ALCOHOL',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        borderColor: [
+                            'green',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ2_CH4',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        borderColor: [
+                            'blue',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ2_H2',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        borderColor: [
+                            'indigo',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ2_PROPANE',
+                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
                     }
                 ]
             },
@@ -68,6 +96,37 @@ class MainChart extends Component {
                 }
             }
         });
+
+        ipcRenderer.send('start')
+
+        ipcRenderer.on('startResponse', (event, startResponse) => {
+            let responseArray = ['']
+            responseArray = startResponse.split(";")
+            console.log(responseArray)
+            
+            let time = new Date()
+            time = time.toLocaleTimeString().toString() 
+            
+            // MQ2
+            this.addData(this.myChart, 0, time, responseArray[0])
+            this.addData(this.myChart, 1, null, responseArray[1])
+            this.addData(this.myChart, 2, null, responseArray[2])
+            this.addData(this.myChart, 3, null, responseArray[3])
+            this.addData(this.myChart, 4, null, responseArray[4])
+            this.addData(this.myChart, 5, null, responseArray[5])
+            this.addData(this.myChart, 6, null, responseArray[6])
+        })
+    
+    }
+
+    addData(chart, num, label, data) {
+        if(label != null){
+            chart.data.labels.push(label)
+            // chart.data.labels.shift()
+        }
+        chart.data.datasets[num].data.push(data)
+        // chart.data.datasets[num].data.shift()
+        chart.update()
     }
 
     render () {

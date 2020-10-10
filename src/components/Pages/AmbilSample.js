@@ -28,7 +28,7 @@ class AmbilSample extends Component {
             <>
                 <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
                 <div className="mt-5">
-                    <div className="text-center col-md-4 ml-auto mr-auto">
+                    <div className="text-center col-md-4 ml-auto mr-auto">hxz
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <label>ID Pasien:</label>
