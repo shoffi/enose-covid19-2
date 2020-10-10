@@ -3,12 +3,24 @@ const path = require('path');
 const url = require('url');
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
-const readline = require('readline')
+const mysql = require('mysql')
 
 let mainWindow;
 let ArduinoPort = ''
 
+// MySQl Connection
+let connection = mysql.createConnection({
+    host    :   'localhost',
+    user    :   'root',
+    password:   'adminadmin',
+    database:   'enose'
+})
+
 function createWindow () {
+    connection.connect(function (err) {
+        console.log(err)
+    })
+
     const startUrl = process.env.ELECTRON_START_URL || url.format({
         pathname: path.join(__dirname, '../index.html'),
         protocol: 'file:',
@@ -94,7 +106,26 @@ ipcMain.on('start', () => {
     const calibrationPromise = new Promise((resolve, reject) => {
         ArduinoPort.write('1')
         parser.on('data', (data) => {
-            console.log(data)
+            // console.log(data)
+            dataArray = data.split(";")
+            
+            let sensors = {
+                Timestamp   :   '',
+                MQ2_LPG     :   dataArray[0],
+                MQ2_CO      :   dataArray[1],
+                MQ2_SMOKE   :   dataArray[2],
+                MQ2_ALCOHOL :   dataArray[3],
+                MQ2_CH4     :   dataArray[4],
+                MQ2_H2      :   dataArray[5],
+                MQ2_PROPANE :   dataArray[6],
+            };
+
+            let query = connection.query('INSERT INTO enose SET ?', sensors, function(err, result) {
+                console.log(err)
+            });
+
+            console.log(query.sql);
+
             resolve('done')
         })
     })
