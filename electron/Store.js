@@ -2,6 +2,10 @@ const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+// Mac OS: ~/Library/Application Support/<Your App Name (taken from the name property in package.json)>
+// Windows: C:\Users\<you>\AppData\Local\<Your App Name>
+// Linux: ~/.config/<Your App Name>
+
 class Store {
   constructor(opts) {
     // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
