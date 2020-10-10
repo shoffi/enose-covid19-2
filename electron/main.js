@@ -4,6 +4,7 @@ const url = require('url');
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 const mysql = require('mysql')
+const Store = require('./Store.js');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -16,10 +17,24 @@ let connection = mysql.createConnection({
     database:   'enose'
 })
 
+
+// First instantiate the class
+const store = new Store({
+    // We'll call our data file 'user-preferences'
+    configName: 'user-preferences',
+    defaults: {
+        // 800x600 is the default size of our window
+        windowBounds: { width: 800, height: 600 }
+    }
+});
+
 function createWindow () {
     connection.connect(function (err) {
         console.log(err)
     })
+
+    // First we'll get our height and width. This will be the defaults if there wasn't anything saved
+    let { width, height } = store.get('windowBounds');
 
     const startUrl = process.env.ELECTRON_START_URL || url.format({
         pathname: path.join(__dirname, '../index.html'),
@@ -28,14 +43,25 @@ function createWindow () {
     });
 
     mainWindow = new BrowserWindow({ 
-        width: 800, 
-        height: 600 ,
+        width: width, 
+        height: height ,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
     });
 
+    // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
+    // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
+    mainWindow.on('resize', () => {
+        // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+        // the height, width, and x and y coordinates.
+        let { width, height } = mainWindow.getBounds();
+        // Now that we have them, save them using the `set` method.
+        store.set('windowBounds', { width, height });
+    });
+
     mainWindow.loadURL(startUrl);
+    
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -120,11 +146,11 @@ ipcMain.on('start', () => {
                 MQ2_PROPANE :   dataArray[6],
             };
 
-            let query = connection.query('INSERT INTO enose SET ?', sensors, function(err, result) {
-                console.log(err)
-            });
+            // let query = connection.query('INSERT INTO enose SET ?', sensors, function(err, result) {
+            //     console.log(err)
+            // });
 
-            console.log(query.sql);
+            // console.log(query.sql);
 
             resolve('done')
         })
