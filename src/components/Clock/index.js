@@ -27,7 +27,7 @@ class Clock extends Component {
     render () {
         return (
             <div>
-                {this.hourMin}
+                {this.time}
             </div>
         )
     }
