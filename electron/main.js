@@ -82,13 +82,24 @@ app.on('activate', function () {
     }
 });
 
+
+
+// // // // // // // // // // // // // // // //
+// Fungsi Electron!
+// // // // // // // // // // // // // // // //
+
+ipcMain.on('mounted', () => {
+    let { rumahSakit } = store.get('config');
+    mainWindow.send('mountedResponse', rumahSakit)
+})
+
 ipcMain.on('connect', () => {
-    SerialPort.list()
-    .then(ports => {
+    SerialPort.list().then(ports => {
         let message = ''
         let done = false
         let count = 0
         let allports = ports.length
+
         ports.forEach(function(port) {
             count = count+1
             pm  = port.manufacturer

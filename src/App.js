@@ -11,18 +11,28 @@ const { ipcRenderer } = window;
 
 class App extends Component {
     
-  constructor(props) {
+    constructor(props) {
         super(props);
 
         this.state = {
             nurseId: "",
             patientId: "",
             isConnected: false,
+            rumahSakit: '',
         };
 
         this.setNurseId = this.setNurseId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
         this.connect = this.connect.bind(this);
+    }
+
+    componentDidMount () {
+      ipcRenderer.send('mounted');
+      ipcRenderer.on('mountedResponse', (event, rumahSakit) => {
+        this.setState({ 
+          rumahSakit: rumahSakit
+        })
+      });
     }
 
     connect() {
@@ -32,7 +42,9 @@ class App extends Component {
           alert(connectResponse + ' ' + status)
           connectStatus = status
           if(status){
-              this.setState({ isConnected: true })
+              this.setState({ 
+                isConnected: true
+              })
           }
       });
       return connectStatus;
@@ -68,6 +80,7 @@ class App extends Component {
         <div className="">
           <Nav
               nurseId={this.state.nurseId}
+              rumahSakit={this.state.rumahSakit}
           />
           <div className="content">
             <Router>
