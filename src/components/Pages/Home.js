@@ -24,7 +24,7 @@ class Home extends Component {
         }
 
         return (
-            <div className="text-center col-md-4 ml-auto mr-auto">
+            <div className="text-center col-md-4 mt-5 ml-auto mr-auto">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>ID Perawat:</label>

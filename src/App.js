@@ -33,6 +33,11 @@ class App extends Component {
           rumahSakit: rumahSakit
         })
       });
+
+      ipcRenderer.send('coba', 'Satu dua tiga empat');
+      ipcRenderer.on('cobaResponse', (event, response) => {
+        console.log(response)
+      });
     }
 
     connect() {

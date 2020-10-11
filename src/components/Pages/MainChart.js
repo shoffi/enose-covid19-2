@@ -19,11 +19,11 @@ class MainChart extends Component {
         this.myChart = new Chart (this.chartRef.current, {
             type: 'line',
             data: {
-                labels: ['0','0','0','0','0','0','0','0','0','0'],
+                labels: [''],
                 datasets: [
                     {
                         label: 'MQ2_LPG',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'red',
                         ],
@@ -32,7 +32,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_CO',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'orange',
                         ],
@@ -41,7 +41,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_SMOKE',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'pink',
                         ],
@@ -50,7 +50,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_ALCOHOL',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'green',
                         ],
@@ -59,7 +59,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_CH4',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'blue',
                         ],
@@ -68,7 +68,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_H2',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'indigo',
                         ],
@@ -77,7 +77,7 @@ class MainChart extends Component {
                     },
                     {
                         label: 'MQ2_PROPANE',
-                        data: ['0','0','0','0','0','0','0','0','0','0'],
+                        data: [''],
                         borderColor: [
                             'violet',
                         ],

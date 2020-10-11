@@ -173,3 +173,8 @@ ipcMain.on('start', () => {
         })
     } )
 });
+
+ipcMain.on('coba', (event, input) => {
+    let response = input + ' hehehehehehehe' 
+    mainWindow.send('cobaResponse', response)
+})
