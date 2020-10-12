@@ -87,7 +87,7 @@ class App extends Component {
               nurseId={this.state.nurseId}
               rumahSakit={this.state.rumahSakit}
           />
-          <div className="content">
+          <div className="container">
             <Router>
               
               <Route path='/' exact>
