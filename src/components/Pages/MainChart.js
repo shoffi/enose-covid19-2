@@ -1,6 +1,7 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
 import Chart from "chart.js";
+import ProgressBar from "../ProgressBar";
 const { ipcRenderer } = window;
 
 class MainChart extends Component {
@@ -8,11 +9,11 @@ class MainChart extends Component {
         super(props);
         
         this.state = {
-            redirect: null
+            redirect: null,
+            completed: 0
         }
 
         this.chartRef = createRef();
-
     }
 
     componentDidMount() {
@@ -97,6 +98,8 @@ class MainChart extends Component {
             }
         });
 
+        setInterval(() => this.setState({completed: Math.floor(Math.random() * 100) + 1}), 2000);
+
         ipcRenderer.send('start')
 
         ipcRenderer.on('startResponse', (event, startResponse) => {
@@ -136,9 +139,14 @@ class MainChart extends Component {
 
         return (
             <div>
-                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/ambil-sample'})}>Kembali</button>
-                <h1>Main Chart</h1>
-                <canvas ref={this.chartRef} />
+                <div>
+                    <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/ambil-sample'})}>Kembali</button>
+                    <h1>Ambil Sampling</h1>
+                    <canvas ref={this.chartRef} />
+                </div>
+                <div>
+                    <ProgressBar bgcolor={"#6a1b9a"} completed={this.state.completed} />
+                </div>
             </div>
         )
     }
