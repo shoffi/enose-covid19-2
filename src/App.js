@@ -15,13 +15,15 @@ class App extends Component {
         super(props);
 
         this.state = {
+            rumahSakit: "",
             nurseId: "",
+            ruangId: "",
             patientId: "",
             isConnected: false,
-            rumahSakit: '',
         };
 
         this.setNurseId = this.setNurseId.bind(this);
+        this.setRuangId = this.setRuangId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
         this.connect = this.connect.bind(this);
     }
@@ -36,7 +38,7 @@ class App extends Component {
 
       ipcRenderer.send('coba', 'Satu dua tiga empat');
       ipcRenderer.on('cobaResponse', (event, response) => {
-        console.log(response)
+        // console.log(response)
       });
     }
 
@@ -73,6 +75,13 @@ class App extends Component {
       });
     }
 
+    setRuangId(event) {
+      console.log(`setRuangId ${event.target.value}`)
+      this.setState({
+          ruangId: event.target.value,
+      });
+    }
+
     setPatientId(event) {
       this.setState({
           patientId: event.target.value,
@@ -85,6 +94,7 @@ class App extends Component {
         <div className="">
           <Nav
               nurseId={this.state.nurseId}
+              ruangId={`${this.state.ruangId}`}
               rumahSakit={this.state.rumahSakit}
           />
           <div className="container">
@@ -93,8 +103,10 @@ class App extends Component {
               <Route path='/' exact>
                   <Home
                       connect={this.connect}
-                      setNurseId={this.setNurseId}
                       nurseId={this.state.nurseId}
+                      ruangId={this.state.ruangId}
+                      setNurseId={this.setNurseId}
+                      setRuangId={this.setRuangId}
                   />
               </Route>
 

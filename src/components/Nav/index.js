@@ -11,7 +11,10 @@ class Nav extends Component {
                     <div className="navbar-collapse">
                         <ul className="navbar-nav">
                             <li className="nav-item active">
-                                <span className="nav-link" href="#">ID Perawat: {this.props.nurseId}</span>
+                                <span className="nav-link" href="#">Perawat: {this.props.nurseId}</span>
+                            </li>
+                            <li className="nav-item active">
+                                <span className="nav-link" href="#">Ruangan: {this.props.ruangId}</span>
                             </li>
                         </ul>
 

@@ -24,11 +24,21 @@ class Home extends Component {
         }
 
         return (
-            <div className="text-center col-md-4 mt-5 ml-auto mr-auto">
+            <div className="col-md-4 mt-5 ml-auto mr-auto">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>ID Perawat:</label>
                         <input className="form-control" type="text" value={this.props.nurseId} onChange={this.props.setNurseId} />
+                    </div>
+                    <div className="form-group">
+                        <label>Ruangan:</label>
+                        <select className="form-control" value={this.props.ruangId} onChange={this.props.setRuangId}>
+                            <option value="">Pilih Ruangan</option>
+                            <option value="1">Ruangan 1</option>
+                            <option value="2">Ruangan 2</option>
+                            <option value="3">Ruangan 3</option>
+                            <option value="4">Ruangan 4</option>
+                        </select>
                     </div>
                     <input type="submit" value="Connect" />
                 </form>
