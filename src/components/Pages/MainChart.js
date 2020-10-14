@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
 import Chart from "chart.js";
 import ProgressBar from "../ProgressBar";
+import Stopwatch from "../Clock/Stopwatch";
 const { ipcRenderer } = window;
 
 class MainChart extends Component {
@@ -10,10 +11,11 @@ class MainChart extends Component {
         
         this.state = {
             redirect: null,
-            completed: 0
+            completed: 50
         }
 
         this.chartRef = createRef();
+        this.setProgress = this.setProgress.bind(this);
     }
 
     componentDidMount() {
@@ -98,7 +100,7 @@ class MainChart extends Component {
             }
         });
 
-        setInterval(() => this.setState({completed: Math.floor(Math.random() * 100) + 1}), 2000);
+        // setInterval(() => this.setState({completed: Math.floor(Math.random() * 100) + 1}), 1000);
 
         ipcRenderer.send('start')
 
@@ -132,6 +134,12 @@ class MainChart extends Component {
         chart.update()
     }
 
+    setProgress (completed) {
+        this.setState({
+            completed: completed
+        })
+    }
+
     render () {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -145,6 +153,9 @@ class MainChart extends Component {
                     <canvas ref={this.chartRef} />
                 </div>
                 <div>
+                    <Stopwatch
+                        setProgress={this.setProgress}
+                    />
                     <ProgressBar bgcolor={"#6a1b9a"} completed={this.state.completed} />
                 </div>
             </div>
