@@ -46,9 +46,11 @@ function createWindow () {
         width: width, 
         height: height ,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload.js')
         },
     });
+
+    mainWindow.webContents.openDevTools()
 
     // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
     // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
@@ -143,7 +145,7 @@ ipcMain.on('start', () => {
     const calibrationPromise = new Promise((resolve, reject) => {
         ArduinoPort.write('1')
         parser.on('data', (data) => {
-            // console.log(data)
+            console.log(data)
             dataArray = data.split(";")
             
             let sensors = {
@@ -157,7 +159,7 @@ ipcMain.on('start', () => {
                 MQ2_PROPANE :   dataArray[6],
             };
 
-            // let query = connection.query('INSERT INTO enose SET ?', sensors, function(err, result) {
+            // let query = connection.query('INSERT INTO enose SET ?', sensors, function(err) {
             //     console.log(err)
             // });
 

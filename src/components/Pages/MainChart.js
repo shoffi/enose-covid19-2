@@ -3,15 +3,15 @@ import { Redirect } from 'react-router-dom';
 import Chart from "chart.js";
 import ProgressBar from "../ProgressBar";
 import Stopwatch from "../Clock/Stopwatch";
-const { ipcRenderer } = window;
+// const { ipcRenderer } = window;
 
 class MainChart extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             redirect: null,
-            completed: 50
+            completed: 0
         }
 
         this.chartRef = createRef();
@@ -19,6 +19,8 @@ class MainChart extends Component {
     }
 
     componentDidMount() {
+        console.log(`props dari redirect = ${JSON.stringify(this.props.location.state)}`)
+        
         this.myChart = new Chart (this.chartRef.current, {
             type: 'line',
             data: {
@@ -100,27 +102,25 @@ class MainChart extends Component {
             }
         });
 
-        // setInterval(() => this.setState({completed: Math.floor(Math.random() * 100) + 1}), 1000);
+        console.log('componentDidMount')
 
-        ipcRenderer.send('start')
+        // ipcRenderer.send('start')
+        // ipcRenderer.on('startResponse', (event, startResponse) => {
+        //     let responseArray = ['']
+        //     responseArray = startResponse.split(";")
 
-        ipcRenderer.on('startResponse', (event, startResponse) => {
-            let responseArray = ['']
-            responseArray = startResponse.split(";")
-            console.log(responseArray)
+        //     let time = new Date()
+        //     time = time.toLocaleTimeString().toString() 
             
-            let time = new Date()
-            time = time.toLocaleTimeString().toString() 
-            
-            // MQ2
-            this.addData(this.myChart, 0, time, responseArray[0])
-            this.addData(this.myChart, 1, null, responseArray[1])
-            this.addData(this.myChart, 2, null, responseArray[2])
-            this.addData(this.myChart, 3, null, responseArray[3])
-            this.addData(this.myChart, 4, null, responseArray[4])
-            this.addData(this.myChart, 5, null, responseArray[5])
-            this.addData(this.myChart, 6, null, responseArray[6])
-        })
+        //     // MQ2
+        //     this.addData(this.myChart, 0, time, responseArray[0])
+        //     this.addData(this.myChart, 1, null, responseArray[1])
+        //     this.addData(this.myChart, 2, null, responseArray[2])
+        //     this.addData(this.myChart, 3, null, responseArray[3])
+        //     this.addData(this.myChart, 4, null, responseArray[4])
+        //     this.addData(this.myChart, 5, null, responseArray[5])
+        //     this.addData(this.myChart, 6, null, responseArray[6])
+        // })
     
     }
 
@@ -144,7 +144,7 @@ class MainChart extends Component {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
-
+        
         return (
             <div>
                 <div>

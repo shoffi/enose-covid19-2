@@ -86,7 +86,6 @@ class App extends Component {
       this.setState({
           patientId: event.target.value,
       });
-      console.log(this.state.patientId)
     }
 
     render() {
@@ -128,9 +127,7 @@ class App extends Component {
                   <Menu/>
               </Route>
 
-              <Route path='/main-chart' exact>
-                  <MainChart></MainChart>
-              </Route>
+              <Route component={MainChart} path="/main-chart" />
 
             </Router>
           </div>
