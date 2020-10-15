@@ -16,6 +16,9 @@ class Nav extends Component {
                             <li className="nav-item active">
                                 <span className="nav-link" href="#">Ruangan: {this.props.ruangId}</span>
                             </li>
+                            <li className="nav-item active">
+                                <span className="nav-link" href="#">Pasien: {this.props.patientId}</span>
+                            </li>
                         </ul>
 
                         <ul className="navbar-nav ml-auto">

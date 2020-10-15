@@ -94,6 +94,7 @@ class App extends Component {
         <div className="">
           <Nav
               nurseId={this.state.nurseId}
+              patientId={this.state.patientId}
               ruangId={`${this.state.ruangId}`}
               rumahSakit={this.state.rumahSakit}
           />

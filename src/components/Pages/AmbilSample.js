@@ -1,12 +1,37 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
+import CheckBox from "../Utilities/Checkbox";
 
 class AmbilSample extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            redirect: null
+            redirect: null,
+            diseases: [
+                {id: 1, value: "Fever", isChecked: false},
+                {id: 2, value: "Flu/Sneeze", isChecked: false},
+                {id: 3, value: "Sore Throat", isChecked: false},
+                {id: 4, value: "Cough", isChecked: false},
+                {id: 5, value: "Diff breath", isChecked: false},
+                {id: 6, value: "Nausea", isChecked: false},
+                {id: 7, value: "Headache", isChecked: false},
+                {id: 8, value: "Watery eyes", isChecked: false},
+                {id: 9, value: "Diarrhea", isChecked: false},
+            ],
+            comorbidities: [
+                {id: 1, value: "Hypertension", isChecked: false},
+                {id: 2, value: "Diabetes Mellitus", isChecked: false},
+                {id: 3, value: "Cardiovascular disease", isChecked: false},
+                {id: 4, value: "Heart disease", isChecked: false},
+                {id: 5, value: "Kidney disease", isChecked: false},
+                {id: 6, value: "Respiratory system disease", isChecked: false},
+                {id: 7, value: "Astma", isChecked: false},
+                {id: 8, value: "Cancer", isChecked: false},
+                {id: 9, value: "Tuberkulosis", isChecked: false},
+                {id: 10, value: "Liver disease", isChecked: false},
+                {id: 11, value: "Immune disorders", isChecked: false},
+            ]
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -17,6 +42,24 @@ class AmbilSample extends Component {
         this.setState({
             redirect: '/main-chart'
         })
+    }
+
+    handleDiseaseCheckboxes = (event) => {
+        let diseases = this.state.diseases
+        diseases.forEach(disease => {
+           if (disease.value === event.target.value)
+              disease.isChecked =  event.target.checked
+        })
+        this.setState({diseases: diseases})
+    }
+
+    handleComorbiditiesCheckboxes = (event) => {
+        let comorbidities = this.state.comorbidities
+        comorbidities.forEach(comorbidity => {
+           if (comorbidity.value === event.target.value)
+              comorbidity.isChecked =  event.target.checked
+        })
+        this.setState({comorbidities: comorbidities})
     }
 
     render () {
@@ -41,103 +84,20 @@ class AmbilSample extends Component {
                                 <label className="ml-2">Negatif Covid-19</label>
                             </div>
 
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Fever</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Flu/Sneeze</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Sore Throat</label>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Cough</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Nausea</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Diarrhea</label>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Headache</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Watery eyes</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Diff breath</label>
-                                    </div>
-                                </div>
+                            <div className="form-group">
+                            {
+                                this.state.diseases.map((disease) => {
+                                    return (<CheckBox handleCheckboxes={this.handleDiseaseCheckboxes} {...disease} />)
+                                })
+                            }
                             </div>
 
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Hypertension</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Diabetes Mellitus</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Cardiovasular disease</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Heart disease</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Kidney disease</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Respiratory disease</label>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Astma</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Cancer</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Tuberkolusis</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Liver disease</label>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" />
-                                        <label className="ml-2">Immune disorders</label>
-                                    </div>
-                                </div>
+                            <div className="form-group">
+                            {
+                                this.state.comorbidities.map((comorbidity) => {
+                                    return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
+                                })
+                            }
                             </div>
 
                             <input type="submit" value="Start Sampling" />
