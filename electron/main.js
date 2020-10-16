@@ -176,7 +176,27 @@ ipcMain.on('start', () => {
     } )
 });
 
-ipcMain.on('coba', (event, input) => {
-    let response = input + ' hehehehehehehe' 
-    mainWindow.send('cobaResponse', response)
+ipcMain.on('storePatient', (event, input, detailPatient) => {
+    let response = input
+    let pengambilan = {
+        rs_id       :   1,
+        nurse_id    :   detailPatient.nurse_id,
+        room_id     :   detailPatient.ruang_id,
+        patient_id  :   123456,
+        fever       :   input[0][0],
+        flu         :   input[1][0],
+        sore_throat :   input[2][0],
+        cough       :   input[3][0],
+        diff_breath :   input[4][0],
+        nausea      :   input[5][0],
+        headache    :   input[6][0],
+        watery_eyes :   input[7][0],
+        diarrhea    :   input[8][0],
+    }
+    console.log(pengambilan)
+    let query = connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err) {
+        console.log(err)
+    });
+    console.log(query.sql);
+    // mainWindow.send('storePatientResponse', response)
 })

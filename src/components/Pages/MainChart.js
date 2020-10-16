@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Chart from "chart.js";
 import ProgressBar from "../ProgressBar";
 import Stopwatch from "../Clock/Stopwatch";
-// const { ipcRenderer } = window;
+const { ipcRenderer } = window;
 
 class MainChart extends Component {
     constructor(props) {
@@ -19,8 +19,28 @@ class MainChart extends Component {
     }
 
     componentDidMount() {
-        console.log(`props dari redirect = ${JSON.stringify(this.props.location.state)}`)
         
+        let arrayAll = []
+        let diseases = Object.values(this.props.location.state.diseases)
+        let resultDisease = Object.keys(diseases).map( (key) => [diseases[key].isChecked ] )
+        let comorbidities = Object.values(this.props.location.state.comorbidities)
+        let resultComorbidities = Object.keys(comorbidities).map( (key) => [comorbidities[key].isChecked ] )
+        arrayAll = resultDisease.concat(resultComorbidities)
+        console.log(this.props)
+
+        let detailPatient = {
+            'nurse_id': this.props.location.state.nurse_id,
+            'patient_id': this.props.location.state.patient_id,
+            'ruang_id': this.props.location.state.ruang_id,
+        }
+        console.log(detailPatient)
+
+        ipcRenderer.send('storePatient', arrayAll, detailPatient)
+
+        ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
+            console.log(storePatientResponse)
+        })
+
         this.myChart = new Chart (this.chartRef.current, {
             type: 'line',
             data: {
@@ -101,8 +121,6 @@ class MainChart extends Component {
                 }
             }
         });
-
-        console.log('componentDidMount')
 
         // ipcRenderer.send('start')
         // ipcRenderer.on('startResponse', (event, startResponse) => {

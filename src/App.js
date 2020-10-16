@@ -117,7 +117,9 @@ class App extends Component {
               <Route path='/ambil-sample' exact>
                   <AmbilSample
                     setPatientId={this.setPatientId}
+                    nurseId={this.state.nurseId}
                     patientId={this.state.patientId}
+                    ruangId={this.state.ruangId}
                   />
               </Route>
               <Route path='/history' exact>
@@ -127,7 +129,14 @@ class App extends Component {
                   <Menu/>
               </Route>
 
-              <Route component={MainChart} path="/main-chart" />
+              <Route 
+                path="/main-chart" 
+                render={(props) => (
+                  <MainChart 
+                    {...props}
+                  />
+                )}
+              />
 
             </Router>
           </div>
