@@ -136,7 +136,41 @@ ipcMain.on('disconnect', () => {
     mainWindow.send('disconnectResponse', message)
 });
 
-ipcMain.on('start', () => {
+ipcMain.on('storePatient', (event, input, detailPatient) => {
+    
+    let pengambilan = {
+        rs_id       :   1,
+        nurse_id    :   detailPatient.nurse_id,
+        room_id     :   detailPatient.ruang_id,
+        patient_id  :   detailPatient.patient_id,
+        fever       :   input[0][0],
+        flu         :   input[1][0],
+        sore_throat :   input[2][0],
+        cough       :   input[3][0],
+        diff_breath :   input[4][0],
+        nausea      :   input[5][0],
+        headache    :   input[6][0],
+        watery_eyes :   input[7][0],
+        diarrhea    :   input[8][0],
+    }
+    
+    let last_id
+
+    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+        if (err) throw err;
+
+        console.log(result.insertId);
+        last_id = result.insertId
+    });
+    
+    let response = {
+        id: last_id
+    }
+
+    mainWindow.send('storePatientResponse', response)
+});
+
+ipcMain.on('start', (pengambilan_id) => {
     const parser = new Readline()
 
     ArduinoPort.pipe(parser)
@@ -149,21 +183,20 @@ ipcMain.on('start', () => {
             dataArray = data.split(";")
             
             let sensors = {
-                Timestamp   :   '',
-                MQ2_LPG     :   dataArray[0],
-                MQ2_CO      :   dataArray[1],
-                MQ2_SMOKE   :   dataArray[2],
-                MQ2_ALCOHOL :   dataArray[3],
-                MQ2_CH4     :   dataArray[4],
-                MQ2_H2      :   dataArray[5],
-                MQ2_PROPANE :   dataArray[6],
+                pengambilan_id  :   pengambilan_id,
+                MQ2_LPG         :   dataArray[0],
+                MQ2_CO          :   dataArray[1],
+                MQ2_SMOKE       :   dataArray[2],
+                MQ2_ALCOHOL     :   dataArray[3],
+                MQ2_CH4         :   dataArray[4],
+                MQ2_H2          :   dataArray[5],
+                MQ2_PROPANE     :   dataArray[6],
             };
 
-            // let query = connection.query('INSERT INTO enose SET ?', sensors, function(err) {
-            //     console.log(err)
-            // });
-
-            // console.log(query.sql);
+            connection.query('INSERT INTO enose SET ?', sensors, function(err, result, fields) {
+                if (err) throw err;
+                console.log(result)
+            });
 
             resolve('done')
         })
@@ -175,28 +208,3 @@ ipcMain.on('start', () => {
         })
     } )
 });
-
-ipcMain.on('storePatient', (event, input, detailPatient) => {
-    let response = input
-    let pengambilan = {
-        rs_id       :   1,
-        nurse_id    :   detailPatient.nurse_id,
-        room_id     :   detailPatient.ruang_id,
-        patient_id  :   123456,
-        fever       :   input[0][0],
-        flu         :   input[1][0],
-        sore_throat :   input[2][0],
-        cough       :   input[3][0],
-        diff_breath :   input[4][0],
-        nausea      :   input[5][0],
-        headache    :   input[6][0],
-        watery_eyes :   input[7][0],
-        diarrhea    :   input[8][0],
-    }
-    console.log(pengambilan)
-    let query = connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err) {
-        console.log(err)
-    });
-    console.log(query.sql);
-    // mainWindow.send('storePatientResponse', response)
-})

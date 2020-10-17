@@ -36,9 +36,11 @@ class MainChart extends Component {
         console.log(detailPatient)
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
-
+        
+        let pengambilan_id
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log(storePatientResponse)
+            pengambilan_id = storePatientResponse.id
         })
 
         this.myChart = new Chart (this.chartRef.current, {
@@ -122,23 +124,23 @@ class MainChart extends Component {
             }
         });
 
-        // ipcRenderer.send('start')
-        // ipcRenderer.on('startResponse', (event, startResponse) => {
-        //     let responseArray = ['']
-        //     responseArray = startResponse.split(";")
+        ipcRenderer.send('start', pengambilan_id)
+        ipcRenderer.on('startResponse', (event, startResponse) => {
+            let responseArray = ['']
+            responseArray = startResponse.split(";")
 
-        //     let time = new Date()
-        //     time = time.toLocaleTimeString().toString() 
+            let time = new Date()
+            time = time.toLocaleTimeString().toString() 
             
-        //     // MQ2
-        //     this.addData(this.myChart, 0, time, responseArray[0])
-        //     this.addData(this.myChart, 1, null, responseArray[1])
-        //     this.addData(this.myChart, 2, null, responseArray[2])
-        //     this.addData(this.myChart, 3, null, responseArray[3])
-        //     this.addData(this.myChart, 4, null, responseArray[4])
-        //     this.addData(this.myChart, 5, null, responseArray[5])
-        //     this.addData(this.myChart, 6, null, responseArray[6])
-        // })
+            // MQ2
+            this.addData(this.myChart, 0, time, responseArray[0])
+            this.addData(this.myChart, 1, null, responseArray[1])
+            this.addData(this.myChart, 2, null, responseArray[2])
+            this.addData(this.myChart, 3, null, responseArray[3])
+            this.addData(this.myChart, 4, null, responseArray[4])
+            this.addData(this.myChart, 5, null, responseArray[5])
+            this.addData(this.myChart, 6, null, responseArray[6])
+        })
     
     }
 

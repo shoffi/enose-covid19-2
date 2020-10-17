@@ -38,6 +38,7 @@ class AmbilSample extends Component {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handlePatientId = this.handlePatientId.bind(this)
     }
 
     handleSubmit (event) {
@@ -65,6 +66,14 @@ class AmbilSample extends Component {
         this.setState({comorbidities: comorbidities})
     }
 
+    handlePatientId = (event) => {
+        this.props.setPatientId(event)
+        this.setState({
+            patient_id: event.target.value
+        })
+        console.log(`hehehehe ${event.target.value}`)
+    }
+
     render () {
         if (this.state.redirect) {
             return <Redirect 
@@ -84,7 +93,7 @@ class AmbilSample extends Component {
                             
                             <div className="form-group">
                                 <label>ID Pasien:</label>
-                                <input className="form-control" type="text" value={this.props.patientId} onChange={this.props.setPatientId} />
+                                <input className="form-control" type="text" value={this.props.patientId} onChange={this.handlePatientId} />
                             </div>
 
                             <div className="form-group">
