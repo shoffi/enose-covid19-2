@@ -5,6 +5,7 @@ const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const mysql = require('mysql');
 const Store = require('./Store.js');
+const rpio = require('rpio')
 
 let mainWindow;
 let ArduinoPort = ''
@@ -50,7 +51,7 @@ function createWindow () {
         },
     });
 
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
     // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
@@ -86,7 +87,7 @@ app.on('activate', function () {
 
 
 // // // // // // // // // // // // // // // //
-// Fungsi Electron!
+// Fungsi Electron! hayooo
 // // // // // // // // // // // // // // // //
 
 ipcMain.on('mounted', () => {
@@ -95,9 +96,8 @@ ipcMain.on('mounted', () => {
 })
 
 ipcMain.on('connect', () => {
-    
-    
-    
+    //rpio.spiBegin();
+    //process.stdout.write('\x1b[36m');
 });
 
 ipcMain.on('disconnect', () => {

@@ -86,38 +86,51 @@ class AmbilSample extends Component {
         
         return (
             <>
-                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
+                <button style={{width:'100%'}} className="btn btn-warning mt-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
                 <div className="mt-5">
                     <div className="col-md-8 ml-auto mr-auto">
                         <form onSubmit={this.handleSubmit}>
                             
-                            <div className="form-group">
-                                <label>ID Pasien:</label>
-                                <input className="form-control" type="text" value={this.props.patientId} onChange={this.handlePatientId} />
-                            </div>
+                            <div className="row">
+                            
+                                <div className="col-md-12">
+                                    <div className="form-group">
+                                        <label>ID Pasien:</label>
+                                        <input className="form-control" type="text" value={this.props.patientId} onChange={this.handlePatientId} />
+                                    </div>
 
-                            <div className="form-group">
-                                <input type="checkbox" />
-                                <label className="ml-2">Negatif Covid-19</label>
+                                    <div className="form-group">
+                                        <input type="checkbox" />
+                                        <label className="ml-2">Negatif Covid-19</label>
+                                    </div>
+                                </div>
+                                
+                                <div className="col-md-4">
+                                    <div className="form-group">
+                                    {
+                                        this.state.diseases.map((disease) => {
+                                            return (<CheckBox handleCheckboxes={this.handleDiseaseCheckboxes} {...disease} />)
+                                        })
+                                    }
+                                    </div>
+                                </div>
+                                    
+                                <div className="col-md-8">
+                                    <div className="form-group">
+                                    {
+                                        this.state.comorbidities.map((comorbidity) => {
+                                            return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
+                                        })
+                                    }
+                                    </div>
+                                </div>
+                                
+                                <div className="col-md-12">
+                                    <div className="form-group">
+                                        <input type="submit" value="Start Sampling" />
+                                    </div>
+                                </div>
                             </div>
-
-                            <div className="form-group">
-                            {
-                                this.state.diseases.map((disease) => {
-                                    return (<CheckBox handleCheckboxes={this.handleDiseaseCheckboxes} {...disease} />)
-                                })
-                            }
-                            </div>
-
-                            <div className="form-group">
-                            {
-                                this.state.comorbidities.map((comorbidity) => {
-                                    return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
-                                })
-                            }
-                            </div>
-
-                            <input type="submit" value="Start Sampling" />
 
                         </form>
                     </div>
