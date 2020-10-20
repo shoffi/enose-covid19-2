@@ -1,9 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline')
-const mysql = require('mysql')
+const SerialPort = require('serialport');
+const Readline = require('@serialport/parser-readline');
+const mysql = require('mysql');
 const Store = require('./Store.js');
 
 let mainWindow;
@@ -85,7 +85,6 @@ app.on('activate', function () {
 });
 
 
-
 // // // // // // // // // // // // // // // //
 // Fungsi Electron!
 // // // // // // // // // // // // // // // //
@@ -96,6 +95,7 @@ ipcMain.on('mounted', () => {
 })
 
 ipcMain.on('connect', () => {
+    
     SerialPort.list().then(ports => {
         let message = ''
         let done = false
@@ -128,6 +128,7 @@ ipcMain.on('connect', () => {
             }
         });
     });
+    
 });
 
 ipcMain.on('disconnect', () => {
