@@ -3,6 +3,7 @@ import Clock from '../Clock';
 
 class Nav extends Component {
     render () {
+
         let {isConnected} = this.props
         let info_navbar
         
@@ -20,7 +21,7 @@ class Nav extends Component {
                                     </li>
                                 </ul>
                             </>
-        } 
+        }
         
         return (
             <>
