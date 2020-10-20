@@ -44,10 +44,14 @@ class App extends Component {
     }
 
     connect() {
-      let connectStatus = true
+      let connectStatus = false
+      
+      ipcRenderer.send('connect');
+      
       this.setState({ 
         isConnected: true
       })
+      
       return connectStatus;
     }
 
@@ -97,7 +101,9 @@ class App extends Component {
             <Router>
             
               <Route path='/' exact>
-                  <Welcome/>
+                  <Welcome
+                    connect={this.connect}
+                  />
               </Route>
               
               <Route path='/connect' exact>

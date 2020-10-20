@@ -10,8 +10,10 @@ class Welcome extends Component {
         }
     }
 
-    handleSubmit() { 
-        
+    handleMasuk() { 
+        if(this.props.connect()){
+            this.setState({redirect: '/connect'})
+        }
     }
 
     render() {
@@ -37,7 +39,7 @@ class Welcome extends Component {
                         style={{borderRadius:'20px'}}
                         className="btn btn-success mt-5 px-5"
                         fontWeight="bold" 
-                        onClick={() => this.setState({redirect: '/connect'})}
+                        onClick={()=>this.handleMasuk()}
                     >
                         Power On
                     </button>

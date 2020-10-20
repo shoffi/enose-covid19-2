@@ -96,12 +96,11 @@ ipcMain.on('mounted', () => {
 })
 
 ipcMain.on('connect', () => {
-    //rpio.spiBegin();
+    rpio.spiBegin();
     //process.stdout.write('\x1b[36m');
 });
 
 ipcMain.on('disconnect', () => {
-    ArduinoPort.close()
     message = `Disconnected!`
     mainWindow.send('disconnectResponse', message)
 });
