@@ -26,15 +26,17 @@ class Welcome extends Component {
                     <img 
                         src={logo}
                         style={{
-                            width:'200px'
+                            width:'300px'
                         }}
+                        className="mt-5"
                         alt='Logo Enosika'
                     />
                 </div>
                 <div className="text-center">
                     <button 
                         style={{borderRadius:'20px'}}
-                        className="btn btn-success mt-3 p-3" 
+                        className="btn btn-success mt-5 px-5"
+                        fontWeight="bold" 
                         onClick={() => this.setState({redirect: '/connect'})}
                     >
                         Power On

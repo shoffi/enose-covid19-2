@@ -20,57 +20,63 @@ class Home extends Component {
 
         return (
             <>
-                <div className="text-center col-md-12 mt-3 ml-auto mr-auto d-flex">
-                    <div className="col-md-4" >
-                        <div className="card">
-                            <div className="card-body">
-                                <button 
-                                    style={{
-                                        width:'100%', 
-                                        height:'150px',
-                                        backgroundColor:'#46bfb7',
-                                        fontWeight: "Bold"
-                                    }} 
-                                    className="btn" 
-                                    onClick={() => this.setState({redirect: '/ambil-sample'})}
-                                >Ambil Sample</button>
+                <div className="mt-5">
+                    <div className="col-md-12 ml-auto mr-auto d-flex">
+                        <div className="col-md-4" >
+                            <div className="card">
+                                <div className="card-body">
+                                    <button 
+                                        style={{
+                                            width:'100%', 
+                                            height:'150px',
+                                            backgroundColor:'#46bfb7',
+                                            fontWeight: "Bold",
+                                            fontSize: "20pt"
+                                        }} 
+                                        className="btn" 
+                                        onClick={() => this.setState({redirect: '/ambil-sample'})}
+                                    >Ambil Sample</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-4" >
+                            <div className="card">
+                                <div className="card-body">
+                                    <button disabled 
+                                        style={{
+                                            width:'100%', 
+                                            height:'150px',
+                                            backgroundColor:'#46bfb7',
+                                            fontWeight: "Bold",
+                                            fontSize: "20pt"
+                                        }} 
+                                        className="btn"
+                                    >History</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-4" >
+                            <div className="card">
+                                <div className="card-body">
+                                    <button disabled 
+                                        style={{
+                                            width:'100%', 
+                                            height:'150px',
+                                            backgroundColor:'#46bfb7',
+                                            fontWeight: "Bold",
+                                            fontSize: "20pt"
+                                        }} 
+                                        className="btn"
+                                    >Data baru</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="col-md-4" >
-                        <div className="card">
-                            <div className="card-body">
-                                <button disabled 
-                                    style={{
-                                        width:'100%', 
-                                        height:'150px',
-                                        backgroundColor:'#46bfb7',
-                                        fontWeight: "Bold"
-                                    }} 
-                                    className="btn"
-                                >History</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-md-4" >
-                        <div className="card">
-                            <div className="card-body">
-                                <button disabled 
-                                    style={{
-                                        width:'100%', 
-                                        height:'150px',
-                                        backgroundColor:'#46bfb7',
-                                        fontWeight: "Bold"
-                                    }} 
-                                    className="btn"
-                                >Data baru</button>
-                            </div>
-                        </div>
-                    </div>
+                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-warning mt-5" onClick={() => this.setState({redirect: '/connect'})}>Kembali</button>
                 </div>
-                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5 mr-auto" onClick={() => this.setState({redirect: '/connect'})}>Kembali</button>
             </>
         );
     }

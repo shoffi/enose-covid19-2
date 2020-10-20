@@ -87,7 +87,7 @@ class AmbilSample extends Component {
         return (
             <>
                 <div className="mt-5">
-                    <div className="col-md-8 ml-auto mr-auto">
+                    <div className="col-md-12 ml-auto mr-auto">
                         <form onSubmit={this.handleSubmit}>
                             
                             <div className="row">
@@ -140,8 +140,9 @@ class AmbilSample extends Component {
 
                         </form>
                     </div>
+
+                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-warning mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
                 </div>
-                <button style={{width:'100%'}} className="btn btn-warning mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
             </>
         )
     }
