@@ -28,6 +28,7 @@ class Welcome extends Component {
                         style={{
                             width:'200px'
                         }}
+                        alt='Logo Enosika'
                     />
                 </div>
                 <div className="text-center">

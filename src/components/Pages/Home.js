@@ -18,13 +18,13 @@ class Home extends Component {
         let status = true;
         
         if (status) {
-            this.state.isConnected = true
+            this.setState({
+                redirect: '/menu',
+                isConnected: true
+            });
         }
-        
-        this.setState({
-            redirect: '/menu'
-        });
     }
+        
 
     render() {
         if (this.state.redirect) {
