@@ -44,17 +44,10 @@ class App extends Component {
     }
 
     connect() {
-      let connectStatus
-      ipcRenderer.send('connect');
-      ipcRenderer.on('connectResponse', (event, connectResponse, status) => {
-          alert(connectResponse + ' ' + status)
-          connectStatus = status
-          if(status){
-              this.setState({ 
-                isConnected: true
-              })
-          }
-      });
+      let connectStatus = true
+      this.setState({ 
+        isConnected: true
+      })
       return connectStatus;
     }
 
@@ -93,10 +86,12 @@ class App extends Component {
       return (
         <div className="">
           <Nav
+              isConnected={this.state.isConnected}
               nurseId={this.state.nurseId}
               patientId={this.state.patientId}
-              ruangId={`${this.state.ruangId}`}
+              ruangId={this.state.ruangId}
               rumahSakit={this.state.rumahSakit}
+              connect={this.connect}
           />
           <div className="container">
             <Router>
@@ -107,7 +102,6 @@ class App extends Component {
               
               <Route path='/connect' exact>
                   <Home
-                      connect={this.connect}
                       nurseId={this.state.nurseId}
                       ruangId={this.state.ruangId}
                       setNurseId={this.setNurseId}

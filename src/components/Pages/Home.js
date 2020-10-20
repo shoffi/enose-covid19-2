@@ -4,15 +4,23 @@ import { Redirect } from 'react-router-dom';
 class Home extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
-            redirect: null
+            redirect: null,
+            isConnected: this.props.isConnected
         }
+        
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(event) { 
         event.preventDefault();
-        this.props.connect();
+        let status = true;
+        
+        if (status) {
+            this.state.isConnected = true
+        }
+        
         this.setState({
             redirect: '/menu'
         });
@@ -24,11 +32,15 @@ class Home extends Component {
         }
 
         return (
-            <div className="col-md-4 mt-5 ml-auto mr-auto">
+            <div className="col-md-6 mt-5 ml-auto mr-auto">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>ID Perawat:</label>
-                        <input className="form-control" type="text" value={this.props.nurseId} onChange={this.props.setNurseId} />
+                        <input 
+                            className="form-control" type="text" 
+                            value={this.props.nurseId} 
+                            onChange={this.props.setNurseId} 
+                        />
                     </div>
                     <div className="form-group">
                         <label>Ruangan:</label>
@@ -40,7 +52,14 @@ class Home extends Component {
                             <option value="4">Ruangan 4</option>
                         </select>
                     </div>
-                    <input type="submit" style={{borderRadius:'20px'}} className="btn btn-primary" value="Connect" />
+                    <div className="form-group text-center">
+                        <input 
+                            type="submit" 
+                            style={{borderRadius:'20px'}} 
+                            className="btn btn-primary" 
+                            value="Masuk"
+                        />
+                    </div>
                 </form>
             </div>
         );

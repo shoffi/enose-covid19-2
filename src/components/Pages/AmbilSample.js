@@ -16,7 +16,7 @@ class AmbilSample extends Component {
                 {id: 2, value: "Flu/Sneeze", isChecked: false},
                 {id: 3, value: "Sore Throat", isChecked: false},
                 {id: 4, value: "Cough", isChecked: false},
-                {id: 5, value: "Diff breath", isChecked: false},
+                {id: 5, value: "Difficulty of breathing", isChecked: false},
                 {id: 6, value: "Nausea", isChecked: false},
                 {id: 7, value: "Headache", isChecked: false},
                 {id: 8, value: "Watery eyes", isChecked: false},
@@ -86,7 +86,6 @@ class AmbilSample extends Component {
         
         return (
             <>
-                <button style={{width:'100%'}} className="btn btn-warning mt-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
                 <div className="mt-5">
                     <div className="col-md-8 ml-auto mr-auto">
                         <form onSubmit={this.handleSubmit}>
@@ -107,21 +106,23 @@ class AmbilSample extends Component {
                                 
                                 <div className="col-md-4">
                                     <div className="form-group">
-                                    {
-                                        this.state.diseases.map((disease) => {
-                                            return (<CheckBox handleCheckboxes={this.handleDiseaseCheckboxes} {...disease} />)
-                                        })
-                                    }
+                                        <h4>Symptoms</h4>
+                                        {
+                                            this.state.diseases.map((disease) => {
+                                                return (<CheckBox handleCheckboxes={this.handleDiseaseCheckboxes} {...disease} />)
+                                            })
+                                        }
                                     </div>
                                 </div>
                                     
-                                <div className="col-md-8">
+                                <div className="col-md-4">
                                     <div className="form-group">
-                                    {
-                                        this.state.comorbidities.map((comorbidity) => {
-                                            return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
-                                        })
-                                    }
+                                        <h4>Comorbidities</h4>
+                                        {
+                                            this.state.comorbidities.map((comorbidity) => {
+                                                return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
+                                            })
+                                        }
                                     </div>
                                 </div>
                                 
@@ -140,6 +141,7 @@ class AmbilSample extends Component {
                         </form>
                     </div>
                 </div>
+                <button style={{width:'100%'}} className="btn btn-warning mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
             </>
         )
     }

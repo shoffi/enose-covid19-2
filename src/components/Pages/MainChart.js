@@ -167,8 +167,8 @@ class MainChart extends Component {
         
         return (
             <div>
-                <div>
-                    <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5" onClick={() => this.setState({redirect: '/ambil-sample'})}>Cancel</button>
+                <div className="text-center">
+                    <button style={{width:'30%'}} className="btn btn-danger mt-5 mb-5" onClick={() => this.setState({redirect: '/ambil-sample'})}>Stop</button>
                     <h1>Ambil Sampling</h1>
                     <canvas ref={this.chartRef} />
                 </div>

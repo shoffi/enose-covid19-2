@@ -19,15 +19,18 @@ class Welcome extends Component {
         }
 
         return (
-            <div className="text-center">
-                <button 
-                    style={{borderRadius:'20px'}}
-                    className="btn btn-success mt-5" 
-                    onClick={() => this.setState({redirect: '/connect'})}
-                >
-                    Power On
-                </button>
-            </div>
+            <>
+                <h4 className="mt-5 text-center" >Welcome to Electronic Nose ITS</h4>
+                <div className="text-center">
+                    <button 
+                        style={{borderRadius:'20px'}}
+                        className="btn btn-success mt-3 p-3" 
+                        onClick={() => this.setState({redirect: '/connect'})}
+                    >
+                        Power On
+                    </button>
+                </div>
+            </>
         );
     }
 }
