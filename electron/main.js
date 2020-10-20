@@ -96,38 +96,7 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     
-    SerialPort.list().then(ports => {
-        let message = ''
-        let done = false
-        let count = 0
-        let allports = ports.length
-
-        ports.forEach(function(port) {
-            count = count+1
-            pm  = port.manufacturer
-        
-            if (typeof pm !== 'undefined' && pm.includes('arduino')) {
-                const path = port.path
-                ArduinoPort = new SerialPort(path, { baudRate: 115200 })
-                
-                ArduinoPort.on('open', function(){
-                    console.log(`connected! arduino is now connected at port ${path}`)
-                    message = `connected! arduino is now connected at port ${path}`
-                    const status = true
-                    mainWindow.send('connectResponse', message, status)
-                })
-
-                done = true
-            }
-        
-            if(count === allports && done === false){
-                console.log(`can't find any arduino`)
-                message = `can't find any arduino`
-                const status = false
-                mainWindow.send('connectResponse', message, status)
-            }
-        });
-    });
+    
     
 });
 
