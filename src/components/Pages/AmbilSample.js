@@ -127,7 +127,12 @@ class AmbilSample extends Component {
                                 
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <input type="submit" value="Start Sampling" />
+                                        <input 
+                                            style={{borderRadius:'20px'}}
+                                            className="btn btn-success"
+                                            type="submit" 
+                                            value="Start Sampling" 
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ import Home from "./components/Pages/Home";
 import Menu from "./components/Pages/Menu";
 import AmbilSample from "./components/Pages/AmbilSample";
 import MainChart from "./components/Pages/MainChart";
+import Welcome from "./components/Pages/Welcome";
 
 const { ipcRenderer } = window; 
 
@@ -99,8 +100,12 @@ class App extends Component {
           />
           <div className="container">
             <Router>
-              
+            
               <Route path='/' exact>
+                  <Welcome/>
+              </Route>
+              
+              <Route path='/connect' exact>
                   <Home
                       connect={this.connect}
                       nurseId={this.state.nurseId}

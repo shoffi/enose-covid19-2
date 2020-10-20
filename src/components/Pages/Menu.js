@@ -20,7 +20,7 @@ class Home extends Component {
 
         return (
             <>
-                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5 mr-auto" onClick={() => this.setState({redirect: '/'})}>Kembali</button>
+                <button style={{width:'100%'}} className="btn btn-warning mt-5 mb-5 mr-auto" onClick={() => this.setState({redirect: '/connect'})}>Kembali</button>
                 <div className="text-center col-md-12 mt-3 ml-auto mr-auto d-flex">
                     <div className="col-md-4" >
                         <div className="card">

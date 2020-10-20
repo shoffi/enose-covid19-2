@@ -40,7 +40,7 @@ class Home extends Component {
                             <option value="4">Ruangan 4</option>
                         </select>
                     </div>
-                    <input type="submit" value="Connect" />
+                    <input type="submit" style={{borderRadius:'20px'}} className="btn btn-primary" value="Connect" />
                 </form>
             </div>
         );
