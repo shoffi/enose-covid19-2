@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import logo from '../../images/logo.png';
 
 class Welcome extends Component {
     constructor(props) {
@@ -20,7 +21,15 @@ class Welcome extends Component {
 
         return (
             <>
-                <h4 className="mt-5 text-center" >Welcome to Electronic Nose ITS</h4>
+                <h3 className="mt-5 text-center text-bold" >Welcome to Electronic Nose ITS</h3>
+                <div className="mt-3 text-center">
+                    <img 
+                        src={logo}
+                        style={{
+                            width:'200px'
+                        }}
+                    />
+                </div>
                 <div className="text-center">
                     <button 
                         style={{borderRadius:'20px'}}
