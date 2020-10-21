@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Clock from '../Clock';
 
@@ -12,11 +12,12 @@ class Nav extends Component {
         }
     }
 
-    render () {
+    powerOff () {
+        this.props.disconnect()
+    }
 
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
-        }
+    render () 
+    {
 
         let {isConnected, nurseId} = this.props
         let info_navbar
@@ -38,9 +39,12 @@ class Nav extends Component {
         }
 
         let button_off
+
         if(isConnected) {
             button_off =    <>
-                                <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-danger" onClick={() => this.setState({redirect: '/menu'})}>Power Off</button>
+                                <Link to="/">
+                                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-danger" onClick={() => this.powerOff()}>Power Off</button>
+                                </Link>
                             </>
         }
         

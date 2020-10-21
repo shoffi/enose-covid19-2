@@ -27,6 +27,7 @@ class App extends Component {
         this.setRuangId = this.setRuangId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
         this.connect = this.connect.bind(this);
+        this.disconnect = this.disconnect.bind(this);
     }
 
     componentDidMount () {
@@ -44,7 +45,7 @@ class App extends Component {
     }
 
     connect() {
-      let connectStatus = false
+      let connectStatus = true
       
       ipcRenderer.send('connect');
       
@@ -56,14 +57,9 @@ class App extends Component {
     }
 
     disconnect () {
-      ipcRenderer.send('disconnect');
-
-      ipcRenderer.on('disconnectResponse', (event, disconnectResponse) => {
-          alert(disconnectResponse)
-          this.setState({
-              isConnected: false
-          });
-          
+      // ipcRenderer.send('disconnect');
+      this.setState({
+        isConnected: false
       });
     }
 
@@ -89,16 +85,20 @@ class App extends Component {
     render() {
       return (
         <div className="">
-          <Nav
-              isConnected={this.state.isConnected}
-              nurseId={this.state.nurseId}
-              patientId={this.state.patientId}
-              ruangId={this.state.ruangId}
-              rumahSakit={this.state.rumahSakit}
-              connect={this.connect}
-          />
-          <div className="container">
-            <Router>
+
+          <Router>
+
+            <Nav
+                isConnected={this.state.isConnected}
+                nurseId={this.state.nurseId}
+                patientId={this.state.patientId}
+                ruangId={this.state.ruangId}
+                rumahSakit={this.state.rumahSakit}
+                connect={this.connect}
+                disconnect={this.disconnect}
+            />
+
+            <div className="container">
             
               <Route path='/' exact>
                   <Welcome
@@ -142,9 +142,10 @@ class App extends Component {
                   />
                 )}
               />
-
-            </Router>
           </div>
+
+          </Router>
+          
         </div>
       );
     }
