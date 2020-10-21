@@ -36,7 +36,9 @@ class Welcome extends Component {
                 </div>
                 <div className="text-center">
                     <button 
-                        style={{borderRadius:'20px'}}
+                        style={{
+                            borderRadius:'20px',
+                        }}
                         className="btn btn-success mt-5 px-5"
                         fontWeight="bold" 
                         onClick={()=>this.handleMasuk()}

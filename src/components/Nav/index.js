@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
+import { FaPowerOff } from 'react-icons/fa';
 
 import Clock from '../Clock';
 
@@ -43,7 +44,18 @@ class Nav extends Component {
         if(isConnected) {
             button_off =    <>
                                 <Link to="/">
-                                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-danger" onClick={() => this.powerOff()}>Power Off</button>
+                                    <button 
+                                        style={{
+                                            borderRadius:'100%', 
+                                            margin: 'auto',
+                                            padding: 'auto',
+                                            width:'100%'
+                                        }} 
+                                        className="btn btn-danger" 
+                                        onClick={() => this.powerOff()}
+                                    >
+                                        <FaPowerOff/>
+                                    </button>
                                 </Link>
                             </>
         }
