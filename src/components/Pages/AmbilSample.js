@@ -25,15 +25,15 @@ class AmbilSample extends Component {
             comorbidities: [
                 {id: 1+9, value: "Hypertension", isChecked: false},
                 {id: 2+9, value: "Diabetes Mellitus", isChecked: false},
-                {id: 3+9, value: "Cardiovascular disease", isChecked: false},
+                {id: 3+9, value: "Immune disorders", isChecked: false},
                 {id: 4+9, value: "Heart disease", isChecked: false},
                 {id: 5+9, value: "Kidney disease", isChecked: false},
-                {id: 6+9, value: "Respiratory system disease", isChecked: false},
+                {id: 6+9, value: "Liver disease", isChecked: false},
                 {id: 7+9, value: "Astma", isChecked: false},
                 {id: 8+9, value: "Cancer", isChecked: false},
                 {id: 9+9, value: "Tuberkulosis", isChecked: false},
-                {id: 10+9, value: "Liver disease", isChecked: false},
-                {id: 11+9, value: "Immune disorders", isChecked: false},
+                {id: 10+9, value: "Respiratory system disease", isChecked: false},
+                {id: 11+9, value: "Cardiovascular disease", isChecked: false},
             ]
         }
 
@@ -118,11 +118,23 @@ class AmbilSample extends Component {
                                 <div className="col-md-4">
                                     <div className="form-group">
                                         <h4>Comorbidities</h4>
-                                        {
-                                            this.state.comorbidities.map((comorbidity) => {
-                                                return (<CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...comorbidity} />)
-                                            })
-                                        }
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[0]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[1]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[2]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[3]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[4]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[5]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[6]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[7]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[8]} />
+                                    </div>
+                                </div>
+
+                                <div className="col-md-4">
+                                    <div className="form-group">
+                                        <h4>Comorbidities</h4>
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[9]} />
+                                        <CheckBox handleCheckboxes={this.handleComorbiditiesCheckboxes} {...this.state.comorbidities[10]} />
                                     </div>
                                 </div>
                                 
