@@ -6,6 +6,7 @@ const Readline = require('@serialport/parser-readline');
 const mysql = require('mysql');
 const Store = require('./Store.js');
 const rpio = require('rpio')
+const gpio = require('rpi-gpio');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -96,8 +97,12 @@ ipcMain.on('mounted', () => {
 })
 
 ipcMain.on('connect', () => {
-    rpio.spiBegin();
-    //process.stdout.write('\x1b[36m');
+    console.log('connecting....') 
+    gpio.setup(7, gpio.DIR_IN, () => {
+        gpio.read(7, (result) => {
+            console.log(result)
+        })
+    })
 });
 
 ipcMain.on('disconnect', () => {
