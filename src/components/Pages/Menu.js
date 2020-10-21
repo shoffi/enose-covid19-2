@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import ambil_data from '../../images/ambil_data.png'
+import history from '../../images/history.png'
+import covid from '../../images/covid.png'
 
 class Home extends Component {
     constructor(props) {
@@ -25,6 +28,14 @@ class Home extends Component {
                         <div className="col-md-4" >
                             <div className="card">
                                 <div className="card-body">
+                                    <img 
+                                        src={ambil_data} alt='Ambil Data'
+                                        style={{
+                                            width:'100%',
+                                            marginBottom: '20px'
+                                        }} 
+                                    />
+
                                     <button 
                                         style={{
                                             width:'100%', 
@@ -43,6 +54,14 @@ class Home extends Component {
                         <div className="col-md-4" >
                             <div className="card">
                                 <div className="card-body">
+                                    <img 
+                                        src={history} alt='Ambil Data'
+                                        style={{
+                                            width:'100%',
+                                            marginBottom: '20px'
+                                        }} 
+                                    />
+
                                     <button disabled 
                                         style={{
                                             width:'100%', 
@@ -60,6 +79,14 @@ class Home extends Component {
                         <div className="col-md-4" >
                             <div className="card">
                                 <div className="card-body">
+                                    <img 
+                                        src={covid} alt='Ambil Data'
+                                        style={{
+                                            width:'100%',
+                                            marginBottom: '20px'
+                                        }} 
+                                    />
+
                                     <button disabled 
                                         style={{
                                             width:'100%', 
