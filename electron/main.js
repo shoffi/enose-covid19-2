@@ -98,11 +98,11 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     console.log('connecting....') 
-    gpio.setup(7, gpio.DIR_IN, () => {
-        gpio.read(7, (result) => {
-            console.log(result)
-        })
-    })
+    // gpio.setup(7, gpio.DIR_IN, () => {
+    //     gpio.read(7, (result) => {
+    //         console.log(result)
+    //     })
+    // })
 });
 
 ipcMain.on('disconnect', () => {

@@ -1,13 +1,27 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
+
 import Clock from '../Clock';
 
 class Nav extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirect: null
+        }
+    }
+
     render () {
 
-        let {isConnected} = this.props
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+
+        let {isConnected, nurseId} = this.props
         let info_navbar
         
-        if(isConnected){
+        if(nurseId !== ''){
             info_navbar =   <>
                                 <ul className="navbar-nav">
                                     <li className="nav-item active">
@@ -20,6 +34,13 @@ class Nav extends Component {
                                         <span className="nav-link" href="#">Pasien: {this.props.patientId}</span>
                                     </li>
                                 </ul>
+                            </>
+        }
+
+        let button_off
+        if(isConnected) {
+            button_off =    <>
+                                <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-danger" onClick={() => this.setState({redirect: '/menu'})}>Power Off</button>
                             </>
         }
         
@@ -42,6 +63,9 @@ class Nav extends Component {
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item active">
                                 <span className="nav-link" href="#"><Clock></Clock></span>
+                            </li>
+                            <li className="nav-item active">
+                                {button_off}
                             </li>
                         </ul>
                     </div>

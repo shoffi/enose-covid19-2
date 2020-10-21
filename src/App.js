@@ -20,7 +20,7 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
-            isConnected: false,
+            isConnected: false, //koneksi
         };
 
         this.setNurseId = this.setNurseId.bind(this);
