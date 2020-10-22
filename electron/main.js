@@ -97,19 +97,26 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     console.log('connecting....') 
+    
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
     
-    PythonShell.PythonShell.run('hello.py', options, function (err, results) {
+    //PythonShell.PythonShell.run('hello.py', options, function (err, results) {
+        //if (err) throw err
+        //console.log(results[0])
+    //})
+    
+    PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        console.log('masook....') 
         if (err) throw err
         console.log(results[0])
     })
 });
 
 ipcMain.on('disconnect', () => {
-    message = `Disconnected!`
-    mainWindow.send('disconnectResponse', message)
+    //message = `Disconnected!`
+    //mainWindow.send('disconnectResponse', message)
 });
 
 ipcMain.on('storePatient', (event, input, detailPatient) => {
@@ -147,40 +154,13 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
 });
 
 ipcMain.on('start', (pengambilan_id) => {
-    const parser = new Readline()
-
-    ArduinoPort.pipe(parser)
-    ArduinoPort.flush()
-
-    const calibrationPromise = new Promise((resolve, reject) => {
-        ArduinoPort.write('1')
-        parser.on('data', (data) => {
-            console.log(data)
-            dataArray = data.split(";")
-            
-            let sensors = {
-                pengambilan_id  :   pengambilan_id,
-                MQ2_LPG         :   dataArray[0],
-                MQ2_CO          :   dataArray[1],
-                MQ2_SMOKE       :   dataArray[2],
-                MQ2_ALCOHOL     :   dataArray[3],
-                MQ2_CH4         :   dataArray[4],
-                MQ2_H2          :   dataArray[5],
-                MQ2_PROPANE     :   dataArray[6],
-            };
-
-            connection.query('INSERT INTO enose SET ?', sensors, function(err, result, fields) {
-                if (err) throw err;
-                console.log(result)
-            });
-
-            resolve('done')
-        })
+    console.log('starting....') 
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+    
+    PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
     })
-
-    calibrationPromise.then( (successMessage) => {
-        parser.on('data', function(data){
-            mainWindow.send('startResponse', data)
-        })
-    } )
 });
