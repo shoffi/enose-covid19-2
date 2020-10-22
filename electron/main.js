@@ -1,12 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const PythonShell = require('python-shell');
 const url = require('url');
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const mysql = require('mysql');
 const Store = require('./Store.js');
-const rpio = require('rpio')
-const gpio = require('rpi-gpio');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -98,11 +97,14 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     console.log('connecting....') 
-    // gpio.setup(7, gpio.DIR_IN, () => {
-    //     gpio.read(7, (result) => {
-    //         console.log(result)
-    //     })
-    // })
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+    
+    PythonShell.PythonShell.run('hello.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results[0])
+    })
 });
 
 ipcMain.on('disconnect', () => {
