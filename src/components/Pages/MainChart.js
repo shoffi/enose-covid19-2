@@ -33,7 +33,8 @@ class MainChart extends Component {
             'patient_id': this.props.location.state.patient_id,
             'ruang_id': this.props.location.state.ruang_id,
         }
-        console.log(detailPatient)
+        
+        //console.log(detailPatient)
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
@@ -128,6 +129,7 @@ class MainChart extends Component {
         ipcRenderer.on('startResponse', (event, startResponse) => {
             let responseArray = ['']
             responseArray = startResponse.split(";")
+            console.log('responseArray = '+responseArray)
 
             let time = new Date()
             time = time.toLocaleTimeString().toString() 

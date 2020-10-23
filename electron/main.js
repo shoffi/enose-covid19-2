@@ -106,12 +106,6 @@ ipcMain.on('connect', () => {
         //if (err) throw err
         //console.log(results[0])
     //})
-    
-    PythonShell.PythonShell.run('enose.py', options, function (err, results) {
-        console.log('masook....') 
-        if (err) throw err
-        console.log(results[0])
-    })
 });
 
 ipcMain.on('disconnect', () => {
@@ -154,13 +148,20 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
 });
 
 ipcMain.on('start', (pengambilan_id) => {
-    console.log('starting....') 
+    console.log('starting....')
+    
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
     
-    PythonShell.PythonShell.run('enose.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    let startResponse = setInterval(function () {
+        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+            if (err) throw err
+            console.log(results[0])
+            mainWindow.send('startResponse', results[0])
+        })
+    }, 1000)
+    
+    clearInterval(startResponse)
+    
 });
