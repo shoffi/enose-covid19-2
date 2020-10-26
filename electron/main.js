@@ -133,12 +133,12 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
     
     let last_id
 
-    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
-        if (err) throw err;
+    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+    //     if (err) throw err;
 
-        console.log(result.insertId);
-        last_id = result.insertId
-    });
+    //     console.log(result.insertId);
+    //     last_id = result.insertId
+    // });
     
     let response = {
         id: last_id
@@ -153,15 +153,24 @@ ipcMain.on('start', (pengambilan_id) => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
+
+    let counter = 0
+    let limit = 30
     
     let startResponse = setInterval(function () {
-        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        if(counter == limit){
+            clearInterval(startResponse)
+        }else{
+            counter++
+        }
+
+        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
             console.log(results[0])
             mainWindow.send('startResponse', results[0])
         })
     }, 1000)
     
-    clearInterval(startResponse)
+    // clearInterval(startResponse)
     
 });
