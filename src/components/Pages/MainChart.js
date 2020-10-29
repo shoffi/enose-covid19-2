@@ -170,11 +170,21 @@ class MainChart extends Component {
         return (
             <div>
                 <div className="text-center">
-                    <button style={{width:'30%'}} className="btn btn-danger mt-5 mb-5" onClick={() => this.setState({redirect: '/ambil-sample'})}>Stop</button>
-                    <h1>Ambil Sampling</h1>
+                    <button 
+                        style={{
+                            width:'30%',
+                            fontSize: "20px"
+                        }}
+                        className="btn btn-danger mt-5 mb-5" 
+                        onClick={() => this.setState({redirect: '/ambil-sample'})}
+                    >Stop</button>
                     <canvas ref={this.chartRef} />
                 </div>
-                <div>
+                <div
+                    style={{
+                        marginTop: "20px"
+                    }} 
+                >
                     <Stopwatch
                         setProgress={this.setProgress}
                     />

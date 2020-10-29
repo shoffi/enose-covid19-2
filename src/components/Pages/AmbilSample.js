@@ -87,7 +87,12 @@ class AmbilSample extends Component {
         return (
             <>
                 <div className="mt-5">
-                    <div className="col-md-12 ml-auto mr-auto">
+                    <div 
+                        className="col-md-12 ml-auto mr-auto"
+                        style={{
+                            fontSize: '25px'
+                        }} 
+                    >
                         <form onSubmit={this.handleSubmit}>
                             
                             <div className="row">
@@ -95,11 +100,28 @@ class AmbilSample extends Component {
                                 <div className="col-md-12">
                                     <div className="form-group">
                                         <label>ID Pasien:</label>
-                                        <input className="form-control" type="text" value={this.props.patientId} onChange={this.handlePatientId} />
+                                        <input 
+                                            className="form-control" 
+                                            type="text" 
+                                            value={this.props.patientId} 
+                                            onChange={this.handlePatientId}
+                                            style={{
+                                                fontSize: "25px"
+                                            }} 
+                                        />
                                     </div>
 
                                     <div className="form-group">
-                                        <input type="checkbox" />
+                                        <input 
+                                            type="checkbox"
+                                            style={{
+                                                width: "25px",
+                                                height: "25px",
+                                                marginRight: "10px",
+                                                marginBottom: "10px",
+                                                marginTop: "10px"
+                                            }} 
+                                        />
                                         <label className="ml-2">Negatif Covid-19</label>
                                     </div>
                                 </div>
@@ -141,7 +163,11 @@ class AmbilSample extends Component {
                                 <div className="col-md-12">
                                     <div className="form-group">
                                         <input 
-                                            style={{borderRadius:'20px'}}
+                                            style={{
+                                                borderRadius:'20px', 
+                                                width:'100%',
+                                                fontSize: '35px'
+                                            }} 
                                             className="btn btn-success"
                                             type="submit" 
                                             value="Start Sampling" 
@@ -151,9 +177,18 @@ class AmbilSample extends Component {
                             </div>
 
                         </form>
-                    </div>
-
-                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-warning mb-5" onClick={() => this.setState({redirect: '/menu'})}>Kembali</button>
+                        <button 
+                            style={{
+                                borderRadius:'20px', 
+                                width:'100%',
+                                fontSize: '35px'
+                            }} 
+                            className="btn btn-warning mb-5" 
+                            onClick={() => this.setState({redirect: '/menu'})}
+                        >
+                            Kembali
+                        </button>
+                    </div>                    
                 </div>
             </>
         )

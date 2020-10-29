@@ -102,7 +102,15 @@ class Home extends Component {
                         </div>
                     </div>
 
-                    <button style={{borderRadius:'20px', width:'100%'}} className="btn btn-warning mt-5" onClick={() => this.setState({redirect: '/connect'})}>Kembali</button>
+                    <button 
+                        style={{
+                            borderRadius:'20px', 
+                            width:'100%',
+                            fontSize: '35px'
+                        }} 
+                        className="btn btn-warning mt-5" 
+                        onClick={() => this.setState({redirect: '/connect'})}
+                    >Kembali</button>
                 </div>
             </>
         );

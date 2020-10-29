@@ -31,7 +31,7 @@ class Stopwatch extends Component {
     render () {
         return (
             <div className="text-center">
-              <p>{this.state.runningTime} s</p>
+                <h1>{this.state.runningTime} s</h1>
             </div>
         );
     }
