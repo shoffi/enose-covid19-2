@@ -44,7 +44,7 @@ class Nav extends Component {
         if(isConnected) {
             button_off =    <>
                                 <Link to="/">
-                                    <button 
+                                    <a 
                                         style={{
                                             borderRadius:'100%', 
                                             margin: 'auto',
@@ -55,7 +55,7 @@ class Nav extends Component {
                                         onClick={() => this.powerOff()}
                                     >
                                         <FaPowerOff/>
-                                    </button>
+                                    </a>
                                 </Link>
                             </>
         }
@@ -63,14 +63,20 @@ class Nav extends Component {
         return (
             <>
                 <nav 
-                    className="navbar navbar-expand-sm" 
+                    className="navbar navbar-expand-lg" 
                     style={{ 
                         backgroundColor:"#1AB0EB", 
                         color:"#3E4095", 
-                        fontWeight: "Bold"
+                        fontWeight: "Bold",
+                        fontSize: "35px"
                     }}
                 >
-                    <div className="navbar-brand">{this.props.rumahSakit}</div>
+                    <div 
+                        className="navbar-brand"
+                        style={{ 
+                            fontSize: "35px"
+                        }}
+                    >{this.props.rumahSakit}</div>
 
                     <div className="navbar-collapse">
                     
