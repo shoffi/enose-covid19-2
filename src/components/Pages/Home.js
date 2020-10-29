@@ -46,10 +46,8 @@ class Home extends Component {
                         <label>Ruangan:</label>
                         <select className="form-control" value={this.props.ruangId} onChange={this.props.setRuangId}>
                             <option value="">Pilih Ruangan</option>
-                            <option value="1">Ruangan 1</option>
-                            <option value="2">Ruangan 2</option>
-                            <option value="3">Ruangan 3</option>
-                            <option value="4">Ruangan 4</option>
+                            <option value="1">Ruang ICU</option>
+                            <option value="2">Ruang Rawat Inap</option>
                         </select>
                     </div>
                     <div className="form-group text-center">

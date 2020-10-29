@@ -40,8 +40,9 @@ class MainChart extends Component {
         
         let pengambilan_id
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
-            console.log(storePatientResponse)
-            pengambilan_id = storePatientResponse.id
+            console.log('pasien id = ' + storePatientResponse)
+            pengambilan_id = storePatientResponse
+            ipcRenderer.send('start', pengambilan_id)
         })
 
         this.myChart = new Chart (this.chartRef.current, {
@@ -125,11 +126,10 @@ class MainChart extends Component {
             }
         });
 
-        ipcRenderer.send('start', pengambilan_id)
         ipcRenderer.on('startResponse', (event, startResponse) => {
             let responseArray = ['']
             responseArray = startResponse.split(";")
-            console.log('responseArray = '+responseArray)
+            // console.log('responseArray = '+responseArray)
 
             let time = new Date()
             time = time.toLocaleTimeString().toString() 

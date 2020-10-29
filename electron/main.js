@@ -18,6 +18,13 @@ let connection = mysql.createConnection({
     database:   'enose'
 })
 
+// let connection = mysql.createConnection({
+//     host    :   '34.101.214.113',
+//     user    :   'raspi',
+//     password:   'raspberry',
+//     database:   'sensor'
+// })
+
 
 // First instantiate the class
 const store = new Store({
@@ -129,26 +136,28 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
         headache    :   input[6][0],
         watery_eyes :   input[7][0],
         diarrhea    :   input[8][0],
+
+        hypertension            :   input[9][0],
+        diabetes_mellitus       :   input[10][0],
+        immune_disorder         :   input[11][0],
+        heart_disease           :   input[12][0],
+        kidney_disease          :   input[13][0],
+        liver_disease           :   input[14][0],
+        astma                   :   input[15][0],
+        cancer                  :   input[16][0],
+        tuberkulosis            :   input[17][0],
+        respiratory_disease     :   input[18][0],
+        cardiovascular_disease  :   input[19][0],
     }
-    
-    let last_id
 
-    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
-    //     if (err) throw err;
-
-    //     console.log(result.insertId);
-    //     last_id = result.insertId
-    // });
-    
-    let response = {
-        id: last_id
-    }
-
-    mainWindow.send('storePatientResponse', response)
+    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+        if (err) throw err;
+        mainWindow.send('storePatientResponse', result.insertId)
+    });
 });
 
-ipcMain.on('start', (pengambilan_id) => {
-    console.log('starting....')
+ipcMain.on('start', (event, pengambilan_id) => {
+    console.log('starting.... ' + pengambilan_id)
     
     let options = {
         scriptPath: path.join(__dirname,"../python/")
@@ -158,19 +167,37 @@ ipcMain.on('start', (pengambilan_id) => {
     let limit = 30
     
     let startResponse = setInterval(function () {
+        
         if(counter == limit){
             clearInterval(startResponse)
-        }else{
-            counter++
         }
+
+        counter++
 
         PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            console.log(results[0])
+            // console.log(results[0])
+            let data = results[0].split(";")
+            let enose = {
+                pengambilan_id: pengambilan_id,
+                MQ2_LPG     :   data[0],
+                MQ2_CO      :   data[1],
+                MQ2_SMOKE   :   data[2],
+                MQ2_ALCOHOL :   data[3],
+                MQ2_CH4     :   data[4],
+                MQ2_H2      :   data[5],
+                MQ2_PROPANE :   data[6], 
+            }
+
+            console.log(enose)
+
+            connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
+                if (err) throw err;
+            });
+
             mainWindow.send('startResponse', results[0])
         })
     }, 1000)
     
-    // clearInterval(startResponse)
     
 });
