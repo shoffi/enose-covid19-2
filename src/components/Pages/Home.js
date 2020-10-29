@@ -32,19 +32,34 @@ class Home extends Component {
         }
 
         return (
-            <div className="col-md-6 mt-5 ml-auto mr-auto">
+            <div 
+                className="col-md-10 mt-5 ml-auto mr-auto"
+                style={{ 
+                    fontSize: "35px"
+                }}
+            >
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>ID Perawat:</label>
                         <input 
                             className="form-control" type="text" 
                             value={this.props.nurseId} 
-                            onChange={this.props.setNurseId} 
+                            onChange={this.props.setNurseId}
+                            style={{ 
+                                fontSize: "35px"
+                            }}
                         />
                     </div>
                     <div className="form-group">
                         <label>Ruangan:</label>
-                        <select className="form-control" value={this.props.ruangId} onChange={this.props.setRuangId}>
+                        <select 
+                            className="form-control" 
+                            value={this.props.ruangId} 
+                            onChange={this.props.setRuangId}
+                            style={{ 
+                                fontSize: "35px"
+                            }}
+                        >
                             <option value="">Pilih Ruangan</option>
                             <option value="1">Ruang ICU</option>
                             <option value="2">Ruang Rawat Inap</option>
@@ -53,7 +68,10 @@ class Home extends Component {
                     <div className="form-group text-center">
                         <input 
                             type="submit" 
-                            style={{borderRadius:'20px'}} 
+                            style={{
+                                borderRadius:'20px',
+                                fontSize: "35px"
+                            }} 
                             className="btn btn-primary" 
                             value="Masuk"
                         />
