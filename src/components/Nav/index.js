@@ -89,6 +89,11 @@ class Nav extends Component {
                             <li className="nav-item active">
                                 {button_off}
                             </li>
+                            <li>
+                                <a >
+                                    <FaPowerOff/>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>

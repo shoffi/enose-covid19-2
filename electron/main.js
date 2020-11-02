@@ -18,13 +18,6 @@ let connection = mysql.createConnection({
     database:   'enose'
 })
 
-// let connection = mysql.createConnection({
-//     host    :   '34.101.214.113',
-//     user    :   'raspi',
-//     password:   'raspberry',
-//     database:   'sensor'
-// })
-
 
 // First instantiate the class
 const store = new Store({
@@ -150,10 +143,10 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
         cardiovascular_disease  :   input[19][0],
     }
 
-    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
-        if (err) throw err;
-        mainWindow.send('storePatientResponse', result.insertId)
-    });
+    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+    //     if (err) throw err;
+    //     mainWindow.send('storePatientResponse', result.insertId)
+    // });
 });
 
 ipcMain.on('start', (event, pengambilan_id) => {
@@ -191,9 +184,9 @@ ipcMain.on('start', (event, pengambilan_id) => {
 
             console.log(enose)
 
-            connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
-                if (err) throw err;
-            });
+            // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
+            //     if (err) throw err;
+            // });
 
             mainWindow.send('startResponse', results[0])
         })
