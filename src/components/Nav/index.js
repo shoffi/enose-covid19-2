@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa';
+import { AiFillSetting } from 'react-icons/ai';
 
 import Clock from '../Clock';
 
@@ -90,8 +91,13 @@ class Nav extends Component {
                                 {button_off}
                             </li>
                             <li>
-                                <a >
-                                    <FaPowerOff/>
+                                <a 
+                                    style={{
+                                        color: "primary",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    <AiFillSetting/>
                                 </a>
                             </li>
                         </ul>
