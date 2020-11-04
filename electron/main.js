@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const modal = require('electron-modal');
 const path = require('path');
 const PythonShell = require('python-shell');
 const url = require('url');
@@ -33,6 +34,8 @@ function createWindow () {
     connection.connect(function (err) {
         console.log(err)
     })
+
+    modal.setup();
 
     // First we'll get our height and width. This will be the defaults if there wasn't anything saved
     let { width, height } = store.get('windowBounds');

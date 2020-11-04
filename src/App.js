@@ -7,6 +7,7 @@ import Menu from "./components/Pages/Menu";
 import AmbilSample from "./components/Pages/AmbilSample";
 import MainChart from "./components/Pages/MainChart";
 import Welcome from "./components/Pages/Welcome";
+import Pengaturan from "./components/Pages/Pengaturan";
 
 const { ipcRenderer } = window; 
 
@@ -127,9 +128,11 @@ class App extends Component {
                     ruangId={this.state.ruangId}
                   />
               </Route>
+
               <Route path='/history' exact>
                   <Menu/>
               </Route>
+
               <Route path='/data-baru' exact>
                   <Menu/>
               </Route>
@@ -142,6 +145,11 @@ class App extends Component {
                   />
                 )}
               />
+
+              <Route path='/pengaturan' exact>
+                  <Pengaturan/>
+              </Route>
+
           </div>
 
           </Router>

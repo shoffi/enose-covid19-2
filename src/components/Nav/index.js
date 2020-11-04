@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa';
 import { AiFillSetting } from 'react-icons/ai';
-
 import Clock from '../Clock';
 
 class Nav extends Component {
@@ -16,6 +15,10 @@ class Nav extends Component {
 
     powerOff () {
         this.props.disconnect()
+    }
+
+    showModal () {
+        alert('alert alert !')
     }
 
     render () 
@@ -45,7 +48,7 @@ class Nav extends Component {
         if(isConnected) {
             button_off =    <>
                                 <Link to="/">
-                                    <a 
+                                    <span 
                                         style={{
                                             borderRadius:'100%', 
                                             margin: 'auto',
@@ -56,7 +59,7 @@ class Nav extends Component {
                                         onClick={() => this.powerOff()}
                                     >
                                         <FaPowerOff/>
-                                    </a>
+                                    </span>
                                 </Link>
                             </>
         }
@@ -91,14 +94,16 @@ class Nav extends Component {
                                 {button_off}
                             </li>
                             <li>
-                                <a 
+                                <Link to='/pengaturan'>
+                                <span 
                                     style={{
                                         color: "primary",
                                         cursor: "pointer"
-                                    }}
+                                    }}   
                                 >
                                     <AiFillSetting/>
-                                </a>
+                                </span>
+                                </Link>
                             </li>
                         </ul>
                     </div>
