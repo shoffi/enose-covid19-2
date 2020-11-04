@@ -22,7 +22,19 @@ class App extends Component {
             ruangId: "",
             patientId: "",
             isConnected: false, //koneksi
+            proses1 : null,
+            proses2 : null,
+            proses3 : null
         };
+
+        ipcRenderer.send('getPengaturan')
+        ipcRenderer.on('getPengaturanResponse', (event, response) => {
+            this.setState({
+                proses1 : response[0],
+                proses2 : response[1],
+                proses3 : response[2],
+            })
+        })
 
         this.setNurseId = this.setNurseId.bind(this);
         this.setRuangId = this.setRuangId.bind(this);
@@ -147,7 +159,11 @@ class App extends Component {
               />
 
               <Route path='/pengaturan' exact>
-                  <Pengaturan/>
+                  <Pengaturan 
+                    proses1={this.state.proses1}
+                    proses2={this.state.proses2}
+                    proses3={this.state.proses3}
+                  />
               </Route>
 
           </div>

@@ -197,3 +197,15 @@ ipcMain.on('start', (event, pengambilan_id) => {
     
     
 });
+
+ipcMain.on('getPengaturan', () => {
+    let { proses1, proses2, proses3 } = store.get('config');
+    let result = [proses1, proses2, proses3]
+    // console.log(result)
+    mainWindow.send('getPengaturanResponse', result)
+})
+
+ipcMain.on('updatePengaturan', (event, input) => {
+    let { proses1, proses2, proses3 } = input;
+    store.set('config', { proses1, proses2, proses3 });
+})
