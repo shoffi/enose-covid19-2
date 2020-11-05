@@ -154,6 +154,9 @@ class App extends Component {
                 render={(props) => (
                   <MainChart 
                     {...props}
+                    proses1={this.state.proses1}
+                    proses2={this.state.proses2}
+                    proses3={this.state.proses3}
                   />
                 )}
               />

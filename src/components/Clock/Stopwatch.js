@@ -13,7 +13,8 @@ class Stopwatch extends Component {
 
     componentDidMount = () => {
         const startTime = Date.now() - this.state.runningTime;
-        const totalTime = 60 * 0.5
+        const totalTime = this.props.proses1 + this.props.proses2 + this.props.proses3
+
         if(this.state.status){
             this.timer = setInterval( () => {
                 if(this.state.runningTime < totalTime){

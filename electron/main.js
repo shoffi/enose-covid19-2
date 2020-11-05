@@ -146,21 +146,24 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
         cardiovascular_disease  :   input[19][0],
     }
 
+    console.log(pengambilan)
+    mainWindow.send('storePatientResponse', 1)
+
     // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
     //     if (err) throw err;
     //     mainWindow.send('storePatientResponse', result.insertId)
     // });
 });
 
-ipcMain.on('start', (event, pengambilan_id) => {
+ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
     
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
 
-    let counter = 0
-    let limit = 30
+    let counter = 1
+    let limit = totalTime
     
     let startResponse = setInterval(function () {
         
@@ -172,7 +175,7 @@ ipcMain.on('start', (event, pengambilan_id) => {
 
         PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            // console.log(results[0])
+            console.log('gagagagaga '+results[0])
             let data = results[0].split(";")
             let enose = {
                 pengambilan_id: pengambilan_id,
@@ -201,7 +204,6 @@ ipcMain.on('start', (event, pengambilan_id) => {
 ipcMain.on('getPengaturan', () => {
     let { proses1, proses2, proses3 } = store.get('config');
     let result = [proses1, proses2, proses3]
-    // console.log(result)
     mainWindow.send('getPengaturanResponse', result)
 })
 

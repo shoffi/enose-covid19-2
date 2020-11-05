@@ -5,8 +5,7 @@ export const CheckBox = props => {
         <div className="">
             <input 
                 key={props.id} 
-                onClick={props.handleCheckboxes} 
-                type="checkbox" 
+                onClick={props.handleCheckboxes}  
                 checked={props.isChecked} 
                 value={props.value}
                 style={{
@@ -14,7 +13,8 @@ export const CheckBox = props => {
                     height: "25px",
                     marginRight: "10px",
                     marginBottom: "20px"
-                }} 
+                }}
+                type="checkbox"
             /> {props.value}
         </div>
     )

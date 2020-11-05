@@ -71,7 +71,6 @@ class AmbilSample extends Component {
         this.setState({
             patient_id: event.target.value
         })
-        console.log(`hehehehe ${event.target.value}`)
     }
 
     render () {

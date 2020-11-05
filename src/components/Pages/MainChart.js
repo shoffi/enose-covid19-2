@@ -6,12 +6,16 @@ import Stopwatch from "../Clock/Stopwatch";
 const { ipcRenderer } = window;
 
 class MainChart extends Component {
+    
     constructor(props) {
         super(props);
 
         this.state = {
             redirect: null,
-            completed: 0
+            completed: 0,
+            proses1 : this.props.proses1 * 60 * 10,
+            proses2 : this.props.proses2 * 60 * 10,
+            proses3 : this.props.proses3 * 60 * 10,
         }
 
         this.chartRef = createRef();
@@ -26,7 +30,7 @@ class MainChart extends Component {
         let comorbidities = Object.values(this.props.location.state.comorbidities)
         let resultComorbidities = Object.keys(comorbidities).map( (key) => [comorbidities[key].isChecked ] )
         arrayAll = resultDisease.concat(resultComorbidities)
-        console.log(this.props)
+        // console.log(this.props)
 
         let detailPatient = {
             'nurse_id': this.props.location.state.nurse_id,
@@ -34,7 +38,7 @@ class MainChart extends Component {
             'ruang_id': this.props.location.state.ruang_id,
         }
         
-        //console.log(detailPatient)
+        // console.log("detailPatient "+detailPatient)
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
@@ -42,7 +46,8 @@ class MainChart extends Component {
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
-            ipcRenderer.send('start', pengambilan_id)
+            let totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
+            ipcRenderer.send('start', pengambilan_id, totalTime)
         })
 
         this.myChart = new Chart (this.chartRef.current, {
@@ -187,6 +192,9 @@ class MainChart extends Component {
                 >
                     <Stopwatch
                         setProgress={this.setProgress}
+                        proses1={this.state.proses1/10}
+                        proses2={this.state.proses2/10}
+                        proses3={this.state.proses3/10}
                     />
                     <ProgressBar bgcolor={"#6a1b9a"} completed={this.state.completed} />
                 </div>
