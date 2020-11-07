@@ -11,6 +11,7 @@ class Welcome extends Component {
     }
 
     handleMasuk() { 
+        // this.props.forceUpdateHandler()
         if(this.props.connect()){
             this.setState({redirect: '/connect'})
         }

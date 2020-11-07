@@ -94,7 +94,7 @@ app.on('activate', function () {
 // // // // // // // // // // // // // // // //
 
 ipcMain.on('mounted', () => {
-    let { rumahSakit } = store.get('config');
+    let { rumahSakit } = store.get('ID');
     mainWindow.send('mountedResponse', rumahSakit)
 })
 
@@ -157,6 +157,7 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
+    console.log('totalTime =======> ' + totalTime)
     
     let options = {
         scriptPath: path.join(__dirname,"../python/")
@@ -175,7 +176,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            console.log('gagagagaga '+results[0])
+            // console.log('gagagagaga '+results[0])
             let data = results[0].split(";")
             let enose = {
                 pengambilan_id: pengambilan_id,

@@ -41,6 +41,8 @@ class App extends Component {
         this.setPatientId = this.setPatientId.bind(this);
         this.connect = this.connect.bind(this);
         this.disconnect = this.disconnect.bind(this);
+        this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+        this.updateTimer = this.updateTimer.bind(this);
     }
 
     componentDidMount () {
@@ -95,7 +97,26 @@ class App extends Component {
       });
     }
 
+    forceUpdateHandler(){
+      alert("hahaha")
+      ipcRenderer.send('getPengaturan')
+      this.forceUpdate();
+    };
+
+    updateTimer(){
+      ipcRenderer.send('getPengaturan')
+      ipcRenderer.once('getPengaturanResponse', (event, response) => {
+          alert("hoho")
+          this.setState({
+              proses1 : response[0],
+              proses2 : response[1],
+              proses3 : response[2],
+          })
+      })
+    }
+
     render() {
+
       return (
         <div className="">
 
@@ -115,6 +136,7 @@ class App extends Component {
             
               <Route path='/' exact>
                   <Welcome
+                    forceUpdateHandler = {this.forceUpdateHandler}
                     connect={this.connect}
                   />
               </Route>
@@ -157,6 +179,7 @@ class App extends Component {
                     proses1={this.state.proses1}
                     proses2={this.state.proses2}
                     proses3={this.state.proses3}
+                    key={0}
                   />
                 )}
               />
@@ -166,6 +189,7 @@ class App extends Component {
                     proses1={this.state.proses1}
                     proses2={this.state.proses2}
                     proses3={this.state.proses3}
+                    forceUpdateHandler = {this.forceUpdateHandler}
                   />
               </Route>
 

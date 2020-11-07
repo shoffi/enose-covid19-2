@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 const { ipcRenderer } = window;
 
 class Pengaturan extends Component {
@@ -10,6 +11,15 @@ class Pengaturan extends Component {
             proses2 : this.props.proses2,
             proses3 : this.props.proses3,
         }
+
+        ipcRenderer.send('getPengaturan')
+        ipcRenderer.on('getPengaturanResponse', (event, response) => {
+            this.setState({
+                proses1 : response[0],
+                proses2 : response[1],
+                proses3 : response[2],
+            })
+        })
 
         this.getPengaturan = this.getPengaturan.bind(this);
         this.updatePengaturan = this.updatePengaturan.bind(this);
@@ -59,13 +69,10 @@ class Pengaturan extends Component {
             <div className="mt-5">
                 <div className="col-md-12 ml-auto mr-auto">
                     <h1>Pengaturan</h1>
-                    
-                    {/* <div>
-                        <h3>State Proses 1 : {this.state.proses1}</h3> 
-                        <h3>State Proses 2 : {this.state.proses2}</h3>
-                        <h3>State Proses 3 : {this.state.proses3}</h3>
-                        <button className="btn btn-primary" onClick={ this.getPengaturan }> <h2>Update</h2> </button>
-                    </div> */}
+
+                    <Link to='/'>
+                        <button className="btn btn-warning" onClick={() => this.props.forceUpdateHandler()}><h2>Kembali</h2></button>
+                    </Link>
 
                     <form className="mt-5" onSubmit={this.updatePengaturan}>
                         <div className='form-group row'>
