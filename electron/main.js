@@ -3,8 +3,6 @@ const modal = require('electron-modal');
 const path = require('path');
 const PythonShell = require('python-shell');
 const url = require('url');
-const SerialPort = require('serialport');
-const Readline = require('@serialport/parser-readline');
 const mysql = require('mysql');
 const Store = require('./Store.js');
 
