@@ -148,10 +148,10 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
     console.log(pengambilan)
     mainWindow.send('storePatientResponse', 1)
 
-    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
-    //     if (err) throw err;
-    //     mainWindow.send('storePatientResponse', result.insertId)
-    // });
+    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+        if (err) throw err;
+        mainWindow.send('storePatientResponse', result.insertId)
+    });
 });
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
