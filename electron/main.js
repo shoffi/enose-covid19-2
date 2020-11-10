@@ -192,15 +192,12 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
             const documentsDataPath = app.getPath('documents')
             let fileName =  documentsDataPath + '/enose-covid19/' + pengambilan_id + '.csv'
+            fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
+                if (err) throw err;
+            });
 
             connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
-                if (err) {
-                    throw err
-                }else{
-                    fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
-                        if (err) throw err;
-                    });
-                }
+                if (err) throw err;
             });
 
             mainWindow.send('startResponse', results[0])
