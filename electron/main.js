@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, electron } = require('electron');
 const modal = require('electron-modal');
 const path = require('path');
 const PythonShell = require('python-shell');
 const url = require('url');
 const mysql = require('mysql');
+const fs = require('fs');
 const Store = require('./Store.js');
 
 let mainWindow;
@@ -174,7 +175,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            // console.log('gagagagaga '+results[0])
+            
             let data = results[0].split(";")
             let enose = {
                 pengambilan_id: pengambilan_id,
@@ -189,9 +190,18 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
             console.log(enose)
 
-            // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
-            //     if (err) throw err;
-            // });
+            const documentsDataPath = app.getPath('documents')
+            let fileName =  documentsDataPath + '/enose-covid19/' + pengambilan_id + '.csv'
+
+            connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
+                if (err) {
+                    throw err
+                }else{
+                    fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+            });
 
             mainWindow.send('startResponse', results[0])
         })
