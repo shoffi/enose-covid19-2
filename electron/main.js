@@ -146,7 +146,6 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
     }
 
     console.log(pengambilan)
-    mainWindow.send('storePatientResponse', 1)
 
     connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
         if (err) throw err;

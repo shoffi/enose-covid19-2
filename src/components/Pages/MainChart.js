@@ -42,7 +42,7 @@ class MainChart extends Component {
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
-        let pengambilan_id
+        var pengambilan_id
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
