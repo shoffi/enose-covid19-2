@@ -20,6 +20,7 @@ class MainChart extends Component {
 
         this.chartRef = createRef();
         this.setProgress = this.setProgress.bind(this);
+        this.stopChart = this.stopChart.bind(this);
     }
 
     componentDidMount() {
@@ -42,7 +43,8 @@ class MainChart extends Component {
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
-        var pengambilan_id
+        let pengambilan_id
+        ipcRenderer.removeAllListeners('storePatientResponse')
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
@@ -168,6 +170,11 @@ class MainChart extends Component {
         })
     }
 
+    stopChart () {
+        console.log('stoppppp')
+        removePromise.then(this.setState({redirect: '/ambil-sample'}))
+    }
+
     render () {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -182,12 +189,9 @@ class MainChart extends Component {
                             fontSize: "20px"
                         }}
                         className="btn btn-danger mt-5 mb-5" 
-                        onClick={
-                            () => {
-                                this.setState({redirect: '/ambil-sample'})
-                            }
-                        }
+                        onClick={ this.stopChart }
                     >Stop</button>
+
                     <canvas ref={this.chartRef} />
                 </div>
                 <div

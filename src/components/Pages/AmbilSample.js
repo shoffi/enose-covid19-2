@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import CheckBox from "../Utilities/Checkbox";
+const { ipcRenderer } = window;
 
 class AmbilSample extends Component {
     constructor(props) {
@@ -39,6 +40,10 @@ class AmbilSample extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handlePatientId = this.handlePatientId.bind(this)
+    }
+
+    componentDidMount(){
+        ipcRenderer.removeAllListeners('storePatientResponse')
     }
 
     handleSubmit (event) {

@@ -146,11 +146,12 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
     }
 
     console.log(pengambilan)
+    mainWindow.send('storePatientResponse', 1)
 
-    connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
-        if (err) throw err;
-        mainWindow.send('storePatientResponse', result.insertId)
-    });
+    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+    //     if (err) throw err;
+    //     mainWindow.send('storePatientResponse', result.insertId)
+    // });
 });
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
@@ -195,9 +196,9 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
                 if (err) throw err;
             });
 
-            connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
-                if (err) throw err;
-            });
+            // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
+            //     if (err) throw err;
+            // });
 
             mainWindow.send('startResponse', results[0])
         })
