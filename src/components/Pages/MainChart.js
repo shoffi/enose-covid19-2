@@ -44,7 +44,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
         let pengambilan_id
-        ipcRenderer.removeAllListeners('storePatientResponse')
+        
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
@@ -172,7 +172,8 @@ class MainChart extends Component {
 
     stopChart () {
         console.log('stoppppp')
-        removePromise.then(this.setState({redirect: '/ambil-sample'}))
+        ipcRenderer.send('stop')
+        this.setState({redirect: '/ambil-sample'})
     }
 
     render () {

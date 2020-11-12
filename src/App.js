@@ -182,7 +182,7 @@ class App extends Component {
                       proses1={this.state.proses1}
                       proses2={this.state.proses2}
                       proses3={this.state.proses3}
-                      key={0}
+                      // key={0}
                     />
                   )}
                 />

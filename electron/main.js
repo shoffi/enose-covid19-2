@@ -154,6 +154,8 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
     // });
 });
 
+let startResponse
+
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
     console.log('totalTime =======> ' + totalTime)
@@ -165,7 +167,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     let counter = 1
     let limit = totalTime
     
-    let startResponse = setInterval(function () {
+    startResponse = setInterval(function () {
         
         if(counter == limit){
             clearInterval(startResponse)
@@ -202,10 +204,13 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
             mainWindow.send('startResponse', results[0])
         })
+
     }, 1000)
-    
-    
 });
+
+ipcMain.on('stop', () => {
+    clearInterval(startResponse)
+})
 
 ipcMain.on('getPengaturan', () => {
     let { proses1, proses2, proses3 } = store.get('config');
