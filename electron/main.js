@@ -191,7 +191,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         counter++
 
-        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
             if (err) throw err
             
             let data = results[0].split(";")
@@ -210,12 +210,6 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
             content = content + `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`
             console.log(content)
 
-            // const documentsDataPath = app.getPath('documents')
-            // let fileName =  documentsDataPath + '/enose-covid19/' + pengambilan_id + '.csv'
-            // fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
-            //     if (err) throw err;
-            // });
-
             // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
             //     if (err) throw err;
             // });
@@ -231,7 +225,14 @@ ipcMain.on('stop', () => {
 })
 
 ipcMain.on('togglePompa', () => {
-    console.log('toggle')
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+
+    PythonShell.PythonShell.run('pompa.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
 })
 
 ipcMain.on('getPengaturan', () => {
