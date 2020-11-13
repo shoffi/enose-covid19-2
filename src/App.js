@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Nav from "./components/Nav";
+import TopNav from "./components/Nav/Top";
 import Home from "./components/Pages/Home";
 import Menu from "./components/Pages/Menu";
 import AmbilSample from "./components/Pages/AmbilSample";
@@ -119,21 +120,10 @@ class App extends Component {
     render() {
 
       return (
-        <div className="">
-          <h1 className="text-3xl text-green-500 font-bold">Test using Tailwind CSS</h1>
+        <div className="min-h-screen flex flex-col">
+          <TopNav></TopNav>
           <Router>
-
-            <Nav
-                isConnected={this.state.isConnected}
-                nurseId={this.state.nurseId}
-                patientId={this.state.patientId}
-                ruangId={this.state.ruangId}
-                rumahSakit={this.state.rumahSakit}
-                connect={this.connect}
-                disconnect={this.disconnect}
-            />
-
-            <div className="container">
+            <div className="flex-grow">
             
               <Route path='/' exact>
                   <Welcome
@@ -197,8 +187,16 @@ class App extends Component {
                     forceUpdateHandler = {this.forceUpdateHandler}
                   />
               </Route>
-
           </div>
+          <Nav
+                isConnected={this.state.isConnected}
+                nurseId={this.state.nurseId}
+                patientId={this.state.patientId}
+                ruangId={this.state.ruangId}
+                rumahSakit={this.state.rumahSakit}
+                connect={this.connect}
+                disconnect={this.disconnect}
+            />
 
           </Router>
           
