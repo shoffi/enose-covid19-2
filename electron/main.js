@@ -99,15 +99,6 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     console.log('connecting....') 
-    
-    let options = {
-        scriptPath: path.join(__dirname,"../python/")
-    }
-    
-    //PythonShell.PythonShell.run('hello.py', options, function (err, results) {
-        //if (err) throw err
-        //console.log(results[0])
-    //})
 });
 
 ipcMain.on('disconnect', () => {
@@ -158,7 +149,6 @@ let startResponse
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
-    console.log('totalTime =======> ' + totalTime)
     
     let options = {
         scriptPath: path.join(__dirname,"../python/")
@@ -182,12 +172,15 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
             savePromise.then(
                 (value) =>{
                     console.log(value)
-                    fs.writeFile(value.filePath, content, (err) => {
-                        if(err) {
-                            console.log('error in creating file: '+ err.message)
-                        }
-                        console.log(`file ${value.filePath} successfully created!`)
-                    })
+
+                    if(!value.canceled) {
+                        fs.writeFile(value.filePath, content, (err) => {
+                            if(err) {
+                                console.log('error in creating file: '+ err.message)
+                            }
+                            console.log(`file ${value.filePath} successfully created!`)
+                        })
+                    }
                 },
                 (error) => {
                     console.log(error)
@@ -235,6 +228,10 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
 ipcMain.on('stop', () => {
     clearInterval(startResponse)
+})
+
+ipcMain.on('togglePompa', () => {
+    console.log('toggle')
 })
 
 ipcMain.on('getPengaturan', () => {

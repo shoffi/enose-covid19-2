@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+const { ipcRenderer } = window;
 
 class Stopwatch extends Component {
     constructor (props) {
@@ -18,6 +19,15 @@ class Stopwatch extends Component {
         if(this.state.status){
             this.timer = setInterval( () => {
                 if(this.state.runningTime < totalTime){
+                    
+                    if(this.state.runningTime == this.props.proses1) {
+                        ipcRenderer.send('togglePompa')
+                    }
+
+                    if(this.state.runningTime == this.props.proses1 + this.props.proses2) {
+                        ipcRenderer.send('togglePompa')
+                    }
+
                     this.setState({ runningTime: parseInt((Date.now() - startTime)/1000) });
                     this.props.setProgress( parseInt((this.state.runningTime/totalTime)*100) )
                 }
