@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, electron } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const modal = require('electron-modal');
 const path = require('path');
 const PythonShell = require('python-shell');
@@ -166,11 +166,34 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
     let counter = 1
     let limit = totalTime
+    let content = "pengambilan_id;MQ2_LPG;MQ2_CO;MQ2_SMOKE;MQ2_ALCOHOL;MQ2_CH4;MQ2_PROPANE\n"
     
     startResponse = setInterval(function () {
         
         if(counter == limit){
             clearInterval(startResponse)
+
+            let saveOptions = {
+                defaultPath: app.getPath('documents') + '/untitled.csv'
+            }
+
+            let savePromise = dialog.showSaveDialog(null, saveOptions)
+            
+            savePromise.then(
+                (value) =>{
+                    console.log(value)
+                    fs.writeFile(value.filePath, content, (err) => {
+                        if(err) {
+                            console.log('error in creating file: '+ err.message)
+                        }
+                        console.log(`file ${value.filePath} successfully created!`)
+                    })
+                },
+                (error) => {
+                    console.log(error)
+                }
+            )
+
         }
 
         counter++
@@ -190,13 +213,15 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
                 MQ2_PROPANE :   data[6], 
             }
 
-            console.log(enose)
+            // console.log(enose)
+            content = content + `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`
+            console.log(content)
 
-            const documentsDataPath = app.getPath('documents')
-            let fileName =  documentsDataPath + '/enose-covid19/' + pengambilan_id + '.csv'
-            fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
-                if (err) throw err;
-            });
+            // const documentsDataPath = app.getPath('documents')
+            // let fileName =  documentsDataPath + '/enose-covid19/' + pengambilan_id + '.csv'
+            // fs.appendFile(fileName, `${pengambilan_id};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]}\n`, (err) => {
+            //     if (err) throw err;
+            // });
 
             // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
             //     if (err) throw err;
