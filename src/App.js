@@ -120,7 +120,7 @@ class App extends Component {
 
       return (
         <div className="">
-
+          <h1 className="text-3xl text-green-500 font-bold">Test using Tailwind CSS</h1>
           <Router>
 
             <Nav
