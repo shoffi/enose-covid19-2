@@ -127,7 +127,7 @@ class App extends Component {
         <div className="min-h-screen flex flex-col">
           <TopNav></TopNav>
           <Router>
-            <div className="flex-grow">
+            <div className="flex-grow container">
             
               <Route path='/' exact>
                   <Welcome
