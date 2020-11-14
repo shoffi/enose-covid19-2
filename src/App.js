@@ -27,6 +27,11 @@ class App extends Component {
             proses2 : null,
             proses3 : null,
             renderMainChart: true,
+            ruangan: [
+              {id: 1, name: 'ICU'},
+              {id: 2, name: 'Rawat Inap'},
+              {id: 3, name: 'Kesehatan'},
+          ],
         };
 
         ipcRenderer.send('getPengaturan')
@@ -86,10 +91,9 @@ class App extends Component {
       });
     }
 
-    setRuangId(event) {
-      console.log(`setRuangId ${event.target.value}`)
+    setRuangId(value) {
       this.setState({
-          ruangId: event.target.value,
+          ruangId: value,
       });
     }
 
@@ -123,7 +127,7 @@ class App extends Component {
         <div className="min-h-screen flex flex-col">
           <TopNav></TopNav>
           <Router>
-            <div className="flex-grow mx-auto">
+            <div className="flex-grow">
             
               <Route path='/' exact>
                   <Welcome
@@ -138,6 +142,7 @@ class App extends Component {
                       ruangId={this.state.ruangId}
                       setNurseId={this.setNurseId}
                       setRuangId={this.setRuangId}
+                      ruangan={this.state.ruangan}
                   />
               </Route>
 
