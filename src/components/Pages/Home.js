@@ -49,9 +49,16 @@ class Home extends Component {
             return <Redirect to={this.state.redirect} />
         }
 
+        let ruangan;
+        if (this.props.ruangId) {
+            ruangan = this.props.ruangId.name;
+        } else {
+            ruangan = 'Pilih ruangan';
+        }
+
         return (
             <div className="relative flex">
-                <div className="flex w-2/3 mx-auto pt-20 space-x-6 items-end">
+                <div className="flex w-2/3 mx-auto pt-12 space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
                         <div>
                             <p className=" mb-1">ID Perawat</p>
@@ -69,7 +76,10 @@ class Home extends Component {
                             <button
                             onClick={this.openModal}
                             className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
-                                <p className="text-left flex-1 font-semibold px-4 py-2">Pilih Ruangan</p>
+                                <p
+                                className="text-left flex-1 font-semibold px-4 py-2">
+                                {ruangan}
+                                </p>
                                 <svg class="w-8 h-8 text-gray-400 mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                         </div>
@@ -86,7 +96,7 @@ class Home extends Component {
 
                 {/* Open Modal */}
                 {this.state.isModalOpen && (
-                    <div className="absolute bg-white w-full pt-12">
+                    <div className="absolute bg-white w-full pt-8">
                     <div className="mx-auto w-1/2 bg-white border-4 border-gray-900 rounded-lg overflow-hidden">
                         <div className="flex items-center p-3">
                             <div className="flex-1 leading-tight">
@@ -96,10 +106,10 @@ class Home extends Component {
                             <div>
                                 <button
                                 onClick={this.openModal}
-                                className="bg-gray-900 px-8 py-3 text-xl text-white focus:outline-none rounded-md">Simpan</button>
+                                className="bg-gray-900 px-10 py-2 text-xl text-white focus:outline-none rounded-md">Pilih</button>
                             </div>
                         </div>
-                        <ul className="bg-gray-200 h-64 overflow-y-auto divide-y-2 divide-gray-300 text-2xl text-gray-700">
+                        <ul className="bg-gray-200 divide-y-2 divide-gray-300 text-2xl text-gray-700">
                             {this.state.ruangan.map(kamar => (
                                 <li
                                     key={kamar.id}

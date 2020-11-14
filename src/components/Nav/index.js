@@ -33,7 +33,7 @@ class Nav extends Component {
                 </div>
                 <div>
                     <span className="text-lg font-light opacity-50">Ruangan</span>
-                    <p className="text-xl font-bold">{this.props.ruangId}</p>
+                    <p className="text-xl font-bold">{this.props.ruangId.name}</p>
                 </div>
                 <div>
                     <span className="text-lg font-light opacity-50">ID Pasien</span>

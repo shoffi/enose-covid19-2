@@ -92,17 +92,10 @@ class App extends Component {
     }
 
     setRuangId(value) {
-      // alert(`Ruangan ${value.id} & ${value.name}`);
       this.setState({
-          ruangId: value.id,
+          ruangId: value,
       });
     }
-    // setRuangId(event) {
-    //   console.log(`setRuangId ${event.target.value}`)
-    //   this.setState({
-    //       ruangId: event.target.value,
-    //   });
-    // }
 
     setPatientId(event) {
       this.setState({
