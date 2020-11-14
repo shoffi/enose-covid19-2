@@ -22,14 +22,15 @@
     "react-scripts": "^3.4.4"
   },
   "scripts": {
-    "start": "export BROWSER=none && react-scripts start",
+    "start": "npm run watch:css && export BROWSER=none && react-scripts start",
     "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "build": "react-scripts build",
+    "build": "npm run watch:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "rebuild": "electron-rebuild -f -w serialport",
     "build-electron": "cp -r electron/. build/electron && cp -r python/. build/python",
-    "package": "electron-builder build --linux deb -c.extraMetadata.main=build/electron/main.js --publish never"
+    "package": "electron-builder build --linux deb -c.extraMetadata.main=build/electron/main.js --publish never",
+    "watch:css": "postcss src/styles/tailwind.css -o src/styles/main.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,9 +48,12 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "9.8.6",
     "electron": "^10.1.3",
     "electron-builder": "^22.9.1",
-    "electron-rebuild": "^2.2.0"
+    "electron-rebuild": "^2.2.0",
+    "postcss-cli": "^8.2.0",
+    "tailwindcss": "^1.9.6"
   },
   "build": {
     "files": [
