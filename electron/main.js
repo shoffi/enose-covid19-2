@@ -108,32 +108,60 @@ ipcMain.on('disconnect', () => {
 
 ipcMain.on('storePatient', (event, input, detailPatient) => {
     
+    // let pengambilan = {
+    //     rs_id       :   1,
+    //     nurse_id    :   detailPatient.nurse_id,
+    //     room_id     :   detailPatient.ruang_id,
+    //     patient_id  :   detailPatient.patient_id,
+    //     fever       :   input[0][0],
+    //     flu         :   input[1][0],
+    //     sore_throat :   input[2][0],
+    //     cough       :   input[3][0],
+    //     diff_breath :   input[4][0],
+    //     nausea      :   input[5][0],
+    //     headache    :   input[6][0],
+    //     watery_eyes :   input[7][0],
+    //     diarrhea    :   input[8][0],
+
+    //     hypertension            :   input[9][0],
+    //     diabetes_mellitus       :   input[10][0],
+    //     immune_disorder         :   input[11][0],
+    //     heart_disease           :   input[12][0],
+    //     kidney_disease          :   input[13][0],
+    //     liver_disease           :   input[14][0],
+    //     astma                   :   input[15][0],
+    //     cancer                  :   input[16][0],
+    //     tuberkulosis            :   input[17][0],
+    //     respiratory_disease     :   input[18][0],
+    //     cardiovascular_disease  :   input[19][0],
+    // }
+
     let pengambilan = {
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
         room_id     :   detailPatient.ruang_id,
         patient_id  :   detailPatient.patient_id,
-        fever       :   input[0][0],
-        flu         :   input[1][0],
-        sore_throat :   input[2][0],
-        cough       :   input[3][0],
-        diff_breath :   input[4][0],
-        nausea      :   input[5][0],
-        headache    :   input[6][0],
-        watery_eyes :   input[7][0],
-        diarrhea    :   input[8][0],
+        s1  :   input[0][0],
+        s2  :   input[1][0],
+        s3  :   input[2][0],
+        s4  :   input[3][0],
+        s5  :   input[4][0],
+        s6  :   input[5][0],
+        s7  :   input[6][0],
+        s8  :   input[7][0],
+        s9  :   input[8][0],
 
-        hypertension            :   input[9][0],
-        diabetes_mellitus       :   input[10][0],
-        immune_disorder         :   input[11][0],
-        heart_disease           :   input[12][0],
-        kidney_disease          :   input[13][0],
-        liver_disease           :   input[14][0],
-        astma                   :   input[15][0],
-        cancer                  :   input[16][0],
-        tuberkulosis            :   input[17][0],
-        respiratory_disease     :   input[18][0],
-        cardiovascular_disease  :   input[19][0],
+        c1  :   input[9][0],
+        c2  :   input[10][0],
+        c3  :   input[11][0],
+        c4  :   input[12][0],
+        c5  :   input[13][0],
+        c6  :   input[14][0],
+        c7  :   input[15][0],
+        c8  :   input[16][0],
+        c9  :   input[17][0],
+        c10 :   input[18][0],
+        c11 :   input[19][0],
     }
 
     console.log(pengambilan)
@@ -191,7 +219,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         counter++
 
-        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
             
             let data = results[0].split(";")

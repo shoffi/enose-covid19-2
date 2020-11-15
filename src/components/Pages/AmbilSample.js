@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
-import CheckBox from "../Utilities/Checkbox";
+// import CheckBox from "../Utilities/Checkbox";
 import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
 
