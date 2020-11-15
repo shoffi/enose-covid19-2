@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import CheckBox from "../Utilities/Checkbox";
+import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
 
 class AmbilSample extends Component {
@@ -89,8 +90,77 @@ class AmbilSample extends Component {
         }
         
         return (
-            <>
-                <div className="mt-5">
+            <div>
+                <TitleBar
+                    title={'Gejala Pasien'}
+                    back={true}
+                    next={true}
+                    setBack={() => this.setState({redirect: '/menu'})}
+                    setNext={() => this.setState({redirect: '/main-chart'})}
+                    setNextName={'Start Sampling'}
+                ></TitleBar>
+
+                <div className="py-8">
+                    <div className="flex items-center space-x-4">
+                        <div className="w-1/2">
+                            <p className="text-xl font-light leading-snug text-gray-800">
+                            Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
+                            </p>
+                        </div>
+                        <div className="w-1/2 bg-green-200 bg-opacity-25 p-3 rounded-xl">
+                            <label class="inline-flex items-center">
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
+                                ></input>
+                                <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>
+                            </label>
+                        </div>
+                    </div>
+                    <hr className="border my-3" />
+                    <div className="flex space-x-4">
+                        <div className="w-1/2">
+                            <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Gejala</h3>
+                            <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl">
+                                {this.state.diseases.map(item => (
+                                    <div className="w-full">
+                                        <label class="inline-flex items-center w-full">
+                                            <input
+                                                type="checkbox"
+                                                checked={item.isChecked}
+                                                onClick={this.handleDiseaseCheckboxes}
+                                                value={item.value}
+                                                class="form-checkbox h-8 w-8 text-purple-600 rounded-xl"
+                                            ></input>
+                                            <span class="ml-3 text-gray-800 text-xl">{item.value}</span>
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-1/2">
+                            <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Penyakit Bawaan</h3>
+                            <div className="bg-yellow-200 bg-opacity-25 p-3 rounded-xl">
+                                {this.state.comorbidities.map(item => (
+                                    <div className="w-full">
+                                        <label class="inline-flex items-center w-full">
+                                            <input
+                                                type="checkbox"
+                                                checked={item.isChecked}
+                                                onClick={this.handleComorbiditiesCheckboxes}
+                                                value={item.value}
+                                                class="form-checkbox h-8 w-8 text-orange-600 rounded-xl"
+                                            ></input>
+                                            <span class="ml-3 text-gray-800 text-xl">{item.value}</span>
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <div className="mt-5">
                     <div 
                         className="col-md-12 ml-auto mr-auto"
                         style={{
@@ -193,8 +263,8 @@ class AmbilSample extends Component {
                             Kembali
                         </button>
                     </div>                    
-                </div>
-            </>
+                </div> */}
+            </div>
         )
     }
 }

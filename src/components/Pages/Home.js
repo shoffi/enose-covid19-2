@@ -40,8 +40,7 @@ class Home extends Component {
         this.setState ({
             selectedRuangan: kamar,
         })
-        this.props.setRuangId(kamar)
-        // alert(`Ruangan ${kamar.id} & ${kamar.name}`);
+        this.props.setRuangId(kamar);
     }
 
     render() {
@@ -58,7 +57,7 @@ class Home extends Component {
 
         return (
             <div className="relative flex">
-                <div className="flex w-2/3 mx-auto pt-12 space-x-6 items-end">
+                <div className="flex w-4/5 mx-auto pt-12 space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
                         <div>
                             <p className=" mb-1">ID Perawat</p>
@@ -86,18 +85,17 @@ class Home extends Component {
                     </div>
                     <button
                     onClick={this.handleSubmit}
-                    className="flex items-center justify-center w-48 h-48 bg-gray-900 focus:outline-none rounded-md">
-                        <div className="justify-center text-white">
-                            <svg class="mx-auto w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                            <p className="text-xl font-semibold">Masuk</p>
-                        </div>
+                    disabled={!this.props.nurseId && !this.props.ruangId.id}
+                    className={`${this.props.nurseId && this.props.ruangId.id ? 'bg-gray-900' : 'bg-gray-400 cursor-not-allowed'} items-center justify-center w-48 h-48 text-white focus:outline-none rounded-md`}>
+                        <svg class="mx-auto w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                        <p className="text-xl font-semibold">Masuk</p>
                     </button>
                 </div>
 
                 {/* Open Modal */}
                 {this.state.isModalOpen && (
                     <div className="absolute bg-white w-full pt-8">
-                    <div className="mx-auto w-1/2 bg-white border-4 border-gray-900 rounded-lg overflow-hidden">
+                    <div className="mx-auto w-2/3 bg-white border-4 border-gray-900 rounded-lg overflow-hidden">
                         <div className="flex items-center p-3">
                             <div className="flex-1 leading-tight">
                                 <p className="text-2xl font-semibold">Pilih Ruangan</p>
