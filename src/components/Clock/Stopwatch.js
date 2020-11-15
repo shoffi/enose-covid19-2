@@ -41,9 +41,9 @@ class Stopwatch extends Component {
     
     render () {
         return (
-            <div className="text-center">
-                <h1>{this.state.runningTime} s</h1>
-            </div>
+            <p className="text-gray-500">
+                {this.state.runningTime} s
+            </p>
         );
     }
 }
