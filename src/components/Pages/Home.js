@@ -60,17 +60,17 @@ class Home extends Component {
                 <div className="flex w-4/5 mx-auto pt-12 space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
                         <div>
-                            <p className=" mb-1">ID Perawat</p>
+                            <p className="text-brand-green mb-1">ID Perawat</p>
                             <input
                             type="text"
                             value={this.props.nurseId} 
                             onChange={this.props.setNurseId}
-                            className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
+                            className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                             placeholder="ID Perawat"
                             />
                         </div>
                         <div>
-                            <p className=" mb-1">Ruangan</p>
+                            <p className="text-brand-green mb-1">Ruangan</p>
                             <p>{this.state.isModalOpen}</p>
                             <button
                             onClick={this.openModal}
@@ -86,7 +86,7 @@ class Home extends Component {
                     <button
                     onClick={this.handleSubmit}
                     disabled={!this.props.nurseId && !this.props.ruangId.id}
-                    className={`${this.props.nurseId && this.props.ruangId.id ? 'bg-gray-900' : 'bg-gray-400 cursor-not-allowed'} items-center justify-center w-48 h-48 text-white focus:outline-none rounded-md`}>
+                    className={`${this.props.nurseId && this.props.ruangId.id ? 'bg-brand-green' : 'bg-gray-400 cursor-not-allowed'} items-center justify-center w-48 h-48 text-white focus:outline-none rounded-md`}>
                         <svg class="mx-auto w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
                         <p className="text-xl font-semibold">Masuk</p>
                     </button>

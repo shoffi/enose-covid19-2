@@ -12,28 +12,28 @@ class AmbilSample extends Component {
             patient_id: this.props.patientId,
             ruang_id: this.props.ruangId,
             diseases: [
-                {id: 1, value: "Fever", isChecked: false},
-                {id: 2, value: "Flu/Sneeze", isChecked: false},
-                {id: 3, value: "Sore Throat", isChecked: false},
-                {id: 4, value: "Cough", isChecked: false},
-                {id: 5, value: "Difficulty of breathing", isChecked: false},
-                {id: 6, value: "Nausea", isChecked: false},
-                {id: 7, value: "Headache", isChecked: false},
-                {id: 8, value: "Watery eyes", isChecked: false},
-                {id: 9, value: "Diarrhea", isChecked: false},
+                {id: 1, value: "Demam", isChecked: false},
+                {id: 2, value: "Flu atau bersin", isChecked: false},
+                {id: 3, value: "Sakit Tenggorokan", isChecked: false},
+                {id: 4, value: "Batuk", isChecked: false},
+                {id: 5, value: "Sulit Bernapas", isChecked: false},
+                {id: 6, value: "Mual", isChecked: false},
+                {id: 7, value: "Pusing", isChecked: false},
+                {id: 8, value: "Mata Berair", isChecked: false},
+                {id: 9, value: "Diare", isChecked: false},
             ],
             comorbidities: [
-                {id: 1+9, value: "Hypertension", isChecked: false},
+                {id: 1+9, value: "Hipertensi", isChecked: false},
                 {id: 2+9, value: "Diabetes Mellitus", isChecked: false},
-                {id: 3+9, value: "Immune disorders", isChecked: false},
-                {id: 4+9, value: "Heart disease", isChecked: false},
-                {id: 5+9, value: "Kidney disease", isChecked: false},
-                {id: 6+9, value: "Liver disease", isChecked: false},
-                {id: 7+9, value: "Astma", isChecked: false},
-                {id: 8+9, value: "Cancer", isChecked: false},
+                {id: 3+9, value: "Gangguan Imun", isChecked: false},
+                {id: 4+9, value: "Liver atau Penyakit Hati", isChecked: false},
+                {id: 5+9, value: "Ginjal", isChecked: false},
+                {id: 6+9, value: "Gangguan Pernapasan", isChecked: false},
+                // {id: 7+9, value: "Astma", isChecked: false},
+                {id: 8+9, value: "Kanker", isChecked: false},
                 {id: 9+9, value: "Tuberkulosis", isChecked: false},
-                {id: 10+9, value: "Respiratory system disease", isChecked: false},
-                {id: 11+9, value: "Cardiovascular disease", isChecked: false},
+                // {id: 10+9, value: "Respiratory system disease", isChecked: false},
+                {id: 11+9, value: "Penyakit Kardiovaskular", isChecked: false},
             ]
         }
 
@@ -107,7 +107,7 @@ class AmbilSample extends Component {
                             </p>
                         </div>
                         <div className="w-1/2 bg-green-200 bg-opacity-25 p-3 rounded-xl">
-                            <label class="inline-flex items-center">
+                            <label class="inline-flex items-center w-full">
                                 <input
                                     type="checkbox"
                                     class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
@@ -117,7 +117,7 @@ class AmbilSample extends Component {
                         </div>
                     </div>
                     <hr className="border my-3" />
-                    <div className="flex space-x-4">
+                    <div className="flex space-x-4 h-72 overflow-y-scroll">
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Gejala</h3>
                             <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl">

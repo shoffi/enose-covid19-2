@@ -23,6 +23,11 @@ module.exports = {
       black: '#000',
       white: '#fff',
 
+      brand: {
+        'green': '#076268',
+        'orange': '#DB6400',
+      },
+
       gray: {
         100: '#f7fafc',
         200: '#edf2f7',
@@ -154,6 +159,7 @@ module.exports = {
       '48': '12rem',
       '56': '14rem',
       '64': '16rem',
+      '70': '18rem',
       '72': '20rem',
     },
     backgroundColor: theme => theme('colors'),
