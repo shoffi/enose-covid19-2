@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
-// import CheckBox from "../Utilities/Checkbox";
 import TitleBar from '../Nav/TitleBar';
-const { ipcRenderer } = window;
 
 class AmbilSample extends Component {
     constructor(props) {
@@ -44,7 +42,8 @@ class AmbilSample extends Component {
     }
 
     componentDidMount(){
-        ipcRenderer.removeAllListeners('storePatientResponse')
+        console.log("componentDidMount")
+        console.log(this.props)
     }
 
     handleSubmit (event) {
@@ -85,7 +84,7 @@ class AmbilSample extends Component {
                         to={{
                             pathname: this.state.redirect,
                             state: this.state
-                        }} 
+                        }}
                     />
         }
         
@@ -95,7 +94,7 @@ class AmbilSample extends Component {
                     title={'Gejala Pasien'}
                     back={true}
                     next={true}
-                    setBack={() => this.setState({redirect: '/menu'})}
+                    setBack={() => this.setState({redirect: '/patient-detail'})}
                     setNext={() => this.setState({redirect: '/main-chart'})}
                     setNextName={'Start Sampling'}
                 ></TitleBar>
@@ -103,17 +102,9 @@ class AmbilSample extends Component {
                 <div className="py-8">
                     <div className="flex items-center space-x-4">
                         <div className="w-1/2">
-                            {/* <p className="text-xl font-light leading-snug text-gray-800">
+                            <p className="text-xl font-light leading-snug text-gray-800">
                             Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
-                            </p> */}
-                            <p className="text-xl text-gray-800 mb-1">ID Pasien</p>
-                            <input
-                                type="text"
-                                value={this.props.patientId} 
-                                onChange={this.handlePatientId}
-                                className="w-full text-xl font-semibold px-3 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="ID Pasien"
-                            />
+                            </p>
                         </div>
                         <div className="w-1/2 bg-green-200 bg-opacity-25 p-3 rounded-xl">
                             <label class="inline-flex items-center">

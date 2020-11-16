@@ -93,6 +93,7 @@ class Home extends Component {
                 </div>
 
                 {/* Open Modal */}
+                
                 {this.state.isModalOpen && (
                     <div className="absolute bg-white w-full pt-8">
                     <div className="mx-auto w-2/3 bg-white border-4 border-gray-900 rounded-lg overflow-hidden">

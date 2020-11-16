@@ -6,6 +6,7 @@ import TopNav from "./components/Nav/Top";
 import Home from "./components/Pages/Home";
 import Menu from "./components/Pages/Menu";
 import AmbilSample from "./components/Pages/AmbilSample";
+import PatientDetail from "./components/Pages/PatientDetail";
 import MainChart from "./components/Pages/MainChart";
 import Welcome from "./components/Pages/Welcome";
 import Pengaturan from "./components/Pages/Pengaturan";
@@ -22,7 +23,14 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
-            isConnected: false, //koneksi
+            suhuTubuh: "",
+            asamUrat: "",
+            kolestrol: "",
+            saturasiOksigen: "",
+            gulaDarah: "",
+            denyutJantung: "",
+
+            isConnected: false,
             proses1 : null,
             proses2 : null,
             proses3 : null,
@@ -46,6 +54,14 @@ class App extends Component {
         this.setNurseId = this.setNurseId.bind(this);
         this.setRuangId = this.setRuangId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
+
+        this.setSuhuTubuh = this.setSuhuTubuh.bind(this);
+        this.setAsamUrat = this.setAsamUrat.bind(this);
+        this.setKolestrol = this.setKolestrol.bind(this);
+        this.setSaturasiOksigen = this.setSaturasiOksigen.bind(this);
+        this.setGulaDarah = this.setGulaDarah.bind(this);
+        this.setDenyutJantung = this.setDenyutJantung.bind(this);
+
         this.connect = this.connect.bind(this);
         this.disconnect = this.disconnect.bind(this);
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
@@ -103,6 +119,42 @@ class App extends Component {
       });
     }
 
+    setSuhuTubuh (event) {
+      this.setState({
+          suhuTubuh: event.target.value,
+      })
+    }
+
+    setAsamUrat (event) {
+      this.setState({
+          asamUrat: event.target.value,
+      })
+    }
+
+    setKolestrol (event) {
+      this.setState({
+          kolestrol: event.target.value,
+      })
+    }
+
+    setSaturasiOksigen (event) {
+      this.setState({
+          saturasiOksigen: event.target.value,
+      })
+    }
+
+    setGulaDarah (event) {
+      this.setState({
+          gulaDarah: event.target.value,
+      })
+    }
+
+    setDenyutJantung (event) {
+      this.setState({
+          denyutJantung: event.target.value,
+      })
+    }
+
     forceUpdateHandler(){
       alert("hahaha")
       ipcRenderer.send('getPengaturan')
@@ -149,12 +201,23 @@ class App extends Component {
               <Route path='/menu' exact>
                   <Menu/>
               </Route>
+
+              <Route path='/patient-detail' exact>
+                  <PatientDetail
+                    setPatientId={this.setPatientId}
+                    patientId={this.state.patientId}
+                    suhuTubuh={this.state.suhuTubuh}
+                    asamUrat={this.state.asamUrat}
+                    kolestrol={this.state.kolestrol}
+                    saturasiOksigen={this.state.saturasiOksigen}
+                    gulaDarah={this.state.gulaDarah}
+                    denyutJantung={this.state.denyutJantung}
+                  />
+              </Route>
               
               <Route path='/ambil-sample' exact>
                   <AmbilSample
-                    setPatientId={this.setPatientId}
                     nurseId={this.state.nurseId}
-                    patientId={this.state.patientId}
                     ruangId={this.state.ruangId}
                   />
               </Route>
@@ -167,8 +230,7 @@ class App extends Component {
                   <Menu/>
               </Route>
 
-              { this.state.renderMainChart ? 
-                // <Child unmountMe={this.handleChildUnmount} /> 
+              { this.state.renderMainChart ?  
                 <Route 
                   path="/main-chart" 
                   render={(props) => (
@@ -177,7 +239,6 @@ class App extends Component {
                       proses1={this.state.proses1}
                       proses2={this.state.proses2}
                       proses3={this.state.proses3}
-                      // key={0}
                     />
                   )}
                 />
@@ -193,6 +254,7 @@ class App extends Component {
                   />
               </Route>
           </div>
+
           <Nav
                 isConnected={this.state.isConnected}
                 nurseId={this.state.nurseId}
