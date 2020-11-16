@@ -103,9 +103,17 @@ class AmbilSample extends Component {
                 <div className="py-8">
                     <div className="flex items-center space-x-4">
                         <div className="w-1/2">
-                            <p className="text-xl font-light leading-snug text-gray-800">
+                            {/* <p className="text-xl font-light leading-snug text-gray-800">
                             Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
-                            </p>
+                            </p> */}
+                            <p className="text-xl text-gray-800 mb-1">ID Pasien</p>
+                            <input
+                                type="text"
+                                value={this.props.patientId} 
+                                onChange={this.handlePatientId}
+                                className="w-full text-xl font-semibold px-3 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
+                                placeholder="ID Pasien"
+                            />
                         </div>
                         <div className="w-1/2 bg-green-200 bg-opacity-25 p-3 rounded-xl">
                             <label class="inline-flex items-center">

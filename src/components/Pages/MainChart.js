@@ -1,8 +1,9 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
 import Chart from "chart.js";
-import ProgressBar from "../ProgressBar";
+// import ProgressBar from "../ProgressBar";
 import Stopwatch from "../Clock/Stopwatch";
+import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
 
 class MainChart extends Component {
@@ -124,6 +125,7 @@ class MainChart extends Component {
                 ]
             },
             options: {
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -183,30 +185,47 @@ class MainChart extends Component {
         
         return (
             <div>
-                <div className="text-center">
-                    <button 
-                        style={{
-                            width:'30%',
-                            fontSize: "20px"
-                        }}
-                        className="btn btn-danger mt-5 mb-5" 
-                        onClick={ this.stopChart }
-                    >Stop</button>
+                <TitleBar
+                    title={'Proses Sampling'}
+                    back={false}
+                    next={false}
+                ></TitleBar>
 
+                <div className="relative mt-16 mb-3 h-72">
                     <canvas ref={this.chartRef} />
                 </div>
-                <div
-                    style={{
-                        marginTop: "20px"
-                    }} 
-                >
-                    <Stopwatch
-                        setProgress={this.setProgress}
-                        proses1={this.state.proses1}
-                        proses2={this.state.proses2}
-                        proses3={this.state.proses3}
-                    />
-                    <ProgressBar bgcolor={"#6a1b9a"} completed={this.state.completed} />
+
+                <div className="flex space-x-3">
+                    <div className="w-1/12 text-center leading-tight">
+                        <h3 className="text-2xl font-bold">
+                            {this.state.completed}
+                            <span className="ml-1 text-xl text-gray-700 font-light">%</span>
+                        </h3>
+                        <Stopwatch
+                            setProgress={this.setProgress}
+                            proses1={this.state.proses1}
+                            proses2={this.state.proses2}
+                            proses3={this.state.proses3}
+                        />
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="flex-1 relative rounded-lg overflow-hidden">
+                        <div className="bg-gray-300 w-full h-full "></div>
+                        <div
+                        style={{width: `${this.state.completed}%`}}
+                        className="absolute top-0 bg-green-500 h-full transition-all ease-out duration-500">
+                        </div>
+                    </div>
+                    
+                    <div className="w-1/6">
+                        <button
+                        onClick={ this.stopChart }
+                        className="flex items-center justify-center w-full h-full py-2 bg-red-600 text-white text-xl rounded-lg">
+                            <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            berhenti
+                        </button>
+                    </div>
                 </div>
             </div>
         )
