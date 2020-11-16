@@ -219,7 +219,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         counter++
 
-        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
             if (err) throw err
             
             let data = results[0].split(";")

@@ -177,9 +177,11 @@ class App extends Component {
 
       return (
         <div className="min-h-screen flex flex-col">
-          <TopNav></TopNav>
+          <div className="fixed w-full bg-white z-10 border-b px-4 py-2">
+            <TopNav></TopNav>
+          </div>
           <Router>
-            <div className="flex-grow container">
+            <div className="flex-grow container z-0 py-24">
             
               <Route path='/' exact>
                   <Welcome
@@ -219,6 +221,7 @@ class App extends Component {
                   <AmbilSample
                     nurseId={this.state.nurseId}
                     ruangId={this.state.ruangId}
+                    patientId={this.state.patientId}
                   />
               </Route>
 
@@ -254,16 +257,17 @@ class App extends Component {
                   />
               </Route>
           </div>
-
-          <Nav
-                isConnected={this.state.isConnected}
-                nurseId={this.state.nurseId}
-                patientId={this.state.patientId}
-                ruangId={this.state.ruangId}
-                rumahSakit={this.state.rumahSakit}
-                connect={this.connect}
-                disconnect={this.disconnect}
-            />
+          <div className="fixed w-full bottom-0">
+            <Nav
+                  isConnected={this.state.isConnected}
+                  nurseId={this.state.nurseId}
+                  patientId={this.state.patientId}
+                  ruangId={this.state.ruangId}
+                  rumahSakit={this.state.rumahSakit}
+                  connect={this.connect}
+                  disconnect={this.disconnect}
+              />
+          </div>
 
           </Router>
           

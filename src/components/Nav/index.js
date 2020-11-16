@@ -60,7 +60,7 @@ class Nav extends Component {
         
         return (
             <>
-                <div className="flex items-center justify-between bg-gray-900">
+                <div className="flex items-center justify-between bg-brand-green">
                     <div className="flex px-4 space-x-8 leading-tight text-white">
                         <div className="h-12 text-xl font-semibold">
                             {this.props.rumahSakit}
