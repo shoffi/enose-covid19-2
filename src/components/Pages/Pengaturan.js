@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
 
 class Pengaturan extends Component {
@@ -66,7 +67,15 @@ class Pengaturan extends Component {
 
     render () {
         return (
-            <div className="mt-5">
+            <div>
+                <TitleBar
+                    title={'Pengaturan'}
+                    back={true}
+                    next={true}
+                    setBack={() => this.props.forceUpdateHandler()}
+                    setNext={() => this.setState({redirect: '/main-chart'})}
+                    setNextName={'Simpan'}
+                ></TitleBar>
                 <div className="col-md-12 ml-auto mr-auto">
                     <h1>Pengaturan</h1>
 
