@@ -14,6 +14,7 @@ class MainChart extends Component {
         this.state = {
             redirect: null,
             completed: 0,
+            text: '',
             proses1 : this.props.proses1 * 1 * 1,
             proses2 : this.props.proses2 * 1 * 1,
             proses3 : this.props.proses3 * 1 * 1,
@@ -182,16 +183,19 @@ class MainChart extends Component {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
+
+        let isCompleted = this.state.completed === 100 ? true : false;
         
         return (
             <div>
                 <TitleBar
                     title={'Proses Sampling'}
-                    back={false}
+                    back={isCompleted}
                     next={false}
+                    setBack={() => this.setState({redirect: '/ambil-sample'})}
                 ></TitleBar>
 
-                <div className="relative mt-16 mb-3 h-72">
+                <div className="relative mt-10 mb-1 h-72">
                     <canvas ref={this.chartRef} />
                 </div>
 
@@ -218,13 +222,21 @@ class MainChart extends Component {
                         </div>
                     </div>
                     
+                    {/* If process finished, available to export to .csv */}
                     <div className="w-1/6">
-                        <button
-                        onClick={ this.stopChart }
-                        className="flex items-center justify-center w-full h-full py-2 bg-red-600 text-white text-xl rounded-lg">
-                            <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            berhenti
-                        </button>
+                        {isCompleted
+                        ? (<button
+                            className="flex items-center justify-center w-full h-full py-2 bg-green-600 text-white text-xl rounded-lg">
+                                <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                Export
+                            </button>)
+                        : (<button
+                            onClick={ this.stopChart }
+                            className="flex items-center justify-center w-full h-full py-2 bg-red-600 text-white text-xl rounded-lg">
+                                <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                berhenti
+                            </button>)
+                        }
                     </div>
                 </div>
             </div>

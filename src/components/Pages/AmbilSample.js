@@ -117,7 +117,7 @@ class AmbilSample extends Component {
                         </div>
                     </div>
                     <hr className="border my-3" />
-                    <div className="flex space-x-4 h-72 overflow-y-scroll">
+                    <div className="flex space-x-4 h-64 scrolling-touch overflow-y-scroll">
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Gejala</h3>
                             <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl">
