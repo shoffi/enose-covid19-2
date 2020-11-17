@@ -159,9 +159,7 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
         c6  :   input[14][0],
         c7  :   input[15][0],
         c8  :   input[16][0],
-        c9  :   input[17][0],
-        c10 :   input[18][0],
-        c11 :   input[19][0],
+        c9  :   input[17][0]
     }
 
     console.log(pengambilan)
@@ -219,9 +217,9 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         counter++
 
-        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            
+            console.log(`te tes tes ${results}`)
             let data = results[0].split(";")
             let enose = {
                 pengambilan_id: pengambilan_id,
