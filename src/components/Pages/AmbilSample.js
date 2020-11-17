@@ -29,11 +29,9 @@ class AmbilSample extends Component {
                 {id: 4+9, value: "Liver atau Penyakit Hati", isChecked: false},
                 {id: 5+9, value: "Ginjal", isChecked: false},
                 {id: 6+9, value: "Gangguan Pernapasan", isChecked: false},
-                // {id: 7+9, value: "Astma", isChecked: false},
-                {id: 8+9, value: "Kanker", isChecked: false},
-                {id: 9+9, value: "Tuberkulosis", isChecked: false},
-                // {id: 10+9, value: "Respiratory system disease", isChecked: false},
-                {id: 11+9, value: "Penyakit Kardiovaskular", isChecked: false},
+                {id: 7+9, value: "Kanker", isChecked: false},
+                {id: 8+9, value: "Tuberkulosis", isChecked: false},
+                {id: 9+9, value: "Penyakit Kardiovaskular", isChecked: false},
             ]
         }
 

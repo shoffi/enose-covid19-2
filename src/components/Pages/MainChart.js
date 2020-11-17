@@ -61,7 +61,7 @@ class MainChart extends Component {
                 labels: [''],
                 datasets: [
                     {
-                        label: 'MQ2_LPG',
+                        label: 'MQ2',
                         data: [''],
                         borderColor: [
                             'red',
@@ -70,7 +70,7 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_CO',
+                        label: 'MQ3',
                         data: [''],
                         borderColor: [
                             'orange',
@@ -79,7 +79,7 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_SMOKE',
+                        label: 'MQ4',
                         data: [''],
                         borderColor: [
                             'pink',
@@ -88,7 +88,7 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_ALCOHOL',
+                        label: 'MQ5',
                         data: [''],
                         borderColor: [
                             'green',
@@ -97,7 +97,7 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_CH4',
+                        label: 'MQ6',
                         data: [''],
                         borderColor: [
                             'blue',
@@ -106,7 +106,7 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_H2',
+                        label: 'MQ7',
                         data: [''],
                         borderColor: [
                             'indigo',
@@ -115,7 +115,43 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ2_PROPANE',
+                        label: 'MQ8',
+                        data: [''],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ9',
+                        data: [''],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ135',
+                        data: [''],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Temperature',
+                        data: [''],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Humidity',
                         data: [''],
                         borderColor: [
                             'violet',
