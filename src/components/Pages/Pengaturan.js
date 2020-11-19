@@ -99,33 +99,42 @@ class Pengaturan extends Component {
                             <div className="flex space-x-4">
                                 <div className="w-1/3">
                                     <p className="text-lg font-semibold mb-1 text-brand-green">Proses 1</p>
-                                    <input
-                                    type="text"
-                                    value={this.state.proses1} 
-                                    onChange={this.changeProses1}
-                                    className="w-full text-xl font-semibold px-3 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                    placeholder="Proses 1"
-                                    />
+                                    <div className="relative">
+                                        <input
+                                        type="text"
+                                        value={this.state.proses1} 
+                                        onChange={this.changeProses1}
+                                        className="w-full text-xl font-semibold pl-3 pr-12 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="0"
+                                        />
+                                        <p className="mx-3 text-lg text-gray-500 flex items-center absolute inset-y-0 right-0">detik</p>
+                                    </div>
                                 </div>
                                 <div className="w-1/3">
                                     <p className="text-lg font-semibold mb-1 text-brand-green">Proses 2</p>
-                                    <input
-                                    type="text"
-                                    value={this.state.proses2} 
-                                    onChange={this.changeProses2}
-                                    className="w-full text-xl font-semibold px-3 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                    placeholder="Proses 2"
-                                    />
+                                    <div className="relative">
+                                        <input
+                                        type="text"
+                                        value={this.state.proses2} 
+                                        onChange={this.changeProses2}
+                                        className="w-full text-xl font-semibold pl-3 pr-12 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="0"
+                                        />
+                                        <p className="mx-3 text-lg text-gray-500 flex items-center absolute inset-y-0 right-0">detik</p>
+                                    </div>
                                 </div>
                                 <div className="w-1/3">
                                     <p className="text-lg font-semibold mb-1 text-brand-green">Proses 3</p>
-                                    <input
-                                    type="text"
-                                    value={this.state.proses3} 
-                                    onChange={this.changeProses3}
-                                    className="w-full text-xl font-semibold px-3 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                    placeholder="Proses 3"
-                                    />
+                                    <div className="relative">
+                                        <input
+                                        type="text"
+                                        value={this.state.proses3} 
+                                        onChange={this.changeProses3}
+                                        className="w-full text-xl font-semibold pl-3 pr-12 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="0"
+                                        />
+                                        <p className="mx-3 text-lg text-gray-500 flex items-center absolute inset-y-0 right-0">detik</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
