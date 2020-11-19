@@ -8,9 +8,18 @@ class AmbilSample extends Component {
         
         this.state = {
             redirect: null,
+
             nurse_id: this.props.nurseId,
-            patient_id: this.props.patientId,
             ruang_id: this.props.ruangId,
+            patient_id: this.props.patientId,
+
+            suhuTubuh: this.props.suhuTubuh,
+            asamUrat: this.props.asamUrat,
+            kolestrol: this.props.kolestrol,
+            saturasiOksigen: this.props.saturasiOksigen,
+            gulaDarah: this.props.gulaDarah,
+            denyutJantung: this.props.denyutJantung,
+
             diseases: [
                 {id: 1, value: "Demam", isChecked: false},
                 {id: 2, value: "Flu atau bersin", isChecked: false},

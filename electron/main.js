@@ -98,7 +98,8 @@ ipcMain.on('mounted', () => {
 })
 
 ipcMain.on('connect', () => {
-    console.log('connecting....') 
+    console.log('connecting....')
+    // sinkronisasi awal  
 });
 
 ipcMain.on('disconnect', () => {
@@ -107,40 +108,13 @@ ipcMain.on('disconnect', () => {
 });
 
 ipcMain.on('storePatient', (event, input, detailPatient) => {
-    
-    // let pengambilan = {
-    //     rs_id       :   1,
-    //     nurse_id    :   detailPatient.nurse_id,
-    //     room_id     :   detailPatient.ruang_id,
-    //     patient_id  :   detailPatient.patient_id,
-    //     fever       :   input[0][0],
-    //     flu         :   input[1][0],
-    //     sore_throat :   input[2][0],
-    //     cough       :   input[3][0],
-    //     diff_breath :   input[4][0],
-    //     nausea      :   input[5][0],
-    //     headache    :   input[6][0],
-    //     watery_eyes :   input[7][0],
-    //     diarrhea    :   input[8][0],
-
-    //     hypertension            :   input[9][0],
-    //     diabetes_mellitus       :   input[10][0],
-    //     immune_disorder         :   input[11][0],
-    //     heart_disease           :   input[12][0],
-    //     kidney_disease          :   input[13][0],
-    //     liver_disease           :   input[14][0],
-    //     astma                   :   input[15][0],
-    //     cancer                  :   input[16][0],
-    //     tuberkulosis            :   input[17][0],
-    //     respiratory_disease     :   input[18][0],
-    //     cardiovascular_disease  :   input[19][0],
-    // }
 
     let pengambilan = {
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
         room_id     :   detailPatient.ruang_id,
         patient_id  :   detailPatient.patient_id,
+
         s1  :   input[0][0],
         s2  :   input[1][0],
         s3  :   input[2][0],
@@ -219,7 +193,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            console.log(`te tes tes ${results}`)
+            // console.log(`${results}`)
             let data = results[0].split(";")
             let enose = {
                 pengambilan_id: pengambilan_id,
@@ -247,18 +221,20 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 });
 
 ipcMain.on('stop', () => {
-    clearInterval(startResponse)
+    console.log("HAPUSSS")
+    startResponse = clearInterval(startResponse)
 })
 
 ipcMain.on('togglePompa', () => {
-    let options = {
-        scriptPath: path.join(__dirname,"../python/")
-    }
+    console.log('TOGGLE')
+    // let options = {
+    //     scriptPath: path.join(__dirname,"../python/")
+    // }
 
-    PythonShell.PythonShell.run('pompa.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    // PythonShell.PythonShell.run('pompa.py', options, function (err, results) {
+    //     if (err) throw err
+    //     console.log(results)
+    // })
 })
 
 ipcMain.on('getPengaturan', () => {

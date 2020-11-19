@@ -55,8 +55,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.suhuTubuh} 
-                                    onChange={this.setSuhuTubuh}
+                                    onChange={this.props.setSuhuTubuh}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="36,5"
                                     />
@@ -68,8 +67,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.asamUrat} 
-                                    onChange={this.setAsamUrat}
+                                    onChange={this.props.setAsamUrat}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="7,5"
                                     />
@@ -81,8 +79,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.suhuTubuh} 
-                                    onChange={this.setSuhuTubuh}
+                                    onChange={this.props.setSuhuTubuh}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="200"
                                     />
@@ -94,8 +91,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.suhuTubuh} 
-                                    onChange={this.setSuhuTubuh}
+                                    onChange={this.props.setSuhuTubuh}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="95"
                                     />
@@ -107,8 +103,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.asamUrat} 
-                                    onChange={this.setAsamUrat}
+                                    onChange={this.props.setAsamUrat}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="100"
                                     />
@@ -120,8 +115,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    value={this.props.asamUrat} 
-                                    onChange={this.setAsamUrat}
+                                    onChange={this.props.setAsamUrat}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="60"
                                     />

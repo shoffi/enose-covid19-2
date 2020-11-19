@@ -27,13 +27,16 @@ class MainChart extends Component {
 
     componentDidMount() {
         
+        ipcRenderer.removeAllListeners('startResponse')
+
         let arrayAll = []
         let diseases = Object.values(this.props.location.state.diseases)
         let resultDisease = Object.keys(diseases).map( (key) => [diseases[key].isChecked ] )
         let comorbidities = Object.values(this.props.location.state.comorbidities)
         let resultComorbidities = Object.keys(comorbidities).map( (key) => [comorbidities[key].isChecked ] )
         arrayAll = resultDisease.concat(resultComorbidities)
-        // console.log(this.props)
+        
+        console.log(this.props.location)
 
         let detailPatient = {
             'nurse_id': this.props.location.state.nurse_id,
@@ -46,7 +49,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient)
         
         let pengambilan_id
-        
+        ipcRenderer.removeAllListeners('storePatientResponse')
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
@@ -210,7 +213,6 @@ class MainChart extends Component {
     }
 
     stopChart () {
-        console.log('stoppppp')
         ipcRenderer.send('stop')
         this.setState({redirect: '/ambil-sample'})
     }
@@ -228,7 +230,7 @@ class MainChart extends Component {
                     title={'Proses Sampling'}
                     back={isCompleted}
                     next={false}
-                    setBack={() => this.setState({redirect: '/ambil-sample'})}
+                    setBack={() => this.stopChart()}
                 ></TitleBar>
 
                 <div className="relative mt-10 mb-1 h-72">

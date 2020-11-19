@@ -23,6 +23,7 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
+
             suhuTubuh: "",
             asamUrat: "",
             kolestrol: "",
@@ -206,7 +207,6 @@ class App extends Component {
 
               <Route path='/patient-detail' exact>
                   <PatientDetail
-                    setPatientId={this.setPatientId}
                     patientId={this.state.patientId}
                     suhuTubuh={this.state.suhuTubuh}
                     asamUrat={this.state.asamUrat}
@@ -214,6 +214,8 @@ class App extends Component {
                     saturasiOksigen={this.state.saturasiOksigen}
                     gulaDarah={this.state.gulaDarah}
                     denyutJantung={this.state.denyutJantung}
+
+                    setPatientId={this.setPatientId}
                   />
               </Route>
               
@@ -222,6 +224,12 @@ class App extends Component {
                     nurseId={this.state.nurseId}
                     ruangId={this.state.ruangId}
                     patientId={this.state.patientId}
+                    suhuTubuh= {this.state.suhuTubuh}
+                    asamUrat= {this.state.asamUrat}
+                    kolestrol= {this.state.kolestrol}
+                    saturasiOksigen= {this.state.saturasiOksigen}
+                    gulaDarah= {this.state.gulaDarah}
+                    denyutJantung= {this.state.denyutJantung}
                   />
               </Route>
 
