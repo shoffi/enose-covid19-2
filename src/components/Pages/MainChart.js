@@ -130,7 +130,7 @@ class MainChart extends Component {
                         label: 'MQ9',
                         data: [''],
                         borderColor: [
-                            'violet',
+                            '#ff6384',
                         ],
                         borderWidth: 1,
                         fill: false
@@ -139,7 +139,7 @@ class MainChart extends Component {
                         label: 'MQ135',
                         data: [''],
                         borderColor: [
-                            'violet',
+                            '#36a2eb',
                         ],
                         borderWidth: 1,
                         fill: false
@@ -148,7 +148,7 @@ class MainChart extends Component {
                         label: 'Temperature',
                         data: [''],
                         borderColor: [
-                            'violet',
+                            '#cc65fe',
                         ],
                         borderWidth: 1,
                         fill: false
@@ -157,7 +157,7 @@ class MainChart extends Component {
                         label: 'Humidity',
                         data: [''],
                         borderColor: [
-                            'violet',
+                            '#ffce56',
                         ],
                         borderWidth: 1,
                         fill: false
@@ -179,7 +179,7 @@ class MainChart extends Component {
         ipcRenderer.on('startResponse', (event, startResponse) => {
             let responseArray = ['']
             responseArray = startResponse.split(";")
-            // console.log('responseArray = '+responseArray)
+            console.log('responseArray = '+responseArray)
 
             let time = new Date()
             time = time.toLocaleTimeString().toString() 
@@ -192,6 +192,10 @@ class MainChart extends Component {
             this.addData(this.myChart, 4, null, responseArray[4])
             this.addData(this.myChart, 5, null, responseArray[5])
             this.addData(this.myChart, 6, null, responseArray[6])
+            this.addData(this.myChart, 8, null, responseArray[8])
+            this.addData(this.myChart, 9, null, responseArray[9])
+            this.addData(this.myChart, 10, null, responseArray[10])
+            // this.addData(this.myChart, 11, null, responseArray[11])
         })
     
     }
