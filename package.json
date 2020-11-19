@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "rebuild": "electron-rebuild -f -w serialport",
     "build-electron": "cp -r electron/. build/electron && cp -r python/. build/python",
-    "package": "electron-builder build --linux deb -c.extraMetadata.main=build/electron/main.js --publish never",
+    "package": "electron-builder build --armv7l --linux deb -c.extraMetadata.main=build/electron/main.js --publish never",
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/main.css"
   },
   "eslintConfig": {
@@ -59,12 +59,9 @@
   "build": {
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "python/*"
     ],
-    "publish": {
-      "provider": "github",
-      "repo": "enose-covid19",
-      "owner": "azzamjiul"
-    }
+    "asar": false
   }
 }

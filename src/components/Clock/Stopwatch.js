@@ -21,11 +21,11 @@ class Stopwatch extends Component {
                 if(this.state.runningTime < totalTime){
                     
                     if(this.state.runningTime === this.props.proses1) {
-                        ipcRenderer.send('togglePompa')
+                        ipcRenderer.send('pompaOff')
                     }
 
                     if(this.state.runningTime === this.props.proses1 + this.props.proses2) {
-                        ipcRenderer.send('togglePompa')
+                        ipcRenderer.send('pompaOn')
                     }
 
                     this.setState({ runningTime: parseInt((Date.now() - startTime)/1000) });
