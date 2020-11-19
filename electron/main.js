@@ -6,7 +6,7 @@ const url = require('url');
 const mysql = require('mysql');
 const fs = require('fs');
 const Store = require('./Store.js');
-const rpio = require('rpio');
+var rpio = require('rpio');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -303,8 +303,15 @@ ipcMain.on('stop', () => {
 })
 
 ipcMain.on('pompaOn', () => {
-    rpio.open(11, rpio.OUTPUT, rpio.LOW);
-    rpio.write(11, rpio.HIGH);
+    console.log('TOGGLE')
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+
+    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
 })
 
 ipcMain.on('pompaOff', () => {
