@@ -6,6 +6,7 @@ const url = require('url');
 const mysql = require('mysql');
 const fs = require('fs');
 const Store = require('./Store.js');
+const rpio = require('rpio');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -302,27 +303,13 @@ ipcMain.on('stop', () => {
 })
 
 ipcMain.on('pompaOn', () => {
-    console.log('TOGGLE')
-    let options = {
-        scriptPath: path.join(__dirname,"../python/")
-    }
-
-    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    rpio.write(11, rpio.HIGH);
 })
 
 ipcMain.on('pompaOff', () => {
-    console.log('TOGGLE')
-    let options = {
-        scriptPath: path.join(__dirname,"../python/")
-    }
-
-    PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    rpio.write(11, rpio.LOW);
 })
 
 ipcMain.on('getPengaturan', () => {
