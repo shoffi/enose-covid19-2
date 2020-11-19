@@ -10,6 +10,7 @@ import PatientDetail from "./components/Pages/PatientDetail";
 import MainChart from "./components/Pages/MainChart";
 import Welcome from "./components/Pages/Welcome";
 import Pengaturan from "./components/Pages/Pengaturan";
+import Modal from './components/Modal';
 
 const { ipcRenderer } = window; 
 
@@ -30,6 +31,8 @@ class App extends Component {
             saturasiOksigen: "",
             gulaDarah: "",
             denyutJantung: "",
+
+            toggleModal: false,
 
             isConnected: false,
             proses1 : null,
@@ -67,6 +70,8 @@ class App extends Component {
         this.disconnect = this.disconnect.bind(this);
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
         this.updateTimer = this.updateTimer.bind(this);
+
+        this.setToggleModal = this.setToggleModal.bind(this);
     }
 
     componentDidMount () {
@@ -98,8 +103,9 @@ class App extends Component {
     disconnect () {
       // ipcRenderer.send('disconnect');
       this.setState({
-        isConnected: false
+        isConnected: false,
       });
+      this.setToggleModal();
     }
 
     setNurseId(event) {
@@ -156,6 +162,12 @@ class App extends Component {
       })
     }
 
+    setToggleModal() {
+      this.setState({
+        toggleModal : !this.state.toggleModal
+      })
+    }
+
     forceUpdateHandler(){
       alert("hahaha")
       ipcRenderer.send('getPengaturan')
@@ -177,12 +189,12 @@ class App extends Component {
     render() {
 
       return (
-        <div className="min-h-screen flex flex-col">
-          <div className="fixed w-full bg-white z-10 border-b px-4 py-2">
+        <div className="relative">
+          <div className="fixed w-full bg-white z-20 border-b px-4 py-2">
             <TopNav></TopNav>
           </div>
           <Router>
-            <div className="flex-grow container z-0 py-20">
+            <div className="container mx-auto min-h-screen flex z-0 py-20">
             
               <Route path='/' exact>
                   <Welcome
@@ -270,6 +282,16 @@ class App extends Component {
                   />
               </Route>
           </div>
+          
+          <div className="absolute top-0 w-full z-10">
+              {this.state.toggleModal && (
+                <Modal
+                  setToggleModal = {this.setToggleModal}
+                  disconnect = {this.disconnect}
+                ></Modal>
+              )}
+          </div>
+
           <div className="fixed w-full bottom-0">
             <Nav
                   isConnected={this.state.isConnected}
@@ -279,6 +301,7 @@ class App extends Component {
                   rumahSakit={this.state.rumahSakit}
                   connect={this.connect}
                   disconnect={this.disconnect}
+                  setToggleModal = {this.setToggleModal}
               />
           </div>
 

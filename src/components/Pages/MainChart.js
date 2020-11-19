@@ -229,7 +229,7 @@ class MainChart extends Component {
         let isCompleted = this.state.completed === 100 ? true : false;
         
         return (
-            <div>
+            <div className="w-full">
                 <TitleBar
                     title={'Proses Sampling'}
                     back={isCompleted}

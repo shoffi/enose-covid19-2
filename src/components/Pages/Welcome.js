@@ -23,10 +23,10 @@ class Welcome extends Component {
         }
 
         return (
-            <div className="flex mt-20">
+            <div className="flex items-center mx-auto ">
                 <div className="flex mx-auto">
                     <div className="w-64">
-                        <img src={logo} className="" alt="Logo I-Nose" />
+                        <img src={logo} className="" alt="Logo" />
                     </div>
                     <div>
                         <div className="text-4xl leading-tight mb-8">

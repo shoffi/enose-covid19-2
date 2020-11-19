@@ -57,8 +57,8 @@ class Home extends Component {
         }
 
         return (
-            <div className="relative flex">
-                <div className="flex w-4/5 mx-auto pt-12 space-x-6 items-end">
+            <div className="relative w-full flex items-center">
+                <div className="flex w-4/5 mx-auto space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
                         <div>
                             <p className="text-brand-green mb-1">ID Perawat</p>
@@ -96,24 +96,24 @@ class Home extends Component {
                 {/* Open Modal */}
                 
                 {this.state.isModalOpen && (
-                    <div className="absolute bg-white w-full pt-8">
-                    <div className="mx-auto w-2/3 bg-white border-4 border-brand-green rounded-lg overflow-hidden">
-                        <div className="flex items-center p-3">
-                            <p className="text-2xl font-semibold text-brand-green">Pilih Ruangan</p>
+                    <div className="absolute min-h-screen flex items-center bg-white w-full">
+                        <div className="mx-auto w-2/3 bg-white border-4 border-brand-green rounded-lg overflow-hidden">
+                            <div className="flex items-center p-3">
+                                <p className="text-2xl font-semibold text-brand-green">Pilih Ruangan</p>
+                            </div>
+                            <ul className="bg-gray-100 divide-y-2 divide-gray-200 text-2xl text-gray-700">
+                                {this.state.ruangan.map(kamar => (
+                                    <li
+                                        key={kamar.id}
+                                        onClick={() => this.selectRuangan(kamar)}
+                                        className={`p-3 ${this.state.selectedRuangan === kamar ? "bg-brand-orange text-white" : "hover:bg-gray-200 hover:text-gray-900"} cursor-pointer`}>
+                                        Ruangan {kamar.name}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <ul className="bg-gray-100 divide-y-2 divide-gray-200 text-2xl text-gray-700">
-                            {this.state.ruangan.map(kamar => (
-                                <li
-                                    key={kamar.id}
-                                    onClick={() => this.selectRuangan(kamar)}
-                                    className={`p-3 ${this.state.selectedRuangan === kamar ? "bg-brand-orange text-white" : "hover:bg-gray-200 hover:text-gray-900"} cursor-pointer`}>
-                                    Ruangan {kamar.name}
-                                </li>
-                            ))}
-                        </ul>
                     </div>
-                </div>
-                )}
+                    )}
 
                 {/* Close modal */}
             </div>
