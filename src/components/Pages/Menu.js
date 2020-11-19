@@ -45,7 +45,7 @@ class Home extends Component {
                             <img
                             src={history}
                             className="object-contain w-full h-32 lg:h-48"
-                            alt="Ambil Data" />
+                            alt="History" />
                         </div>
                         <button className="bg-gray-500 w-full p-3 text-xl font-semibold text-white cursor-not-allowed opacity-50 rounded-lg">Riwayat</button>
                     </div>
@@ -54,7 +54,7 @@ class Home extends Component {
                             <img
                             src={covid}
                             className="object-contain w-full h-32 lg:h-48"
-                            alt="Ambil Data" />
+                            alt="Covid" />
                         </div>
                         <button className="bg-gray-500 w-full p-3 text-xl font-semibold text-white cursor-not-allowed opacity-50 rounded-lg">Data Baru</button>
                     </div>

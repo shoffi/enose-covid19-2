@@ -55,6 +55,7 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
+                                    value={this.props.suhuTubuh} 
                                     onChange={this.props.setSuhuTubuh}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="36,5"
@@ -67,9 +68,10 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
+                                    value={this.props.asamUrat} 
                                     onChange={this.props.setAsamUrat}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                    placeholder="7,5"
+                                    placeholder="7.5"
                                     />
                                     <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">mg/dL</p>
                                 </div>
@@ -79,7 +81,8 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    onChange={this.props.setSuhuTubuh}
+                                    value={this.props.kolestrol} 
+                                    onChange={this.props.setKolestrol}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="200"
                                     />
@@ -91,7 +94,8 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    onChange={this.props.setSuhuTubuh}
+                                    value={this.props.saturasiOksigen} 
+                                    onChange={this.props.setSaturasiOksigen}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="95"
                                     />
@@ -103,7 +107,8 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    onChange={this.props.setAsamUrat}
+                                    value={this.props.gulaDarah} 
+                                    onChange={this.props.setGulaDarah}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="100"
                                     />
@@ -115,7 +120,8 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                     type="text"
-                                    onChange={this.props.setAsamUrat}
+                                    value={this.props.denyutJantung} 
+                                    onChange={this.props.setDenyutJantung}
                                     className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                     placeholder="60"
                                     />
@@ -123,87 +129,7 @@ class PatientDetail extends Component {
                                 </div>
                             </div>
                         </div>
-
-                        {/* <div className="w-3/4 text-2xl space-y-3">
-                            <div>
-                                <p className=" mb-1">ID Pasien 1</p>
-                                <input
-                                type="text"
-                                value={this.props.patientId} 
-                                onChange={this.props.setPatientId}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="ID Pasien"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Suhu Tubuh</p>
-                                <input
-                                type="text"
-                                value={this.state.suhuTubuh} 
-                                onChange={this.setSuhuTubuh}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Suhu Tubuh"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Asam Urat</p>
-                                <input
-                                type="text"
-                                value={this.state.asamUrat} 
-                                onChange={this.setAsamUrat}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Asam Urat"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Kolestrol</p>
-                                <input
-                                type="text"
-                                value={this.state.kolestrol} 
-                                onChange={this.setKolestrol}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Kolestrol"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Saturasi Oksigen</p>
-                                <input
-                                type="text"
-                                value={this.state.saturasiOksigen} 
-                                onChange={this.setSaturasiOksigen}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Saturasi Oksigen"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Gula Darah</p>
-                                <input
-                                type="text"
-                                value={this.state.gulaDarah} 
-                                onChange={this.setGulaDarah}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Gula Darah"
-                                />
-                            </div>
-
-                            <div>
-                                <p className=" mb-1">Denyut Jantung</p>
-                                <input
-                                type="text"
-                                value={this.state.denyutJantung} 
-                                onChange={this.setDenyutJantung}
-                                className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-gray-900 rounded-lg"
-                                placeholder="Denyut Jantung"
-                                />
-                            </div>
-                        </div> */}
                     </div>
-
                 </div>
             </div>
         )
