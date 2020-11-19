@@ -182,7 +182,7 @@ class App extends Component {
             <TopNav></TopNav>
           </div>
           <Router>
-            <div className="flex-grow container z-0 py-24">
+            <div className="flex-grow container z-0 py-20">
             
               <Route path='/' exact>
                   <Welcome
@@ -214,8 +214,13 @@ class App extends Component {
                     saturasiOksigen={this.state.saturasiOksigen}
                     gulaDarah={this.state.gulaDarah}
                     denyutJantung={this.state.denyutJantung}
-
                     setPatientId={this.setPatientId}
+                    setSuhuTubuh = {this.setSuhuTubuh}
+                    setAsamUrat = {this.setAsamUrat}
+                    setKolestrol = {this.setKolestrol}
+                    setSaturasiOksigen = {this.setSaturasiOksigen}
+                    setGulaDarah = {this.setGulaDarah}
+                    setDenyutJantung = {this.setDenyutJantung}
                   />
               </Route>
               
