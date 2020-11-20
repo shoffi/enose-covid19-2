@@ -24,7 +24,7 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
-            covidStatus: "",
+            covidStatus: 0,
 
             suhuTubuh: "",
             asamUrat: "",
