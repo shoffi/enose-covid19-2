@@ -49,7 +49,7 @@ class MainChart extends Component {
             'temperature': this.props.location.state.suhuTubuh,
             'uric_acid': this.props.location.state.asamUrat,
             'cholestrol': this.props.location.state.kolestrol,
-            'oxygen_sturation': this.props.location.state.saturasiOksigen,
+            'oxygen_saturation': this.props.location.state.saturasiOksigen,
             'glucose': this.props.location.state.gulaDarah,
             'heart_rate': this.props.location.state.denyutJantung,
         }
