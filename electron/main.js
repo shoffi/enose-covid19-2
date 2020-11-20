@@ -19,7 +19,6 @@ let connection = mysql.createConnection({
     database:   'enose'
 })
 
-
 // First instantiate the class
 const store = new Store({
     // We'll call our data file 'user-preferences'

@@ -145,15 +145,15 @@ class MainChart extends Component {
                         borderWidth: 1,
                         fill: false
                     },
-                    {
-                        label: 'MQ135',
-                        data: [''],
-                        borderColor: [
-                            '#36a2eb',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
+                    // {
+                    //     label: 'MQ135',
+                    //     data: [''],
+                    //     borderColor: [
+                    //         '#36a2eb',
+                    //     ],
+                    //     borderWidth: 1,
+                    //     fill: false
+                    // },
                     {
                         label: 'Temperature',
                         data: [''],
@@ -202,7 +202,7 @@ class MainChart extends Component {
             this.addData(this.myChart, 4, null, responseArray[4])
             this.addData(this.myChart, 5, null, responseArray[5])
             this.addData(this.myChart, 6, null, responseArray[6])
-            this.addData(this.myChart, 8, null, responseArray[8])
+            // this.addData(this.myChart, 8, null, responseArray[8])
             this.addData(this.myChart, 9, null, responseArray[9])
             this.addData(this.myChart, 10, null, responseArray[10])
             // this.addData(this.myChart, 11, null, responseArray[11])
