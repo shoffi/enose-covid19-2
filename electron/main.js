@@ -6,7 +6,6 @@ const url = require('url');
 const mysql = require('mysql');
 const fs = require('fs');
 const Store = require('./Store.js');
-var rpio = require('rpio');
 
 let mainWindow;
 let ArduinoPort = ''
@@ -93,6 +92,22 @@ app.on('activate', function () {
 // Fungsi Electron! hayooo
 // // // // // // // // // // // // // // // //
 
+function timestamp() {
+    arrbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+    date = new Date()
+    millisecond = date.getMilliseconds()
+    detik = date.getSeconds()
+    menit = date.getMinutes()
+    jam = date.getHours()
+    hari = date.getDay()
+    tanggal = date.getDate()
+    bulan = date.getMonth()
+    tahun = date.getFullYear()
+    // date = tanggal+"-"+arrbulan[bulan]+"-"+tahun+" "+jam+":"+menit+":"+detik+"."+millisecond
+    date = `${tahun}-${bulan}-${tanggal} ${jam}:${menit}:${detik}`
+    return date
+}
+
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
     mainWindow.send('mountedResponse', rumahSakit)
@@ -108,13 +123,17 @@ ipcMain.on('disconnect', () => {
     //mainWindow.send('disconnectResponse', message)
 });
 
-ipcMain.on('storePatient', (event, input, detailPatient) => {
+ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
+    
+    // console.log(detailPatient)
+    // console.log(clinical_data)
 
-    let pengambilan = {
+    let sampling = {
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
         room_id     :   detailPatient.ruang_id,
         patient_id  :   detailPatient.patient_id,
+        covid_status:   detailPatient.covid_status,
 
         s1  :   input[0][0],
         s2  :   input[1][0],
@@ -134,16 +153,35 @@ ipcMain.on('storePatient', (event, input, detailPatient) => {
         c6  :   input[14][0],
         c7  :   input[15][0],
         c8  :   input[16][0],
-        c9  :   input[17][0]
+        c9  :   input[17][0],
+
+        createdt: timestamp()
     }
 
-    console.log(pengambilan)
-    mainWindow.send('storePatientResponse', 1)
+    let clicinal_data_row = {
+        sampling_id: 0,
+        temperature: clinical_data.temperature,
+        uric_acid: clinical_data.uric_acid,
+        cholestrol: clinical_data.cholestrol,
+        oxygen_saturation: clinical_data.oxygen_saturation,
+        glucose: clinical_data.glucose,
+        heart_rate: clinical_data.heart_rate,
+        created_at: timestamp(),
+    }
 
-    // connection.query('INSERT INTO pengambilan SET ?', pengambilan, function(err, result, fields) {
+    console.log("sampe sebelum insert sampling")
+    connection.query('INSERT INTO sampling SET ?', sampling, function(err, result, fields) {
+        if (err) throw err;
+        console.log("masuk insert sampling")
+        // clicinal_data_row.sampling_id = result.insertId
+        mainWindow.send('storePatientResponse', result.insertId)
+    });
+
+    // connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err, result, fields) {
     //     if (err) throw err;
-    //     mainWindow.send('storePatientResponse', result.insertId)
+    //     mainWindow.send('storePatientResponse', clicinal_data_row.sampling_id)
     // });
+
 });
 
 let startResponse
@@ -284,7 +322,7 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
             // console.log(enose)
             content = content + `${date};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]};\n`
-            console.log(content)
+            // console.log(content)
 
             // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
             //     if (err) throw err;
@@ -303,7 +341,7 @@ ipcMain.on('stop', () => {
 })
 
 ipcMain.on('pompaOn', () => {
-    console.log('TOGGLE')
+    console.log('pompa ON')
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
@@ -315,8 +353,15 @@ ipcMain.on('pompaOn', () => {
 })
 
 ipcMain.on('pompaOff', () => {
-    rpio.open(11, rpio.OUTPUT, rpio.LOW);
-    rpio.write(11, rpio.LOW);
+    console.log('pompa OFF')
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+
+    PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
 })
 
 ipcMain.on('getPengaturan', () => {
