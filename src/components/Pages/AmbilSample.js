@@ -12,6 +12,7 @@ class AmbilSample extends Component {
             nurse_id: this.props.nurseId,
             ruang_id: this.props.ruangId,
             patient_id: this.props.patientId,
+            covidStatus: this.props.covidStatus,
 
             suhuTubuh: this.props.suhuTubuh,
             asamUrat: this.props.asamUrat,
@@ -31,6 +32,7 @@ class AmbilSample extends Component {
                 {id: 8, value: "Mata Berair", isChecked: false},
                 {id: 9, value: "Diare", isChecked: false},
             ],
+
             comorbidities: [
                 {id: 1+9, value: "Hipertensi", isChecked: false},
                 {id: 2+9, value: "Diabetes Mellitus", isChecked: false},
@@ -46,6 +48,7 @@ class AmbilSample extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handlePatientId = this.handlePatientId.bind(this)
+        this.startSampling = this.startSampling.bind(this)
     }
 
     componentDidMount(){
@@ -85,8 +88,21 @@ class AmbilSample extends Component {
         })
     }
 
+    handleCovidStatus = (event) => {
+        this.setState({
+            covidStatus: event.target.checked
+        })
+    }
+
+    startSampling = () => {
+        this.setState({
+            redirect: '/main-chart'
+        })
+    }
+
     render () {
         if (this.state.redirect) {
+            console.log(this.state) 
             return <Redirect 
                         to={{
                             pathname: this.state.redirect,
@@ -102,7 +118,7 @@ class AmbilSample extends Component {
                     back={true}
                     next={true}
                     setBack={() => this.setState({redirect: '/patient-detail'})}
-                    setNext={() => this.setState({redirect: '/main-chart'})}
+                    setNext={() => this.startSampling()}
                     setNextName={'Start Sampling'}
                 ></TitleBar>
 
@@ -117,6 +133,8 @@ class AmbilSample extends Component {
                             <label class="inline-flex items-center w-full">
                                 <input
                                     type="checkbox"
+                                    checked={this.state.covidStatus}
+                                    onClick={this.handleCovidStatus}
                                     class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
                                 ></input>
                                 <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>

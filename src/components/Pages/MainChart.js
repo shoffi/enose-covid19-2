@@ -42,11 +42,21 @@ class MainChart extends Component {
             'nurse_id': this.props.location.state.nurse_id,
             'patient_id': this.props.location.state.patient_id,
             'ruang_id': this.props.location.state.ruang_id,
+            'covid_status': this.props.location.state.covidStatus,
+        }
+
+        let clinical_data = {
+            'temperature': this.props.location.state.suhuTubuh,
+            'uric_acid': this.props.location.state.asamUrat,
+            'cholestrol': this.props.location.state.kolestrol,
+            'oxygen_sturation': this.props.location.state.saturasiOksigen,
+            'glucose': this.props.location.state.gulaDarah,
+            'heart_rate': this.props.location.state.denyutJantung,
         }
         
         // console.log("detailPatient "+detailPatient)
 
-        ipcRenderer.send('storePatient', arrayAll, detailPatient)
+        ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
         
         let pengambilan_id
         ipcRenderer.removeAllListeners('storePatientResponse')

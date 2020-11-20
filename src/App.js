@@ -24,6 +24,7 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
+            covidStatus: "",
 
             suhuTubuh: "",
             asamUrat: "",
@@ -190,9 +191,11 @@ class App extends Component {
 
       return (
         <div className="relative">
+
           <div className="fixed w-full bg-white z-20 border-b px-4 py-2">
             <TopNav></TopNav>
           </div>
+
           <Router>
             <div className="container mx-auto min-h-screen flex z-0 py-20">
             
@@ -241,6 +244,7 @@ class App extends Component {
                     nurseId={this.state.nurseId}
                     ruangId={this.state.ruangId}
                     patientId={this.state.patientId}
+                    covidStatus={this.state.covidStatus}
                     suhuTubuh= {this.state.suhuTubuh}
                     asamUrat= {this.state.asamUrat}
                     kolestrol= {this.state.kolestrol}
