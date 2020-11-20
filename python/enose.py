@@ -161,26 +161,13 @@ MQ_RO     =  [0, 0, 0, 0, 0, 0, 0, 0]
 MQ_RS       =  [0, 0, 0, 0, 0, 0, 0, 0]
 #//array nilai Rs_Ro dari pembacaan tiap sensor
 MQ_RS_RO    =  [0, 0, 0, 0, 0, 0, 0, 0]
+MQ_RS_RO1    =  [0, 0, 0, 0, 0, 0, 0, 0]
 resistant = [0,0,0,0,0,0,0,0]
 
 counter = 1
 lastSend = 0
 interval = 1
 
-temp_dht = 0
-humi_dht = 0
-def dht22():
-  global temp_dht, humi_dht
-  humidity, temperature = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
-  if humidity is not None and temperature is not None:
-     x = temperature
-     y = humidity
-     temp_dht = float("{:.5f}".format(x))
-     humi_dht = float("{:.5f}".format(y))
-     return temp_dht, humi_dht;
-  else:
-     temp_dht = 0
-     humi_dht = 0 
   
   
     
@@ -322,28 +309,42 @@ def readAndSendSensorData():
   #MQGetPercentage()
   #MQGetGasPercentage()
   global vrl
-  global temp_dht, humi_dht
+  temp_dht = 0 
+  humi_dht = 0
   MQGetSampleRs() #//250ms
+  humidity, temperature = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
+  if humidity is not None and temperature is not None:
+     x = temperature
+     y = humidity
+     temp_dht = float("{:.5f}".format(x))
+     humi_dht = float("{:.5f}".format(y))
+     #return temp_dht, humi_dht;
+  else:
+     temp_dht = 0
+     humi_dht = 0 
   sendData = ""
+  
+  for j in range (0, NUM_SENSOR):
+    MQ_RS_RO1[j] = MQ_RS[j] / MQ_RO[j];
+  
   for j in range (0, NUM_SENSOR):
     MQ_RS_RO[j] = MQ_RS[j] / MQ_RO[j];
-    
     if (MQ_NAME[j] == "MQ-2"):
-      sendData += str(resistant[0]) #1
+      sendData += str(MQ_RS_RO1[0]) #1
       sendData += ";"
-      sendData += str(resistant[1]) #2
+      sendData += str(MQ_RS_RO1[1]) #2
       sendData += ";"
-      sendData += str(resistant[2]) #3
+      sendData += str(MQ_RS_RO1[2]) #3
       sendData += ";"
-      sendData += str(resistant[3]) #4
+      sendData += str(MQ_RS_RO1[3]) #4
       sendData += ";"
-      sendData += str(resistant[4]) #5
+      sendData += str(MQ_RS_RO1[4]) #5
       sendData += ";"
-      sendData += str(resistant[5]) #6
+      sendData += str(MQ_RS_RO1[5]) #6
       sendData += ";"
-      sendData += str(resistant[6]) #7
+      sendData += str(MQ_RS_RO1[6]) #7
       sendData += ";"
-      sendData += str(resistant[7]) #8
+      sendData += str(MQ_RS_RO1[7]) #8
       sendData += ";"
       sendData += str("0") #9
       sendData += ";"
@@ -459,10 +460,7 @@ def readAndSendSensorData():
 
 def main():
   MQCalibration()
-
-  while True:
-    dht22()
-    readAndSendSensorData()
+  readAndSendSensorData()
     
 if __name__ == "__main__":
   main()

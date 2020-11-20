@@ -1,3 +1,4 @@
+const rpio = require('rpio');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const modal = require('electron-modal');
 const path = require('path');
@@ -9,13 +10,13 @@ const Store = require('./Store.js');
 const { resolve } = require('path');
 
 let mainWindow;
-let ArduinoPort = ''
+
 
 // MySQl Connection
 let connection = mysql.createConnection({
     host    :   'localhost',
-    user    :   'root',
-    password:   'adminadmin',
+    user    :   'pi',
+    password:   'raspberry',
     database:   'enose'
 })
 
@@ -53,7 +54,7 @@ function createWindow () {
         },
     });
 
-    // mainWindow.webContents.openDevTools()
+     //mainWindow.webContents.openDevTools()
 
     // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
     // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
@@ -246,9 +247,9 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         }
 
-        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
             if (err) throw err
-            // console.log(`${results}`)
+            console.log(`hahah ${results}`)
             let data = results[0].split(";")
 
             let sensor_data = {
@@ -351,11 +352,13 @@ ipcMain.on('pompaOn', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
+    rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    rpio.write(11, rpio.HIGH);
 
-    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    //PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
+      //  if (err) throw err
+      //  console.log(results)
+   // })
 })
 
 ipcMain.on('pompaOff', () => {
@@ -363,11 +366,12 @@ ipcMain.on('pompaOff', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-
-    PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+     rpio.open(11, rpio.OUTPUT, rpio.LOW);
+     rpio.write(11, rpio.LOW);
+    //PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
+      //  if (err) throw err
+      //  console.log(results)
+   // })
 })
 
 ipcMain.on('getPengaturan', () => {

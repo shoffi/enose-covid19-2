@@ -1,7 +1,9 @@
 from gpiozero import LED
-
-# pompa = LED(17)
-# pompa.on()
+from signal import pause
+pompa = LED(17)
+pompa.on()
 print("pompa on")
+pause()
+
 
 # catatan .off() buat matikan, .toggle() buat toggle, .blink() buat kedip
