@@ -49,7 +49,7 @@ class MainChart extends Component {
             'temperature': this.props.location.state.suhuTubuh,
             'uric_acid': this.props.location.state.asamUrat,
             'cholestrol': this.props.location.state.kolestrol,
-            'oxygen_sturation': this.props.location.state.saturasiOksigen,
+            'oxygen_saturation': this.props.location.state.saturasiOksigen,
             'glucose': this.props.location.state.gulaDarah,
             'heart_rate': this.props.location.state.denyutJantung,
         }
@@ -146,15 +146,6 @@ class MainChart extends Component {
                         fill: false
                     },
                     {
-                        label: 'MQ135',
-                        data: [''],
-                        borderColor: [
-                            '#36a2eb',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
                         label: 'Temperature',
                         data: [''],
                         borderColor: [
@@ -195,17 +186,16 @@ class MainChart extends Component {
             time = time.toLocaleTimeString().toString() 
             
             // MQ2
-            this.addData(this.myChart, 0, time, responseArray[0])
-            this.addData(this.myChart, 1, null, responseArray[1])
-            this.addData(this.myChart, 2, null, responseArray[2])
-            this.addData(this.myChart, 3, null, responseArray[3])
-            this.addData(this.myChart, 4, null, responseArray[4])
-            this.addData(this.myChart, 5, null, responseArray[5])
-            this.addData(this.myChart, 6, null, responseArray[6])
-            this.addData(this.myChart, 8, null, responseArray[8])
-            this.addData(this.myChart, 9, null, responseArray[9])
-            this.addData(this.myChart, 10, null, responseArray[10])
-            // this.addData(this.myChart, 11, null, responseArray[11])
+            //this.addData(this.myChart, 0, time, responseArray[0])
+            //this.addData(this.myChart, 1, null, responseArray[1])
+            //this.addData(this.myChart, 2, null, responseArray[2])
+            //this.addData(this.myChart, 3, null, responseArray[3])
+            //this.addData(this.myChart, 4, null, responseArray[4])
+            //this.addData(this.myChart, 5, null, responseArray[5])
+            //this.addData(this.myChart, 6, null, responseArray[6])
+            //this.addData(this.myChart, 7, null, responseArray[7])
+            //this.addData(this.myChart, 8, null, responseArray[8])
+            //this.addData(this.myChart, 9, null, responseArray[9])
         })
     
     }

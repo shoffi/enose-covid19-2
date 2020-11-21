@@ -1,3 +1,4 @@
+const rpio = require('rpio');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const modal = require('electron-modal');
 const path = require('path');
@@ -6,18 +7,18 @@ const url = require('url');
 const mysql = require('mysql');
 const fs = require('fs');
 const Store = require('./Store.js');
+const { resolve } = require('path');
 
 let mainWindow;
-let ArduinoPort = ''
+
 
 // MySQl Connection
 let connection = mysql.createConnection({
     host    :   'localhost',
-    user    :   'root',
-    password:   'adminadmin',
+    user    :   'pi',
+    password:   'raspberry',
     database:   'enose'
 })
-
 
 // First instantiate the class
 const store = new Store({
@@ -53,7 +54,7 @@ function createWindow () {
         },
     });
 
-    // mainWindow.webContents.openDevTools()
+     //mainWindow.webContents.openDevTools()
 
     // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
     // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
@@ -126,12 +127,12 @@ ipcMain.on('disconnect', () => {
 ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
     
     // console.log(detailPatient)
-    // console.log(clinical_data)
+    console.log(clinical_data)
 
     let sampling = {
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
-        room_id     :   detailPatient.ruang_id,
+        room_id     :   detailPatient.ruang_id.id,
         patient_id  :   detailPatient.patient_id,
         covid_status:   detailPatient.covid_status,
 
@@ -155,11 +156,11 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         c8  :   input[16][0],
         c9  :   input[17][0],
 
-        createdt: timestamp()
+        created_at: timestamp(),
     }
 
     let clicinal_data_row = {
-        sampling_id: 0,
+        sampling_id: "",
         temperature: clinical_data.temperature,
         uric_acid: clinical_data.uric_acid,
         cholestrol: clinical_data.cholestrol,
@@ -169,18 +170,34 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    console.log("sampe sebelum insert sampling")
-    connection.query('INSERT INTO sampling SET ?', sampling, function(err, result, fields) {
-        if (err) throw err;
-        console.log("masuk insert sampling")
-        // clicinal_data_row.sampling_id = result.insertId
-        mainWindow.send('storePatientResponse', result.insertId)
-    });
+    // mainWindow.send('storePatientResponse', 1)
+    console.log(clicinal_data_row)
 
-    // connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err, result, fields) {
-    //     if (err) throw err;
-    //     mainWindow.send('storePatientResponse', clicinal_data_row.sampling_id)
-    // });
+    let insertSamplingPromise = new Promise(function(myResolve, myReject) {
+        // "Producing Code" (May take some time)
+        connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
+            if (err) {
+                myReject();  // when error
+                throw err;
+            }
+            clicinal_data_row.sampling_id = result.insertId
+            myResolve(result.insertId); // when successful
+        });
+    });
+    
+    // "Consuming Code" (Must wait for a fulfilled Promise)
+    insertSamplingPromise.then(
+        function(value) { 
+            connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
+                if (err) throw err;
+                mainWindow.send('storePatientResponse', value)
+            });
+        },
+        function(error) { 
+            /* code if some error */ 
+            console.log(error)
+        }
+    );
 
 });
 
@@ -230,13 +247,14 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         }
 
-        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
             if (err) throw err
-            // console.log(`${results}`)
+            console.log(`hahah ${results}`)
             let data = results[0].split(";")
 
-            let enose = {
+            let sensor_data = {
                 sampling_id: pengambilan_id,
+
                 MQ2_ADC             :   data[0],
                 MQ3_ADC             :   data[1],
                 MQ4_ADC             :   data[2],
@@ -249,84 +267,73 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
                 TEMPERATURE         :   data[9],
                 HUMIDITY            :   data[10],
 
-                MQ2_PPM_LPG         :   data[12],
-                MQ2_PPM_CO          :   data[13],
-                MQ2_PPM_SMOKE       :   data[14],
-                MQ2_PPM_ALCOHOL     :   data[15],
-                MQ2_PPM_CH4         :   data[16],
-                MQ2_PPM_H2          :   data[17],
-                MQ2_PPM_PROPANE     :   data[18],
+                MQ2_PPM_LPG         :   data[11],
+                MQ2_PPM_CO          :   data[12],
+                MQ2_PPM_SMOKE       :   data[13],
+                MQ2_PPM_ALCOHOL     :   data[14],
+                MQ2_PPM_CH4         :   data[15],
+                MQ2_PPM_H2          :   data[16],
+                MQ2_PPM_PROPANE     :   data[17],
 
-                MQ3_PPM_ALCOHOL     :   data[19],
-                MQ3_PPM_BENZINE     :   data[20],
-                MQ3_PPM_CH4         :   data[21],
-                MQ3_PPM_C11         :   data[22],
-                MQ3_PPM_HEXANE      :   data[23],
-                MQ3_PPM_LPG         :   data[24],
+                MQ3_PPM_ALCOHOL     :   data[18],
+                MQ3_PPM_BENZINE     :   data[19],
+                MQ3_PPM_CH4         :   data[20],
+                MQ3_PPM_CO          :   data[21],
+                MQ3_PPM_HEXANE      :   data[22],
+                MQ3_PPM_LPG         :   data[23],
 
-                MQ4_PPM_ALCOHOL     :   data[25],
-                MQ4_PPM_CH4         :   data[26],
-                MQ4_PPM_CO          :   data[27],
-                MQ4_PPM_H2          :   data[28],
-                MQ4_PPM_LPG         :   data[29],
-                MQ4_PPM_SMOKE       :   data[30],
+                MQ4_PPM_ALCOHOL     :   data[24],
+                MQ4_PPM_CH4         :   data[25],
+                MQ4_PPM_CO          :   data[26],
+                MQ4_PPM_H2          :   data[27],
+                MQ4_PPM_LPG         :   data[28],
+                MQ4_PPM_SMOKE       :   data[29],
 
-                MQ5_PPM_ALCOHOL     :   data[31],
-                MQ5_PPM_CH4         :   data[32],
-                MQ5_PPM_CO          :   data[33],
-                MQ5_PPM_H2          :   data[34],
-                MQ5_PPM_LPG         :   data[35],
+                MQ5_PPM_ALCOHOL     :   data[30],
+                MQ5_PPM_CH4         :   data[31],
+                MQ5_PPM_CO          :   data[32],
+                MQ5_PPM_H2          :   data[33],
+                MQ5_PPM_LPG         :   data[34],
 
-                MQ6_PPM_ALCOHOL     :   data[36],
-                MQ6_PPM_CH4         :   data[37],
-                MQ6_PPM_CO          :   data[38],
-                MQ6_PPM_H2          :   data[39],
-                MQ6_PPM_LPG         :   data[40],
+                MQ6_PPM_ALCOHOL     :   data[35],
+                MQ6_PPM_CH4         :   data[36],
+                MQ6_PPM_CO          :   data[37],
+                MQ6_PPM_H2          :   data[38],
+                MQ6_PPM_LPG         :   data[39],
 
-                MQ7_PPM_ALCOHOL     :   data[41],
-                MQ7_PPM_CH4         :   data[42],
-                MQ7_PPM_CO          :   data[43],
-                MQ7_PPM_H2          :   data[44],
-                MQ7_PPM_LPG         :   data[45],
+                MQ7_PPM_ALCOHOL     :   data[40],
+                MQ7_PPM_CH4         :   data[41],
+                MQ7_PPM_CO          :   data[42],
+                MQ7_PPM_H2          :   data[43],
+                MQ7_PPM_LPG         :   data[44],
 
-                MQ8_PPM_ALCOHOL     :   data[46],
-                MQ8_PPM_CH4         :   data[47],
-                MQ8_PPM_CO          :   data[48],
-                MQ8_PPM_H2          :   data[49],
-                MQ8_PPM_LPG         :   data[50],
+                MQ8_PPM_ALCOHOL     :   data[45],
+                MQ8_PPM_CH4         :   data[46],
+                MQ8_PPM_CO          :   data[47],
+                MQ8_PPM_H2          :   data[48],
+                MQ8_PPM_LPG         :   data[49],
 
-                MQ9_PPM_CH4         :   data[51],
-                MQ9_PPM_CO          :   data[52],
-                MQ9_PPM_LPG         :   data[53],
+                MQ9_PPM_CH4         :   data[50],
+                MQ9_PPM_CO          :   data[51],
+                MQ9_PPM_LPG         :   data[52],
 
-                MQ135_PPM_ACETON    :   data[54],
-                MQ135_PPM_ALCOHOL   :   data[55],
-                MQ135_PPM_CO        :   data[56],
-                MQ135_PPM_CO2       :   data[57],
-                MQ135_PPM_NH4       :   data[58],
-                MQ135_PPM_TOLUOL    :   data[59],
+                MQ135_PPM_ACETON    :   data[53],
+                MQ135_PPM_ALCOHOL   :   data[54],
+                MQ135_PPM_CO        :   data[55],
+                MQ135_PPM_CO2       :   data[56],
+                MQ135_PPM_NH4       :   data[57],
+                MQ135_PPM_TOLUOL    :   data[58],
 
+                created_at: timestamp()
             }
 
-            arrbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-            date = new Date();
-            millisecond = date.getMilliseconds();
-            detik = date.getSeconds();
-            menit = date.getMinutes();
-            jam = date.getHours();
-            hari = date.getDay();
-            tanggal = date.getDate();
-            bulan = date.getMonth();
-            tahun = date.getFullYear();
-            date = tanggal+"-"+arrbulan[bulan]+"-"+tahun+" "+jam+":"+menit+":"+detik+"."+millisecond
-
             // console.log(enose)
-            content = content + `${date};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]};\n`
+            content = content + `${timestamp()};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]};\n`
             // console.log(content)
 
-            // connection.query('INSERT INTO enose SET ?', enose, function(err, result, fields) {
-            //     if (err) throw err;
-            // });
+            connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
+                if (err) throw err;
+            });
 
             counter++
             mainWindow.send('startResponse', results[0])
@@ -345,11 +352,13 @@ ipcMain.on('pompaOn', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
+    rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    rpio.write(11, rpio.HIGH);
 
-    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+    //PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
+      //  if (err) throw err
+      //  console.log(results)
+   // })
 })
 
 ipcMain.on('pompaOff', () => {
@@ -357,11 +366,12 @@ ipcMain.on('pompaOff', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-
-    PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
-        if (err) throw err
-        console.log(results)
-    })
+     rpio.open(11, rpio.OUTPUT, rpio.LOW);
+     rpio.write(11, rpio.LOW);
+    //PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
+      //  if (err) throw err
+      //  console.log(results)
+   // })
 })
 
 ipcMain.on('getPengaturan', () => {
