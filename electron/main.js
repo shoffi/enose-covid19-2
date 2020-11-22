@@ -7,18 +7,8 @@ const url = require('url');
 const mysql = require('mysql');
 const fs = require('fs');
 const Store = require('./Store.js');
-const { resolve } = require('path');
 
 let mainWindow;
-
-
-// MySQl Connection
-let connection = mysql.createConnection({
-    host    :   'localhost',
-    user    :   'pi',
-    password:   'raspberry',
-    database:   'enose'
-})
 
 // First instantiate the class
 const store = new Store({
@@ -29,6 +19,15 @@ const store = new Store({
         windowBounds: { width: 800, height: 600 }
     }
 });
+
+// MySQl Connection
+let { host, user, password, database } = store.get('database');
+let connection = mysql.createConnection({
+    host    :   host,
+    user    :   user,
+    password:   password,
+    database:   database
+})
 
 function createWindow () {
     connection.connect(function (err) {
@@ -104,7 +103,6 @@ function timestamp() {
     tanggal = date.getDate()
     bulan = date.getMonth()
     tahun = date.getFullYear()
-    // date = tanggal+"-"+arrbulan[bulan]+"-"+tahun+" "+jam+":"+menit+":"+detik+"."+millisecond
     date = `${tahun}-${bulan}-${tanggal} ${jam}:${menit}:${detik}`
     return date
 }
@@ -170,34 +168,34 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    // mainWindow.send('storePatientResponse', 1)
-    console.log(clicinal_data_row)
+    mainWindow.send('storePatientResponse', 1)
+    // console.log(clicinal_data_row)
 
-    let insertSamplingPromise = new Promise(function(myResolve, myReject) {
-        // "Producing Code" (May take some time)
-        connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
-            if (err) {
-                myReject();  // when error
-                throw err;
-            }
-            clicinal_data_row.sampling_id = result.insertId
-            myResolve(result.insertId); // when successful
-        });
-    });
+    // let insertSamplingPromise = new Promise(function(myResolve, myReject) {
+    //     // "Producing Code" (May take some time)
+    //     connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
+    //         if (err) {
+    //             myReject();  // when error
+    //             throw err;
+    //         }
+    //         clicinal_data_row.sampling_id = result.insertId
+    //         myResolve(result.insertId); // when successful
+    //     });
+    // });
     
     // "Consuming Code" (Must wait for a fulfilled Promise)
-    insertSamplingPromise.then(
-        function(value) { 
-            connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
-                if (err) throw err;
-                mainWindow.send('storePatientResponse', value)
-            });
-        },
-        function(error) { 
-            /* code if some error */ 
-            console.log(error)
-        }
-    );
+    // insertSamplingPromise.then(
+    //     function(value) { 
+    //         connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
+    //             if (err) throw err;
+    //             mainWindow.send('storePatientResponse', value)
+    //         });
+    //     },
+    //     function(error) { 
+    //         /* code if some error */ 
+    //         console.log(error)
+    //     }
+    // );
 
 });
 
@@ -247,9 +245,9 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
         }
 
-        PythonShell.PythonShell.run('enose.py', options, function (err, results) {
+        PythonShell.PythonShell.run('enose-dummy.py', options, function (err, results) {
             if (err) throw err
-            console.log(`hahah ${results}`)
+            // console.log(`${results}`)
             let data = results[0].split(";")
 
             let sensor_data = {
@@ -331,9 +329,9 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
             content = content + `${timestamp()};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]};\n`
             // console.log(content)
 
-            connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
-                if (err) throw err;
-            });
+            // connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
+            //     if (err) throw err;
+            // });
 
             counter++
             mainWindow.send('startResponse', results[0])
@@ -341,6 +339,15 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
     }, 1000)
 });
+
+// Terima data dari python setiap 5 detik
+PythonShell.PythonShell.run('enose-dummy.py', {
+    scriptPath: path.join(__dirname,"../python/")
+}).stdout.on('data', (data)=>{
+    // ipcMain.emit('python-data',data)
+    mainWindow.send('python-data', data)
+    console.log("GETDATA")
+})
 
 ipcMain.on('stop', () => {
     console.log("HAPUSSS")
@@ -352,8 +359,8 @@ ipcMain.on('pompaOn', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-    rpio.open(11, rpio.OUTPUT, rpio.LOW);
-    rpio.write(11, rpio.HIGH);
+    // rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    // rpio.write(11, rpio.HIGH);
 
     //PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
       //  if (err) throw err
@@ -366,8 +373,9 @@ ipcMain.on('pompaOff', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-     rpio.open(11, rpio.OUTPUT, rpio.LOW);
-     rpio.write(11, rpio.LOW);
+    //  rpio.open(11, rpio.OUTPUT, rpio.LOW);
+    //  rpio.write(11, rpio.LOW);
+
     //PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
       //  if (err) throw err
       //  console.log(results)

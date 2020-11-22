@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
-import Dygraph from 'dygraphs';
+import Chart from "chart.js";
 import Stopwatch from "../Clock/Stopwatch";
 import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
@@ -24,17 +24,8 @@ class MainChart extends Component {
         this.stopChart = this.stopChart.bind(this);
     }
 
-    receivePythonStream(data){
-        console.log("DARIPYTHIN",data)
-    }
-
-    componentWillUnmount(){
-        ipcRenderer.removeListener('python-data', this.receivePythonStream)
-    }
-
     componentDidMount() {
-        ipcRenderer.addListener('python-data', this.receivePythonStream)
-
+        
         ipcRenderer.removeAllListeners('startResponse')
 
         let arrayAll = []
@@ -61,12 +52,13 @@ class MainChart extends Component {
             'glucose': this.props.location.state.gulaDarah,
             'heart_rate': this.props.location.state.denyutJantung,
         }
+        
+        // console.log("detailPatient "+detailPatient)
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
         
         let pengambilan_id
         ipcRenderer.removeAllListeners('storePatientResponse')
-
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
             pengambilan_id = storePatientResponse
@@ -75,56 +67,114 @@ class MainChart extends Component {
             ipcRenderer.send('start', pengambilan_id, totalTime)
         })
 
-        let data = [
-            [1546300800, 1546387200, 1546397200],    // x-values (timestamps)
-            [35,71,20],    // y-values (series 1)
-            [90,15,0],    // y-values (series 2)
-        ];
-
-        let opts = {
-            width: 1000,
-            height: 300,
-            series: [
-                {},
-                {
-                    // initial toggled state (optional)
-                    show: true,
-                    spanGaps: false,
-
-                    // in-legend display
-                    label: "RAM",
-                    value: (self, rawValue) => "$" + rawValue.toFixed(2),
-
-                    // series style
-                    stroke: "red",
-                    width: 1,
-                    dash: [10, 5],
-                },
-                {
-                    // initial toggled state (optional)
-                    show: true,
-                    spanGaps: false,
-
-                    // in-legend display
-                    label: "RAM",
-                    value: (self, rawValue) => "$" + rawValue.toFixed(2),
-
-                    // series style
-                    stroke: "blue",
-                    width: 1,
-                    dash: [10, 5],
+        this.myChart = new Chart (this.chartRef.current, {
+            type: 'line',
+            data: {
+                labels: [''],
+                datasets: [
+                    {
+                        label: 'MQ2',
+                        data: [''],
+                        borderColor: [
+                            'red',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ3',
+                        data: [''],
+                        borderColor: [
+                            'orange',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ4',
+                        data: [''],
+                        borderColor: [
+                            'pink',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ5',
+                        data: [''],
+                        borderColor: [
+                            'green',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ6',
+                        data: [''],
+                        borderColor: [
+                            'blue',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ7',
+                        data: [''],
+                        borderColor: [
+                            'indigo',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ8',
+                        data: [''],
+                        borderColor: [
+                            'violet',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'MQ9',
+                        data: [''],
+                        borderColor: [
+                            '#ff6384',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Temperature',
+                        data: [''],
+                        borderColor: [
+                            '#cc65fe',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Humidity',
+                        data: [''],
+                        borderColor: [
+                            '#ffce56',
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
-            ],
-        };
-
-        // let uplot = new uPlot(opts, data, document.body);
-        let uplot = new window.uPlot(opts, 
-            [
-                [1546300800, 1546387200, 1546397200],    // x-values (timestamps)
-                [35,71,20],    // y-values (series 1)
-                [90,15,0],    // y-values (series 2)
-            ]
-            , this.chartRef.current)
+            }
+        });
 
         ipcRenderer.on('startResponse', (event, startResponse) => {
             let responseArray = ['']
@@ -134,16 +184,16 @@ class MainChart extends Component {
             let time = new Date()
             time = time.toLocaleTimeString().toString() 
 
-            // this.addData(this.myChart, 0, time, responseArray[0])
-            // this.addData(this.myChart, 1, null, responseArray[1])
-            // this.addData(this.myChart, 2, null, responseArray[2])
-            // this.addData(this.myChart, 3, null, responseArray[3])
-            // this.addData(this.myChart, 4, null, responseArray[4])
-            // this.addData(this.myChart, 5, null, responseArray[5])
-            // this.addData(this.myChart, 6, null, responseArray[6])
-            // this.addData(this.myChart, 7, null, responseArray[7])
-            // this.addData(this.myChart, 8, null, responseArray[8])
-            // this.addData(this.myChart, 9, null, responseArray[9])
+            //this.addData(this.myChart, 0, time, responseArray[0])
+            //this.addData(this.myChart, 1, null, responseArray[1])
+            //this.addData(this.myChart, 2, null, responseArray[2])
+            //this.addData(this.myChart, 3, null, responseArray[3])
+            //this.addData(this.myChart, 4, null, responseArray[4])
+            //this.addData(this.myChart, 5, null, responseArray[5])
+            //this.addData(this.myChart, 6, null, responseArray[6])
+            //this.addData(this.myChart, 7, null, responseArray[7])
+            //this.addData(this.myChart, 8, null, responseArray[8])
+            //this.addData(this.myChart, 9, null, responseArray[9])
         })
     
     }
@@ -155,7 +205,7 @@ class MainChart extends Component {
         }
         chart.data.datasets[num].data.push(data)
         // chart.data.datasets[num].data.shift()
-        chart.update()  
+        chart.update()
     }
 
     setProgress (completed) {
@@ -185,8 +235,8 @@ class MainChart extends Component {
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="relative mt-10 mb-1 h-72" id="graph" ref={this.chartRef}>
-                    
+                <div className="relative mt-10 mb-1 h-72">
+                    <canvas ref={this.chartRef} />
                 </div>
 
                 <div className="flex space-x-3">
