@@ -137,7 +137,7 @@ class MainChart extends Component {
                     show: true,
                     spanGaps: false,
                     label: "S10",
-                    stroke: "tosca",
+                    stroke: "cyan",
                     width: 1,
                 }
             ],

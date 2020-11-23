@@ -4,6 +4,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import math
 import Adafruit_DHT
+import sys
 
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN = 7
@@ -163,6 +164,7 @@ MQ_RS       =  [0, 0, 0, 0, 0, 0, 0, 0]
 MQ_RS_RO    =  [0, 0, 0, 0, 0, 0, 0, 0]
 MQ_RS_RO1    =  [0, 0, 0, 0, 0, 0, 0, 0]
 resistant = [0,0,0,0,0,0,0,0]
+voltage = [0,0,0,0,0,0,0,0]
 
 counter = 1
 lastSend = 0
@@ -175,7 +177,7 @@ def MQGetSensorVoltage(mq_pin):
   global vrl
   adc = mcp.read_adc(mq_pin);
   vrl = (adc * VC_BOARD) / 1023.0;
-  
+  voltage[mq_pin] = adc
   return vrl;
   
 def MQResistanceCalculation(rl_value, vrl): 
@@ -324,27 +326,43 @@ def readAndSendSensorData():
      humi_dht = 0 
   sendData = ""
   
-  for j in range (0, NUM_SENSOR):
-    MQ_RS_RO1[j] = MQ_RS[j] / MQ_RO[j];
+  # for j in range (0, NUM_SENSOR):
+    # MQ_RS_RO1[j] = MQ_RS[j] / MQ_RO[j];
   
   for j in range (0, NUM_SENSOR):
     MQ_RS_RO[j] = MQ_RS[j] / MQ_RO[j];
     if (MQ_NAME[j] == "MQ-2"):
-      sendData += str(MQ_RS_RO1[0]) #1
+      # sendData += str(MQ_RS_RO1[0]) #1
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[1]) #2
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[2]) #3
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[3]) #4
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[4]) #5
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[5]) #6
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[6]) #7
+      # sendData += ";"
+      # sendData += str(MQ_RS_RO1[7]) #8
+      # sendData += ";"
+      sendData += str(voltage[0]) #1
       sendData += ";"
-      sendData += str(MQ_RS_RO1[1]) #2
+      sendData += str(voltage[1]) #2
       sendData += ";"
-      sendData += str(MQ_RS_RO1[2]) #3
+      sendData += str(voltage[2]) #3
       sendData += ";"
-      sendData += str(MQ_RS_RO1[3]) #4
+      sendData += str(voltage[3]) #4
       sendData += ";"
-      sendData += str(MQ_RS_RO1[4]) #5
+      sendData += str(voltage[4]) #5
       sendData += ";"
-      sendData += str(MQ_RS_RO1[5]) #6
+      sendData += str(voltage[5]) #6
       sendData += ";"
-      sendData += str(MQ_RS_RO1[6]) #7
+      sendData += str(voltage[6]) #7
       sendData += ";"
-      sendData += str(MQ_RS_RO1[7]) #8
+      sendData += str(voltage[7]) #8
       sendData += ";"
       sendData += str("0") #9
       sendData += ";"
@@ -456,11 +474,16 @@ def readAndSendSensorData():
       sendData += ";"
       sendData += str("0") #59
       sendData += ";"
-  print(sendData)  
+  print(sendData)
+  sys.stdout.flush()
+  #time.sleep(1) 
+   
 
 def main():
   MQCalibration()
-  readAndSendSensorData()
+  while True:
+    readAndSendSensorData()
+    
     
 if __name__ == "__main__":
   main()
