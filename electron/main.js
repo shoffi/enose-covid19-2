@@ -107,6 +107,9 @@ function timestamp() {
     return date
 }
 
+// Terima data dari python setiap detik
+PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
     mainWindow.send('mountedResponse', rumahSakit)
@@ -198,6 +201,48 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
     // );
 
 });
+
+let header = `Timestamp;MQ2_ADC;MQ3_ADC;MQ4_ADC;MQ5_ADC;MQ6_ADC;MQ7_ADC;MQ8_ADC;MQ9_ADC;MQ135_ADC;TEMPERATURE;HUMIDITY;MQ2_PPM_LPG;MQ2_PPM_CO;MQ2_PPM_SMOKE;MQ2_PPM_ALCOHOL;MQ2_PPM_CH4;MQ2_PPM_H2;MQ2_PPM_PROPANE;MQ3_PPM_ALCOHOL;MQ3_PPM_BENZINE;MQ3_PPM_CH4;MQ3_PPM_C0;MQ3_PPM_HEXANE;MQ3_PPM_LPG;MQ4_PPM_ALCOHOL;MQ4_PPM_CH4;MQ4_PPM_CO;MQ4_PPM_H2;MQ4_PPM_LPG;MQ4_PPM_SMOKE;MQ5_PPM_ALCOHOL;MQ5_PPM_CH4;MQ5_PPM_CO;MQ5_PPM_H2;MQ5_PPM_LPG;MQ6_PPM_ALCOHOL;MQ6_PPM_CH4;MQ6_PPM_CO;MQ6_PPM_H2;MQ6_PPM_LPG;MQ7_PPM_ALCOHOL;MQ7_PPM_CH4;MQ7_PPM_CO;MQ7_PPM_H2;MQ7_PPM_LPG;MQ8_PPM_ALCOHOL;MQ8_PPM_CH4;MQ8_PPM_CO;MQ8_PPM_H2;MQ8_PPM_LPG;MQ9_PPM_CH4;MQ9_PPM_CO;MQ9_PPM_LPG;MQ135_PPM_ACETON;MQ135_PPM_ALCOHOL;MQ135_PPM_CO;MQ135_PPM_CO2;MQ135_PPM_NH4;MQ135_PPM_TOLUOL;\n`
+
+let content = header
+
+ipcMain.on('recording', (event, data, time) => {
+    
+    if(time == 0)
+    {
+        clearInterval(startResponse)
+
+        let saveOptions = {
+            defaultPath: app.getPath('documents') + '/untitled.csv'
+        }
+
+        let savePromise = dialog.showSaveDialog(null, saveOptions)
+        
+        savePromise.then(
+            (value) =>{
+                console.log(value)
+
+                if(!value.canceled) {
+                    fs.writeFile(value.filePath, content, (err) => {
+                        if(err) {
+                            console.log('error in creating file: '+ err.message)
+                        }
+                        console.log(`file ${value.filePath} successfully created!`)
+                        content = header
+                    })
+                }
+            },
+            (error) => {
+                console.log(error)
+            }
+        )        
+    }
+    else
+    {
+        content = content + `${timestamp()};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]}`
+    }
+
+})
 
 let startResponse
 
@@ -339,13 +384,6 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
     }, 1000)
 });
-
-// Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose-dummy.py', {
-    scriptPath: path.join(__dirname,"../python/")
-}).stdout.on('data', (data)=>{
-    mainWindow.send('python-data', data)
-})
 
 ipcMain.on('stop', () => {
     console.log("HAPUSSS")

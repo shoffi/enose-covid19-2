@@ -114,14 +114,22 @@ class MainChart extends Component {
 
         ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
             console.log('pasien id = ' + storePatientResponse)
+            
             pengambilan_id = storePatientResponse
+            
             let totalTime = 0
+
             totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
-            // ipcRenderer.send('start', pengambilan_id, totalTime)
+
             ipcRenderer.on('python-data', (event, data) => {
                 
-                // console.log("DARIPYTON ==> ",data)
+                if(totalTime < 1) {
+                    ipcRenderer.removeAllListeners('python-data')
+                }
+                
                 data = data.split(';')
+                ipcRenderer.send('recording', data, totalTime)
+                totalTime -= 1
 
                 timeArray.push(Math.round((new Date()).getTime() / 1000))
                 sensor1Array.push(data[0])

@@ -1,11 +1,13 @@
 import sys
 import time
 from random import randint
-	
+
+n = 59
+
 while 1:
 	string = ""
 
-	for i in range(2):
+	for i in range(n):
 		string = string +str(randint(0,500)) + ";"
 	
 	print(string)
