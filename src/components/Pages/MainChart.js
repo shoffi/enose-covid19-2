@@ -175,7 +175,7 @@ class MainChart extends Component {
                 let now = parseInt((Date.now() - startTime)/1000)
                 let presentase = parseInt((now/totalTime)*100)
 
-                if(presentase == 100) {
+                if(presentase === 100) {
                     ipcRenderer.removeAllListeners('python-data')
                 }
                 
