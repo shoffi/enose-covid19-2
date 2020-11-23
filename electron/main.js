@@ -108,7 +108,7 @@ function timestamp() {
 }
 
 // Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
 
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
@@ -206,9 +206,9 @@ let header = `Timestamp;MQ2_ADC;MQ3_ADC;MQ4_ADC;MQ5_ADC;MQ6_ADC;MQ7_ADC;MQ8_ADC;
 
 let content = header
 
-ipcMain.on('recording', (event, data, time, sampling_id) => {
-    
-    if(time == 0)
+ipcMain.on('recording', (event, data, presentase, sampling_id) => {
+
+    if( presentase == 100 )
     {
         clearInterval(startResponse)
 

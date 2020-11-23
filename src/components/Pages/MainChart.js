@@ -63,7 +63,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
-            width: 1000,
+            width: 800,
             height: 300,
             series: [
                 {},
@@ -137,7 +137,7 @@ class MainChart extends Component {
                     show: true,
                     spanGaps: false,
                     label: "S10",
-                    stroke: "tosca",
+                    stroke: "cyan",
                     width: 1,
                 }
             ],
@@ -165,18 +165,22 @@ class MainChart extends Component {
 
         ipcRenderer.on('storePatientResponse', (event, sampling_id) => {
             console.log('sampling id = ' + sampling_id)
+
             let totalTime = 0
+            let startTime = Date.now()
             totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
 
             ipcRenderer.on('python-data', (event, data) => {
-                
-                if(totalTime < 1) {
+
+                let now = parseInt((Date.now() - startTime)/1000)
+                let presentase = parseInt((now/totalTime)*100)
+
+                if(presentase == 100) {
                     ipcRenderer.removeAllListeners('python-data')
                 }
                 
                 data = data.split(';')
-                ipcRenderer.send('recording', data, totalTime, sampling_id)
-                totalTime -= 1
+                ipcRenderer.send('recording', data, presentase, sampling_id)
 
                 timeArray.push(Math.round((new Date()).getTime() / 1000))
                 sensor0Array.push(data[0])
