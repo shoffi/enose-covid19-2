@@ -23,16 +23,6 @@ class MainChart extends Component {
         this.stopChart = this.stopChart.bind(this);
     }
 
-    addData(chart, num, label, data) {
-        if(label != null){
-            chart.data.labels.push(label)
-            // chart.data.labels.shift()
-        }
-        chart.data.datasets[num].data.push(data)
-        // chart.data.datasets[num].data.shift()
-        chart.update()  
-    }
-
     setProgress (completed) {
         this.setState({
             completed: completed
@@ -96,13 +86,76 @@ class MainChart extends Component {
                     label: "Sensor 2",
                     stroke: "blue",
                     width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 3",
+                    stroke: "green",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 4",
+                    stroke: "orange",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 5",
+                    stroke: "purple",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 6",
+                    stroke: "pink",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 7",
+                    stroke: "violet",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 8",
+                    stroke: "black",
+                    width: 1,
+                },{
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 9",
+                    stroke: "brown",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "Sensor 10",
+                    stroke: "tosca",
+                    width: 1,
                 }
             ],
         };
 
         let timeArray       = []
+        let sensor0Array    = []
         let sensor1Array    = []
         let sensor2Array    = []
+        let sensor3Array    = []
+        let sensor4Array    = []
+        let sensor5Array    = []
+        let sensor6Array    = []
+        let sensor7Array    = []
+        let sensor8Array    = []
+        let sensor9Array    = []
 
         let data = [
             timeArray,
@@ -132,13 +185,29 @@ class MainChart extends Component {
                 totalTime -= 1
 
                 timeArray.push(Math.round((new Date()).getTime() / 1000))
-                sensor1Array.push(data[0])
-                sensor2Array.push(data[1])
+                sensor0Array.push(data[0])
+                sensor1Array.push(data[1])
+                sensor2Array.push(data[2])
+                sensor3Array.push(data[3])
+                sensor4Array.push(data[4])
+                sensor5Array.push(data[5])
+                sensor6Array.push(data[6])
+                sensor7Array.push(data[7])
+                sensor8Array.push(data[8])
+                sensor9Array.push(data[9])
                 
                 let chartData = [
                     timeArray,
+                    sensor0Array,
                     sensor1Array,
                     sensor2Array,
+                    sensor3Array,
+                    sensor4Array,
+                    sensor5Array,
+                    sensor6Array,
+                    sensor7Array,
+                    sensor8Array,
+                    sensor9Array,
                 ];
 
                 uplot.setData(chartData)
