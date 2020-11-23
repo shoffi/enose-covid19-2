@@ -170,7 +170,6 @@ class App extends Component {
     }
 
     forceUpdateHandler(){
-      alert("hahaha")
       ipcRenderer.send('getPengaturan')
       this.forceUpdate();
     };
@@ -178,7 +177,6 @@ class App extends Component {
     updateTimer(){
       ipcRenderer.send('getPengaturan')
       ipcRenderer.once('getPengaturanResponse', (event, response) => {
-          alert("hoho")
           this.setState({
               proses1 : response[0],
               proses2 : response[1],
