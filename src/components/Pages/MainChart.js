@@ -31,7 +31,7 @@ class MainChart extends Component {
 
     stopChart () {
         ipcRenderer.send('stop')
-        this.setState({redirect: '/ambil-sample'})
+        this.setState({redirect: '/menu'})
     }
 
     componentDidMount() {

@@ -343,13 +343,13 @@ ipcMain.on('pompaOn', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-     rpio.open(11, rpio.OUTPUT, rpio.LOW);
-     rpio.write(11, rpio.HIGH);
+     //rpio.open(11, rpio.OUTPUT, rpio.LOW);
+     //rpio.write(11, rpio.HIGH);
 
-    //PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
-      //  if (err) throw err
-      //  console.log(results)
-   // })
+    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
 })
 
 ipcMain.on('pompaOff', () => {
@@ -357,13 +357,13 @@ ipcMain.on('pompaOff', () => {
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
-      rpio.open(11, rpio.OUTPUT, rpio.LOW);
-      rpio.write(11, rpio.LOW);
+      //rpio.open(11, rpio.OUTPUT, rpio.LOW);
+      //rpio.write(11, rpio.LOW);
 
-    //PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
-      //  if (err) throw err
-      //  console.log(results)
-   // })
+    PythonShell.PythonShell.run('pompa-off.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
 })
 
 ipcMain.on('getPengaturan', () => {
