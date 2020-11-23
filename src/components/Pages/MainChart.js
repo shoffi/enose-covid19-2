@@ -61,8 +61,6 @@ class MainChart extends Component {
         }
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
-        
-        let pengambilan_id
 
         let opts = {
             width: 1000,
