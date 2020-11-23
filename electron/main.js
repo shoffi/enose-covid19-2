@@ -340,13 +340,11 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     }, 1000)
 });
 
-// Terima data dari python setiap 5 detik
+// Terima data dari python setiap detik
 PythonShell.PythonShell.run('enose-dummy.py', {
     scriptPath: path.join(__dirname,"../python/")
 }).stdout.on('data', (data)=>{
-    // ipcMain.emit('python-data',data)
     mainWindow.send('python-data', data)
-    console.log("GETDATA")
 })
 
 ipcMain.on('stop', () => {

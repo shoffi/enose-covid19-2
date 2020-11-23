@@ -1,6 +1,5 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
-import Dygraph from 'dygraphs';
 import Stopwatch from "../Clock/Stopwatch";
 import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
@@ -24,19 +23,28 @@ class MainChart extends Component {
         this.stopChart = this.stopChart.bind(this);
     }
 
-    receivePythonStream(data){
-        console.log("DARIPYTHIN",data)
+    addData(chart, num, label, data) {
+        if(label != null){
+            chart.data.labels.push(label)
+            // chart.data.labels.shift()
+        }
+        chart.data.datasets[num].data.push(data)
+        // chart.data.datasets[num].data.shift()
+        chart.update()  
     }
 
-    componentWillUnmount(){
-        ipcRenderer.removeListener('python-data', this.receivePythonStream)
+    setProgress (completed) {
+        this.setState({
+            completed: completed
+        })
+    }
+
+    stopChart () {
+        ipcRenderer.send('stop')
+        this.setState({redirect: '/ambil-sample'})
     }
 
     componentDidMount() {
-        ipcRenderer.addListener('python-data', this.receivePythonStream)
-
-        ipcRenderer.removeAllListeners('startResponse')
-
         let arrayAll = []
         let diseases = Object.values(this.props.location.state.diseases)
         let resultDisease = Object.keys(diseases).map( (key) => [diseases[key].isChecked ] )
@@ -65,21 +73,6 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
         
         let pengambilan_id
-        ipcRenderer.removeAllListeners('storePatientResponse')
-
-        ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
-            console.log('pasien id = ' + storePatientResponse)
-            pengambilan_id = storePatientResponse
-            let totalTime = 0
-            totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
-            ipcRenderer.send('start', pengambilan_id, totalTime)
-        })
-
-        let data = [
-            [1546300800, 1546387200, 1546397200],    // x-values (timestamps)
-            [35,71,20],    // y-values (series 1)
-            [90,15,0],    // y-values (series 2)
-        ];
 
         let opts = {
             width: 1000,
@@ -90,83 +83,66 @@ class MainChart extends Component {
                     // initial toggled state (optional)
                     show: true,
                     spanGaps: false,
-
                     // in-legend display
-                    label: "RAM",
-                    value: (self, rawValue) => "$" + rawValue.toFixed(2),
-
+                    label: "Sensor 1",
+                    // value: (self, rawValue) => "$" + rawValue.toFixed(2),
                     // series style
                     stroke: "red",
                     width: 1,
-                    dash: [10, 5],
                 },
                 {
-                    // initial toggled state (optional)
                     show: true,
                     spanGaps: false,
-
-                    // in-legend display
-                    label: "RAM",
-                    value: (self, rawValue) => "$" + rawValue.toFixed(2),
-
-                    // series style
+                    label: "Sensor 2",
                     stroke: "blue",
                     width: 1,
-                    dash: [10, 5],
                 }
             ],
         };
 
-        // let uplot = new uPlot(opts, data, document.body);
-        let uplot = new window.uPlot(opts, 
-            [
-                [1546300800, 1546387200, 1546397200],    // x-values (timestamps)
-                [35,71,20],    // y-values (series 1)
-                [90,15,0],    // y-values (series 2)
-            ]
-            , this.chartRef.current)
+        let timeArray       = []
+        let sensor1Array    = []
+        let sensor2Array    = []
 
-        ipcRenderer.on('startResponse', (event, startResponse) => {
-            let responseArray = ['']
-            responseArray = startResponse.split(";")
-            console.log('responseArray = '+responseArray)
+        let data = [
+            timeArray,
+            sensor1Array,
+            sensor2Array,
+        ]
 
-            let time = new Date()
-            time = time.toLocaleTimeString().toString() 
+        let uplot = new window.uPlot(opts, data, this.chartRef.current)
 
-            // this.addData(this.myChart, 0, time, responseArray[0])
-            // this.addData(this.myChart, 1, null, responseArray[1])
-            // this.addData(this.myChart, 2, null, responseArray[2])
-            // this.addData(this.myChart, 3, null, responseArray[3])
-            // this.addData(this.myChart, 4, null, responseArray[4])
-            // this.addData(this.myChart, 5, null, responseArray[5])
-            // this.addData(this.myChart, 6, null, responseArray[6])
-            // this.addData(this.myChart, 7, null, responseArray[7])
-            // this.addData(this.myChart, 8, null, responseArray[8])
-            // this.addData(this.myChart, 9, null, responseArray[9])
-        })
-    
-    }
+        ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
+            console.log('pasien id = ' + storePatientResponse)
+            pengambilan_id = storePatientResponse
+            let totalTime = 0
+            totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
+            // ipcRenderer.send('start', pengambilan_id, totalTime)
+            ipcRenderer.on('python-data', (event, data) => {
+                
+                // console.log("DARIPYTON ==> ",data)
+                data = data.split(';')
 
-    addData(chart, num, label, data) {
-        if(label != null){
-            chart.data.labels.push(label)
-            // chart.data.labels.shift()
-        }
-        chart.data.datasets[num].data.push(data)
-        // chart.data.datasets[num].data.shift()
-        chart.update()  
-    }
+                timeArray.push(Math.round((new Date()).getTime() / 1000))
+                sensor1Array.push(data[0])
+                sensor2Array.push(data[1])
+                
+                let chartData = [
+                    timeArray,
+                    sensor1Array,
+                    sensor2Array,
+                ];
 
-    setProgress (completed) {
-        this.setState({
-            completed: completed
+                uplot.setData(chartData)
+
+            })
         })
     }
 
-    stopChart () {
-        ipcRenderer.send('stop')
-        this.setState({redirect: '/ambil-sample'})
+    componentWillUnmount(){
+        ipcRenderer.removeAllListeners('startResponse')
+        ipcRenderer.removeAllListeners('storePatientResponse')
+        ipcRenderer.removeAllListeners('python-data')
     }
 
     render () {
@@ -185,8 +161,8 @@ class MainChart extends Component {
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="relative mt-10 mb-1 h-72" id="graph" ref={this.chartRef}>
-                    
+                <div className="relative mt-10 mb-10 h-72" style={{width:"100%"}}>
+                    <div ref={this.chartRef}></div>
                 </div>
 
                 <div className="flex space-x-3">
@@ -232,6 +208,7 @@ class MainChart extends Component {
             </div>
         )
     }
+
 }
 
 export default MainChart;
