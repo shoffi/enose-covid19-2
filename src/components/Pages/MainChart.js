@@ -165,13 +165,9 @@ class MainChart extends Component {
 
         let uplot = new window.uPlot(opts, data, this.chartRef.current)
 
-        ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
-            console.log('pasien id = ' + storePatientResponse)
-            
-            pengambilan_id = storePatientResponse
-            
+        ipcRenderer.on('storePatientResponse', (event, sampling_id) => {
+            console.log('sampling id = ' + sampling_id)
             let totalTime = 0
-
             totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
 
             ipcRenderer.on('python-data', (event, data) => {
@@ -181,7 +177,7 @@ class MainChart extends Component {
                 }
                 
                 data = data.split(';')
-                ipcRenderer.send('recording', data, totalTime)
+                ipcRenderer.send('recording', data, totalTime, sampling_id)
                 totalTime -= 1
 
                 timeArray.push(Math.round((new Date()).getTime() / 1000))

@@ -108,7 +108,7 @@ function timestamp() {
 }
 
 // Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
 
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
@@ -171,34 +171,34 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    mainWindow.send('storePatientResponse', 1)
-    // console.log(clicinal_data_row)
+    // mainWindow.send('storePatientResponse', 1)
+    console.log(clicinal_data_row)
 
-    // let insertSamplingPromise = new Promise(function(myResolve, myReject) {
-    //     // "Producing Code" (May take some time)
-    //     connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
-    //         if (err) {
-    //             myReject();  // when error
-    //             throw err;
-    //         }
-    //         clicinal_data_row.sampling_id = result.insertId
-    //         myResolve(result.insertId); // when successful
-    //     });
-    // });
+    let insertSamplingPromise = new Promise(function(myResolve, myReject) {
+        // "Producing Code" (May take some time)
+        connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
+            if (err) {
+                myReject();  // when error
+                throw err;
+            }
+            clicinal_data_row.sampling_id = result.insertId
+            myResolve(result.insertId); // when successful
+        });
+    });
     
     // "Consuming Code" (Must wait for a fulfilled Promise)
-    // insertSamplingPromise.then(
-    //     function(value) { 
-    //         connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
-    //             if (err) throw err;
-    //             mainWindow.send('storePatientResponse', value)
-    //         });
-    //     },
-    //     function(error) { 
-    //         /* code if some error */ 
-    //         console.log(error)
-    //     }
-    // );
+    insertSamplingPromise.then(
+        function(value) { 
+            connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
+                if (err) throw err;
+                mainWindow.send('storePatientResponse', value)
+            });
+        },
+        function(error) { 
+            /* code if some error */ 
+            console.log(error)
+        }
+    );
 
 });
 
@@ -206,7 +206,7 @@ let header = `Timestamp;MQ2_ADC;MQ3_ADC;MQ4_ADC;MQ5_ADC;MQ6_ADC;MQ7_ADC;MQ8_ADC;
 
 let content = header
 
-ipcMain.on('recording', (event, data, time) => {
+ipcMain.on('recording', (event, data, time, sampling_id) => {
     
     if(time == 0)
     {
@@ -240,6 +240,85 @@ ipcMain.on('recording', (event, data, time) => {
     else
     {
         content = content + `${timestamp()};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]}`
+
+        let sensor_data = {
+            sampling_id: sampling_id,
+
+            MQ2_ADC             :   data[0],
+            MQ3_ADC             :   data[1],
+            MQ4_ADC             :   data[2],
+            MQ5_ADC             :   data[3],
+            MQ6_ADC             :   data[4],
+            MQ7_ADC             :   data[5],
+            MQ8_ADC             :   data[6],
+            MQ9_ADC             :   data[7],
+            MQ135_ADC           :   data[8],
+            TEMPERATURE         :   data[9],
+            HUMIDITY            :   data[10],
+
+            MQ2_PPM_LPG         :   data[11],
+            MQ2_PPM_CO          :   data[12],
+            MQ2_PPM_SMOKE       :   data[13],
+            MQ2_PPM_ALCOHOL     :   data[14],
+            MQ2_PPM_CH4         :   data[15],
+            MQ2_PPM_H2          :   data[16],
+            MQ2_PPM_PROPANE     :   data[17],
+
+            MQ3_PPM_ALCOHOL     :   data[18],
+            MQ3_PPM_BENZINE     :   data[19],
+            MQ3_PPM_CH4         :   data[20],
+            MQ3_PPM_CO          :   data[21],
+            MQ3_PPM_HEXANE      :   data[22],
+            MQ3_PPM_LPG         :   data[23],
+
+            MQ4_PPM_ALCOHOL     :   data[24],
+            MQ4_PPM_CH4         :   data[25],
+            MQ4_PPM_CO          :   data[26],
+            MQ4_PPM_H2          :   data[27],
+            MQ4_PPM_LPG         :   data[28],
+            MQ4_PPM_SMOKE       :   data[29],
+
+            MQ5_PPM_ALCOHOL     :   data[30],
+            MQ5_PPM_CH4         :   data[31],
+            MQ5_PPM_CO          :   data[32],
+            MQ5_PPM_H2          :   data[33],
+            MQ5_PPM_LPG         :   data[34],
+
+            MQ6_PPM_ALCOHOL     :   data[35],
+            MQ6_PPM_CH4         :   data[36],
+            MQ6_PPM_CO          :   data[37],
+            MQ6_PPM_H2          :   data[38],
+            MQ6_PPM_LPG         :   data[39],
+
+            MQ7_PPM_ALCOHOL     :   data[40],
+            MQ7_PPM_CH4         :   data[41],
+            MQ7_PPM_CO          :   data[42],
+            MQ7_PPM_H2          :   data[43],
+            MQ7_PPM_LPG         :   data[44],
+
+            MQ8_PPM_ALCOHOL     :   data[45],
+            MQ8_PPM_CH4         :   data[46],
+            MQ8_PPM_CO          :   data[47],
+            MQ8_PPM_H2          :   data[48],
+            MQ8_PPM_LPG         :   data[49],
+
+            MQ9_PPM_CH4         :   data[50],
+            MQ9_PPM_CO          :   data[51],
+            MQ9_PPM_LPG         :   data[52],
+
+            MQ135_PPM_ACETON    :   data[53],
+            MQ135_PPM_ALCOHOL   :   data[54],
+            MQ135_PPM_CO        :   data[55],
+            MQ135_PPM_CO2       :   data[56],
+            MQ135_PPM_NH4       :   data[57],
+            MQ135_PPM_TOLUOL    :   data[58],
+
+            created_at: timestamp()
+        }
+
+        connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
+            if (err) throw err;
+        });
     }
 
 })
