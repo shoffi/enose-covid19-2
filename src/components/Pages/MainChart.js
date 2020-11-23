@@ -1,7 +1,5 @@
 import React, { Component, createRef } from "react";
 import { Redirect } from 'react-router-dom';
-import Chart from "chart.js";
-// import ProgressBar from "../ProgressBar";
 import Stopwatch from "../Clock/Stopwatch";
 import TitleBar from '../Nav/TitleBar';
 const { ipcRenderer } = window;
@@ -25,10 +23,18 @@ class MainChart extends Component {
         this.stopChart = this.stopChart.bind(this);
     }
 
-    componentDidMount() {
-        
-        ipcRenderer.removeAllListeners('startResponse')
+    setProgress (completed) {
+        this.setState({
+            completed: completed
+        })
+    }
 
+    stopChart () {
+        ipcRenderer.send('stop')
+        this.setState({redirect: '/ambil-sample'})
+    }
+
+    componentDidMount() {
         let arrayAll = []
         let diseases = Object.values(this.props.location.state.diseases)
         let resultDisease = Object.keys(diseases).map( (key) => [diseases[key].isChecked ] )
@@ -53,172 +59,165 @@ class MainChart extends Component {
             'glucose': this.props.location.state.gulaDarah,
             'heart_rate': this.props.location.state.denyutJantung,
         }
-        
-        // console.log("detailPatient "+detailPatient)
 
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
-        
-        let pengambilan_id
-        ipcRenderer.removeAllListeners('storePatientResponse')
-        ipcRenderer.on('storePatientResponse', (event, storePatientResponse) => {
-            console.log('pasien id = ' + storePatientResponse)
-            pengambilan_id = storePatientResponse
-            let totalTime = 0
-            totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
-            ipcRenderer.send('start', pengambilan_id, totalTime)
-        })
 
-        this.myChart = new Chart (this.chartRef.current, {
-            type: 'line',
-            data: {
-                labels: [''],
-                datasets: [
-                    {
-                        label: 'MQ2',
-                        data: [''],
-                        borderColor: [
-                            'red',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ3',
-                        data: [''],
-                        borderColor: [
-                            'orange',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ4',
-                        data: [''],
-                        borderColor: [
-                            'pink',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ5',
-                        data: [''],
-                        borderColor: [
-                            'green',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ6',
-                        data: [''],
-                        borderColor: [
-                            'blue',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ7',
-                        data: [''],
-                        borderColor: [
-                            'indigo',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ8',
-                        data: [''],
-                        borderColor: [
-                            'violet',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'MQ9',
-                        data: [''],
-                        borderColor: [
-                            '#ff6384',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'Temperature',
-                        data: [''],
-                        borderColor: [
-                            '#cc65fe',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    },
-                    {
-                        label: 'Humidity',
-                        data: [''],
-                        borderColor: [
-                            '#ffce56',
-                        ],
-                        borderWidth: 1,
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+        let opts = {
+            width: 800,
+            height: 300,
+            series: [
+                {},
+                {
+                    // initial toggled state (optional)
+                    show: true,
+                    spanGaps: false,
+                    // in-legend display
+                    label: "S1",
+                    // value: (self, rawValue) => "$" + rawValue.toFixed(2),
+                    // series style
+                    stroke: "red",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S2",
+                    stroke: "blue",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S3",
+                    stroke: "green",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S4",
+                    stroke: "orange",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S5",
+                    stroke: "purple",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S6",
+                    stroke: "pink",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S7",
+                    stroke: "violet",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S8",
+                    stroke: "black",
+                    width: 1,
+                },{
+                    show: true,
+                    spanGaps: false,
+                    label: "S9",
+                    stroke: "brown",
+                    width: 1,
+                },
+                {
+                    show: true,
+                    spanGaps: false,
+                    label: "S10",
+                    stroke: "cyan",
+                    width: 1,
                 }
-            }
-        });
+            ],
+        };
 
-        ipcRenderer.on('startResponse', (event, startResponse) => {
-            let responseArray = ['']
-            responseArray = startResponse.split(";")
-            console.log('responseArray = '+responseArray)
+        let timeArray       = []
+        let sensor0Array    = []
+        let sensor1Array    = []
+        let sensor2Array    = []
+        let sensor3Array    = []
+        let sensor4Array    = []
+        let sensor5Array    = []
+        let sensor6Array    = []
+        let sensor7Array    = []
+        let sensor8Array    = []
+        let sensor9Array    = []
 
-            let time = new Date()
-            time = time.toLocaleTimeString().toString() 
-            
-            // MQ2
-            //this.addData(this.myChart, 0, time, responseArray[0])
-            //this.addData(this.myChart, 1, null, responseArray[1])
-            //this.addData(this.myChart, 2, null, responseArray[2])
-            //this.addData(this.myChart, 3, null, responseArray[3])
-            //this.addData(this.myChart, 4, null, responseArray[4])
-            //this.addData(this.myChart, 5, null, responseArray[5])
-            //this.addData(this.myChart, 6, null, responseArray[6])
-            //this.addData(this.myChart, 7, null, responseArray[7])
-            //this.addData(this.myChart, 8, null, responseArray[8])
-            //this.addData(this.myChart, 9, null, responseArray[9])
+        let data = [
+            timeArray,
+            sensor1Array,
+            sensor2Array,
+        ]
+
+        let uplot = new window.uPlot(opts, data, this.chartRef.current)
+
+        ipcRenderer.on('storePatientResponse', (event, sampling_id) => {
+            console.log('sampling id = ' + sampling_id)
+
+            let totalTime = 0
+            let startTime = Date.now()
+            totalTime = this.state.proses1 + this.state.proses2 + this.state.proses3
+
+            ipcRenderer.on('python-data', (event, data) => {
+
+                let now = parseInt((Date.now() - startTime)/1000)
+                let presentase = parseInt((now/totalTime)*100)
+
+                if(presentase === 100) {
+                    ipcRenderer.removeAllListeners('python-data')
+                }
+                
+                data = data.split(';')
+                ipcRenderer.send('recording', data, presentase, sampling_id)
+
+                timeArray.push(Math.round((new Date()).getTime() / 1000))
+                sensor0Array.push(data[0])
+                sensor1Array.push(data[1])
+                sensor2Array.push(data[2])
+                sensor3Array.push(data[3])
+                sensor4Array.push(data[4])
+                sensor5Array.push(data[5])
+                sensor6Array.push(data[6])
+                sensor7Array.push(data[7])
+                sensor8Array.push(data[8])
+                sensor9Array.push(data[9])
+                
+                let chartData = [
+                    timeArray,
+                    sensor0Array,
+                    sensor1Array,
+                    sensor2Array,
+                    sensor3Array,
+                    sensor4Array,
+                    sensor5Array,
+                    sensor6Array,
+                    sensor7Array,
+                    sensor8Array,
+                    sensor9Array,
+                ];
+
+                uplot.setData(chartData)
+
+            })
         })
-    
     }
 
-    addData(chart, num, label, data) {
-        if(label != null){
-            chart.data.labels.push(label)
-            // chart.data.labels.shift()
-        }
-        chart.data.datasets[num].data.push(data)
-        // chart.data.datasets[num].data.shift()
-        chart.update()
-    }
-
-    setProgress (completed) {
-        this.setState({
-            completed: completed
-        })
-    }
-
-    stopChart () {
-        ipcRenderer.send('stop')
-        this.setState({redirect: '/ambil-sample'})
+    componentWillUnmount(){
+        ipcRenderer.removeAllListeners('startResponse')
+        ipcRenderer.removeAllListeners('storePatientResponse')
+        ipcRenderer.removeAllListeners('python-data')
     }
 
     render () {
@@ -237,8 +236,8 @@ class MainChart extends Component {
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="relative mt-10 mb-1 h-72">
-                    <canvas ref={this.chartRef} />
+                <div className="relative mt-10 mb-10 h-72" style={{width:"100%"}}>
+                    <div ref={this.chartRef}></div>
                 </div>
 
                 <div className="flex space-x-3">
@@ -284,6 +283,7 @@ class MainChart extends Component {
             </div>
         )
     }
+
 }
 
 export default MainChart;
