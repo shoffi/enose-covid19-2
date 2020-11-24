@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo1.jpg';
 
 class Welcome extends Component {
     constructor(props) {
