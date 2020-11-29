@@ -22,7 +22,9 @@
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
-    "rpio": "^2.2.0"
+    "react-simple-keyboard": "^2.5.67",
+    "rpio": "^2.2.0",
+    "simple-keyboard": "^2.32.49"
   },
   "scripts": {
     "start": "npm run watch:css && export BROWSER=none && react-scripts start",

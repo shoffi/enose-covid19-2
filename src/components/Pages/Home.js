@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import KeyboardJiul from '../Utilities/KeyboardJiul';
+import Keyboard from "react-simple-keyboard";
 
 class Home extends Component {
     constructor(props) {
@@ -10,6 +12,9 @@ class Home extends Component {
             isModalOpen: false,
             isConnected: this.props.isConnected,
             ruangan: this.props.ruangan || [],
+
+            keyboardLayoutName: "default",
+            keyboardInput: "",
         }
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,6 +49,12 @@ class Home extends Component {
         this.openModal();
     }
 
+    onChangeKeyboard = input => {
+        // this.setState({ input });
+        this.props.setNurseId(input)
+        console.log("Input changed", input);
+    };
+
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -69,6 +80,7 @@ class Home extends Component {
                             className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                             placeholder="ID Perawat"
                             />
+                            <Keyboard onChange={this.onChangeKeyboard} />
                         </div>
                         <div>
                             <p className="text-brand-green mb-1">Ruangan</p>
@@ -113,9 +125,10 @@ class Home extends Component {
                             </ul>
                         </div>
                     </div>
-                    )}
+                )}
 
                 {/* Close modal */}
+
             </div>
         );
     }
