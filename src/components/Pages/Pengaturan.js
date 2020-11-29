@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import TitleBar from '../Nav/TitleBar';
-import FlagID from '../../images/flag-id.svg';
-import FlagEN from '../../images/flag-en.svg';
+import FlagID from '../../images/flag-id.png';
+import FlagEN from '../../images/flag-en.jpg';
+
 const { ipcRenderer } = window;
 
 class Pengaturan extends Component {
@@ -145,7 +146,7 @@ class Pengaturan extends Component {
                     <div className="flex">
                         <div className="w-2/5 pr-4 leading-snug">
                             <h2 className="mt-1 text-2xl font-semibold mb-2">Pilih Bahasa</h2>
-                            <p className="text-gray-600">Bahas Indonesia telah dipilih</p>
+                            <p className="text-gray-600">Bah Indonesia telah dipilih</p>
                         </div>
                         <div className="w-3/5 flex space-x-4">
                             <div className="w-1/3">

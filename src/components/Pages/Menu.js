@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import ambil_data from '../../images/ambil_data.png';
-import history from '../../images/history.png';
-import covid from '../../images/covid.png';
+import ambil_data from '../../images/ambil_data1.jpg';
+import history from '../../images/history1.png';
+import covid from '../../images/covid1.jpg';
 import TitleBar from '../Nav/TitleBar';
 
 class Home extends Component {
