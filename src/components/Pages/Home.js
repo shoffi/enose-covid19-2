@@ -93,7 +93,9 @@ class Home extends Component {
                             <input
                             type="text"
                             value={this.props.nurseId} 
-                            onChange={this.props.setNurseId}
+                            onChange={ (event) => {
+                                this.props.setNurseId(event.target.value)
+                            }}
                             onFocus={() => this.setState({isFocus: true})}
                             // onBlur={() => this.setState({isFocus: false})}
                             className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
