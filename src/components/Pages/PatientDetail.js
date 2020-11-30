@@ -47,15 +47,14 @@ class PatientDetail extends Component {
                             <p className="text-xl mb-1">ID Pasien</p>
                             <input
                                 type="text"
+                                onFocus={() => this.setState({inputName: 'PatientId'})}
+                                value = { this.state.allInputs.PatientId }
                                 onChange={ (event) => {
                                     this.props.setPatientId(event.target.value)
-                                    // debugger
                                     this.setState({
                                         allInputs: { ...this.state.allInputs, PatientId: event.target.value }
                                     })
                                 } }
-                                onFocus={() => this.setState({inputName: 'PatientId'})}
-                                value = { this.state.allInputs.PatientId }
                                 className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                 placeholder="ID Pasien"
                             />
@@ -70,10 +69,14 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        // value={this.props.suhuTubuh} 
-                                        // onChange={this.props.setSuhuTubuh}
                                         onFocus={() => this.setState({inputName: 'SuhuTubuh'})}
                                         value = { this.state.allInputs.SuhuTubuh }
+                                        onChange={ (event) => {
+                                            this.props.setSuhuTubuh(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, SuhuTubuh: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="36.5"
                                     />
@@ -85,8 +88,16 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={this.props.asamUrat} 
+                                        // value={this.props.asamUrat}
                                         // onChange={this.props.setAsamUrat}
+                                        onFocus={() => this.setState({inputName: 'AsamUrat'})}
+                                        value = { this.state.allInputs.AsamUrat }
+                                        onChange={ (event) => {
+                                            this.props.setAsamUrat(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, AsamUrat: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="7.5"
                                     />
@@ -98,8 +109,16 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={this.props.kolestrol} 
+                                        // value={this.props.kolestrol}
                                         // onChange={this.props.setKolestrol}
+                                        onFocus={() => this.setState({inputName: 'Kolestrol'})}
+                                        value = { this.state.allInputs.Kolestrol }
+                                        onChange={ (event) => {
+                                            this.props.setKolestrol(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, Kolestrol: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="200"
                                     />
@@ -111,8 +130,16 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={this.props.saturasiOksigen} 
+                                        // value={this.props.saturasiOksigen}
                                         // onChange={this.props.setSaturasiOksigen}
+                                        onFocus={() => this.setState({inputName: 'SaturasiOksigen'})}
+                                        value = { this.state.allInputs.SaturasiOksigen }
+                                        onChange={ (event) => {
+                                            this.props.setSaturasiOksigen(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, SaturasiOksigen: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="95"
                                     />
@@ -124,8 +151,16 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={this.props.gulaDarah} 
+                                        // value={this.props.gulaDarah} 
                                         // onChange={this.props.setGulaDarah}
+                                        onFocus={() => this.setState({inputName: 'GulaDarah'})}
+                                        value = { this.state.allInputs.GulaDarah }
+                                        onChange={ (event) => {
+                                            this.props.setGulaDarah(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, GulaDarah: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="100"
                                     />
@@ -137,8 +172,16 @@ class PatientDetail extends Component {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={this.props.denyutJantung} 
+                                        // value={this.props.denyutJantung} 
                                         // onChange={this.props.setDenyutJantung}
+                                        onFocus={() => this.setState({inputName: 'DenyutJantung'})}
+                                        value = { this.state.allInputs.DenyutJantung }
+                                        onChange={ (event) => {
+                                            this.props.setDenyutJantung(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, DenyutJantung: event.target.value }
+                                            })
+                                        } }
                                         className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
                                         placeholder="60"
                                     />

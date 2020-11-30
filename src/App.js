@@ -189,34 +189,6 @@ class App extends Component {
       })
     }
 
-    onChange = input => {
-      this.setState({ input });
-      console.log("Input changed", input);
-    };
-
-    onKeyPress = button => {
-        console.log("Button pressed", button);
-        /**
-        * If you want to handle the shift and caps lock buttons
-        */
-        if (button === "{shift}" || button === "{lock}") this.handleShift();
-    };
-
-    handleShift = () => {
-        const layoutName = this.state.layoutName;
-
-        this.setState({
-            layoutName: layoutName === "default" ? "shift" : "default"
-        });
-    };
-
-    onChangeInput = event => {
-        const input = event.target.value;
-        console.log(input)
-        this.setState({ input });
-        this.keyboard.setInput(input);
-    };
-
     render() {
 
       return (
@@ -234,21 +206,6 @@ class App extends Component {
                     forceUpdateHandler = {this.forceUpdateHandler}
                     connect={this.connect}
                   />
-                  {/* <div className="relative w-full flex items-center">
-                    <input
-                      value={this.state.input}
-                      placeholder={"Tap on the virtual keyboard to start"}
-                      onChange={this.onChangeInput}
-                    />
-                  </div>
-                  <div>
-                    <Keyboard
-                        keyboardRef={r => (this.keyboard = r)}
-                        layoutName={this.state.layoutName}
-                        onChange={this.onChange}
-                        onKeyPress={this.onKeyPress}
-                    />
-                  </div> */}
               </Route>
               
               <Route path='/connect' exact>
@@ -267,13 +224,6 @@ class App extends Component {
 
               <Route path='/patient-detail' exact>
                   <PatientDetail
-                    patientId={this.state.patientId}
-                    suhuTubuh={this.state.suhuTubuh}
-                    asamUrat={this.state.asamUrat}
-                    kolestrol={this.state.kolestrol}
-                    saturasiOksigen={this.state.saturasiOksigen}
-                    gulaDarah={this.state.gulaDarah}
-                    denyutJantung={this.state.denyutJantung}
                     setPatientId={this.setPatientId}
                     setSuhuTubuh = {this.setSuhuTubuh}
                     setAsamUrat = {this.setAsamUrat}
