@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { render } from "react-dom";
-import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
 import Nav from "./components/Nav";
@@ -127,45 +125,45 @@ class App extends Component {
       });
     }
 
-    setPatientId(event) {
+    setPatientId(value) {
       this.setState({
-          patientId: event.target.value,
+          patientId: value,
       });
     }
 
-    setSuhuTubuh (event) {
+    setSuhuTubuh (value) {
       this.setState({
-          suhuTubuh: event.target.value,
+          suhuTubuh: value,
       })
     }
 
-    setAsamUrat (event) {
+    setAsamUrat (value) {
       this.setState({
-          asamUrat: event.target.value,
+          asamUrat: value,
       })
     }
 
-    setKolestrol (event) {
+    setKolestrol (value) {
       this.setState({
-          kolestrol: event.target.value,
+          kolestrol: value,
       })
     }
 
-    setSaturasiOksigen (event) {
+    setSaturasiOksigen (value) {
       this.setState({
-          saturasiOksigen: event.target.value,
+          saturasiOksigen: value,
       })
     }
 
-    setGulaDarah (event) {
+    setGulaDarah (value) {
       this.setState({
-          gulaDarah: event.target.value,
+          gulaDarah: value,
       })
     }
 
-    setDenyutJantung (event) {
+    setDenyutJantung (value) {
       this.setState({
-          denyutJantung: event.target.value,
+          denyutJantung: value,
       })
     }
 
