@@ -22,6 +22,7 @@ class Nav extends Component {
     {
 
         let {isConnected, nurseId} = this.props
+        console.log(this.props)
         let info_navbar
         
         if(nurseId !== ''){
