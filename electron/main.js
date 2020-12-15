@@ -7,6 +7,7 @@ const Store = require('./Store.js');
 const modal = require('electron-modal');
 const PythonShell = require('python-shell');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { resolve } = require('path');
 
 let mainWindow;
 
@@ -32,21 +33,21 @@ let connection = mysql.createConnection({
 
 let { cloud_host, cloud_user, cloud_password, cloud_database } = store.get('cloud-vps');
 
-let cloud = mysql.createConnection({
-    host    :   cloud_host,
-    user    :   cloud_user,
-    password:   cloud_password,
-    database:   cloud_database
-})
+// let cloud = mysql.createConnection({
+//     host    :   cloud_host,
+//     user    :   cloud_user,
+//     password:   cloud_password,
+//     database:   cloud_database
+// })
 
 function createWindow () {
     connection.connect(function (err) {
         console.log(err)
     })
 
-    cloud.connect(function (err) {
-        console.log(err)
-    })
+    // cloud.connect(function (err) {
+    //     console.log(err)
+    // })
 
     modal.setup();
 
@@ -140,10 +141,6 @@ ipcMain.on('disconnect', () => {
 });
 
 ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
-
-    // console.log(detailPatient)
-    // console.log(clinical_data)
-
     let sampling = {        
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
@@ -185,43 +182,156 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    // mainWindow.send('storePatientResponse', 1)
-    // console.log(clicinal_data_row)
+    function getMaxSamplingIdLocal() {
+        return new Promise(resolve => {
+            connection.query('SELECT MAX(id) as id from sampling', function(err, res) {
+                // console.log(res[0].id)
+                resolve(res[0].id)
+            })
+        })
+    }
 
-    let insertSamplingPromise = new Promise(function(myResolve, myReject) {
-        // "Producing Code" (May take some time)
-        connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
-            if (err) {
-                myReject();  // when error
-                throw err;
-            }
-
-            sampling.database = cloud_database
-
+    function getMaxSamplingIdCloud() {
+        return new Promise(resolve => {
             request.post(
-                `http://${cloud_host}/store_sampling`,
+                `http://${cloud_host}/max_sampling_id`,
                 {
-                    json: sampling,
+                    json: {
+                        'database': cloud_database
+                    },
                 },
                 (error, res, body) => {
                     if (error) {
                         console.error(error)
                         return
                     }
-                    console.log(`sampling statusCode: ${res.statusCode}`)
-                    console.log(body)
-                    // console.log("Sampling inserted")
+                    resolve(body)
                 }
             )
+        })
+    }
+
+    function getMaxClinicalDataIdLocal() {
+        return new Promise(resolve => {
+            connection.query('SELECT MAX(id) as id from clinical_data', function(err, res) {
+                // console.log(res[0].id)
+                resolve(res[0].id)
+            })
+        })
+    }
+
+    function getMaxClinicalDataIdCloud() {
+        return new Promise(resolve => {
+            request.post(
+                `http://${cloud_host}/max_clinical_data_id`,
+                {
+                    json: {
+                        'database': cloud_database
+                    },
+                },
+                (error, res, body) => {
+                    if (error) {
+                        console.error(error)
+                        return
+                    }
+                    resolve(body)
+                }
+            )
+        })
+    }
+
+    function getMaxSensorDataIdLocal() {
+        return new Promise(resolve => {
+            connection.query('SELECT MAX(id) as id from sensor_data', function(err, res) {
+                // console.log(res[0].id)
+                resolve(res[0].id)
+            })
+        })
+    }
+
+    function getMaxSensorDataIdCloud() {
+        return new Promise(resolve => {
+            request.post(
+                `http://${cloud_host}/max_sensor_data_id`,
+                {
+                    json: {
+                        'database': cloud_database
+                    },
+                },
+                (error, res, body) => {
+                    if (error) {
+                        console.error(error)
+                        return
+                    }
+                    resolve(body)
+                }
+            )
+        })
+    }
+
+    let insertSamplingPromise = new Promise(function(myResolve, myReject) {
+        // "Producing Code" (May take some time)
+
+        connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
+            if (err) {
+                myReject();  // when error
+                throw err;
+            }
 
             clicinal_data_row.sampling_id = result.insertId
-            // console.log("update sampling_id")
-            myResolve(result.insertId); // when successful
-        });
 
-        // cloud.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
-        //     if (err) throw err;
-        // });
+            async function syncronizeDB() {
+                console.log('Syncronizing')
+
+                let resolveValue = {
+                    'sampling_id' : result.insertId,
+                    'sync'        : false
+                }
+    
+                const maxSamplingIdLocal = await getMaxSamplingIdLocal() - 1
+                const maxSamplingIdCloud = await getMaxSamplingIdCloud()
+                const maxClinicalDataIdLocal = await getMaxClinicalDataIdLocal()
+                const maxClinicalDataIdCloud = await getMaxClinicalDataIdCloud()
+                const maxSensorDataIdLocal = await getMaxSensorDataIdLocal()
+                const maxSensorDataIdCloud = await getMaxSensorDataIdCloud()
+                
+                if (maxSamplingIdLocal == maxSamplingIdCloud) {
+                    if (maxClinicalDataIdLocal == maxClinicalDataIdCloud) {
+                        if (maxSensorDataIdLocal == maxSensorDataIdCloud) {
+                            console.log("database sudah sinkron")
+                            sampling.database = cloud_database
+                            request.post(
+                                `http://${cloud_host}/store_sampling`,
+                                {
+                                    json: sampling,
+                                },
+                                (error, res, body) => {
+                                    if (error) {
+                                        console.error(error)
+                                        return
+                                    }
+                                    console.log(`sampling statusCode: ${res.statusCode}`)
+                                    console.log(body)
+                                    resolveValue.sync = true
+                                    myResolve(resolveValue);
+                                }
+                            )
+                        } else {
+                            console.log('tabel sensor_data belum sinkron')
+                            myResolve(resolveValue);
+                        }
+                    } else {
+                        console.log('tabel clinical_data belum sinkron')
+                        myResolve(resolveValue);
+                    }
+                } else {
+                    console.log('tabel sampling belum sinkron')
+                    myResolve(resolveValue);
+                }
+            }
+    
+            syncronizeDB()
+        });
     });
 
     // "Consuming Code" (Must wait for a fulfilled Promise)
@@ -230,31 +340,29 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
             connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
                 if (err) throw err;
 
-                clicinal_data_row.database = cloud_database
+                if(value.sync){
+                    clicinal_data_row.database = cloud_database
 
-                request.post(
-                    `http://${cloud_host}/store_clinical_data`,
-                    {
-                        json: clicinal_data_row,
-                    },
-                    (error, res, body) => {
-                      if (error) {
-                        console.error(error)
-                        return
-                      }
-                      console.log(`clinical_data statusCode: ${res.statusCode}`)
-                      console.log(body)
-                    //   console.log("Clinical Data inserted")
-                    }
-                )
+                    request.post(
+                        `http://${cloud_host}/store_clinical_data`,
+                        {
+                            json: clicinal_data_row,
+                        },
+                        (error, res, body) => {
+                          if (error) {
+                            console.error(error)
+                            return
+                          }
+                          console.log(`clinical_data statusCode: ${res.statusCode}`)
+                          console.log(body)
+                        }
+                    )
+                }
 
-                mainWindow.send('storePatientResponse', value)
+                mainWindow.send('storePatientResponse', value.sampling_id)
             });
-
-            // cloud.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
-            //     if (err) throw err;
-            // });
         },
+
         function(error) {
             /* code if some error */
             console.log(error)
@@ -267,7 +375,7 @@ let header = `Timestamp;MQ2_ADC;MQ3_ADC;MQ4_ADC;MQ5_ADC;MQ6_ADC;MQ7_ADC;MQ8_ADC;
 
 let content = header
 
-ipcMain.on('recording', (event, data, presentase, sampling_id) => {
+ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
 
     if( presentase == 100 )
     {
@@ -382,22 +490,24 @@ ipcMain.on('recording', (event, data, presentase, sampling_id) => {
         connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
             if (err) throw err;
 
-            sensor_data.database = cloud_database
+            if(sync_status){
+                sensor_data.database = cloud_database
 
-            request.post(
-                `http://${cloud_host}/store_sensor_data`,
-                {
-                    json: sensor_data,
-                },
-                (error, res, body) => {
-                  if (error) {
-                    console.error(error)
-                    return
-                  }
-                  console.log(`sensor_data statusCode: ${res.statusCode}`)
-                  console.log(body)
-                }
-            )
+                request.post(
+                    `http://${cloud_host}/store_sensor_data`,
+                    {
+                        json: sensor_data,
+                    },
+                    (error, res, body) => {
+                    if (error) {
+                        console.error(error)
+                        return
+                    }
+                    console.log(`sensor_data statusCode: ${res.statusCode}`)
+                    console.log(body)
+                    }
+                )
+            }
         });
 
         // cloud.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
