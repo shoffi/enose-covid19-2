@@ -1,12 +1,13 @@
-// const rpio = require('rpio');
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const modal = require('electron-modal');
-const path = require('path');
-const PythonShell = require('python-shell');
-const url = require('url');
-const mysql = require('mysql');
 const fs = require('fs');
+const url = require('url');
+const path = require('path');
+const mysql = require('mysql');
+const request = require('request');
 const Store = require('./Store.js');
+const modal = require('electron-modal');
+const PythonShell = require('python-shell');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { resolve } = require('path');
 
 let mainWindow;
 
@@ -22,6 +23,7 @@ const store = new Store({
 
 // MySQl Connection
 let { host, user, password, database } = store.get('database');
+
 let connection = mysql.createConnection({
     host    :   host,
     user    :   user,
@@ -29,10 +31,23 @@ let connection = mysql.createConnection({
     database:   database
 })
 
+let { cloud_host, cloud_user, cloud_password, cloud_database } = store.get('cloud-vps');
+
+// let cloud = mysql.createConnection({
+//     host    :   cloud_host,
+//     user    :   cloud_user,
+//     password:   cloud_password,
+//     database:   cloud_database
+// })
+
 function createWindow () {
     connection.connect(function (err) {
         console.log(err)
     })
+
+    // cloud.connect(function (err) {
+    //     console.log(err)
+    // })
 
     modal.setup();
 
@@ -45,8 +60,8 @@ function createWindow () {
         slashes: true,
     });
 
-    mainWindow = new BrowserWindow({ 
-        width: width, 
+    mainWindow = new BrowserWindow({
+        width: width,
         height: height ,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
@@ -66,7 +81,7 @@ function createWindow () {
     });
 
     mainWindow.loadURL(startUrl);
-    
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -117,7 +132,7 @@ ipcMain.on('mounted', () => {
 
 ipcMain.on('connect', () => {
     console.log('connecting....')
-    // sinkronisasi awal  
+    // sinkronisasi awal
 });
 
 ipcMain.on('disconnect', () => {
@@ -125,17 +140,100 @@ ipcMain.on('disconnect', () => {
     //mainWindow.send('disconnectResponse', message)
 });
 
-ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
-    
-    // console.log(detailPatient)
-    console.log(clinical_data)
+function getMaxSamplingIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from sampling', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
 
-    let sampling = {
+function getMaxSamplingIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_sampling_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
+function getMaxClinicalDataIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from clinical_data', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
+
+function getMaxClinicalDataIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_clinical_data_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
+function getMaxSensorDataIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from sensor_data', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
+
+function getMaxSensorDataIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_sensor_data_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
+ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
+    let sampling = {        
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
         room_id     :   detailPatient.ruang_id.id,
         patient_id  :   detailPatient.patient_id,
-        covid_status:   detailPatient.covid_status,
+        covid_status:   !detailPatient.covid_status,
 
         s1  :   input[0][0],
         s2  :   input[1][0],
@@ -171,31 +269,102 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    // mainWindow.send('storePatientResponse', 1)
-    console.log(clicinal_data_row)
-
     let insertSamplingPromise = new Promise(function(myResolve, myReject) {
         // "Producing Code" (May take some time)
+
         connection.query('INSERT INTO sampling SET ?', sampling, function(err, result) {
             if (err) {
                 myReject();  // when error
                 throw err;
             }
+
             clicinal_data_row.sampling_id = result.insertId
-            myResolve(result.insertId); // when successful
+
+            async function synchronizedDB() {
+                console.log('Syncronizing Check')
+
+                let resolveValue = {
+                    'sampling_id' : result.insertId,
+                    'sync'        : false
+                }
+    
+                const maxSamplingIdLocal = await getMaxSamplingIdLocal() - 1
+                const maxSamplingIdCloud = await getMaxSamplingIdCloud()
+                const maxClinicalDataIdLocal = await getMaxClinicalDataIdLocal()
+                const maxClinicalDataIdCloud = await getMaxClinicalDataIdCloud()
+                const maxSensorDataIdLocal = await getMaxSensorDataIdLocal()
+                const maxSensorDataIdCloud = await getMaxSensorDataIdCloud()
+                
+                if (maxSamplingIdLocal == maxSamplingIdCloud) {
+                    if (maxClinicalDataIdLocal == maxClinicalDataIdCloud) {
+                        if (maxSensorDataIdLocal == maxSensorDataIdCloud) {
+                            console.log("database sudah sinkron")
+                            sampling.database = cloud_database
+                            request.post(
+                                `http://${cloud_host}/store_sampling`,
+                                {
+                                    json: sampling,
+                                },
+                                (error, res, body) => {
+                                    if (error) {
+                                        console.error(error)
+                                        return
+                                    }
+                                    console.log(`sampling statusCode: ${res.statusCode}`)
+                                    console.log(body)
+                                    resolveValue.sync = true
+                                    myResolve(resolveValue);
+                                }
+                            )
+                        } else {
+                            console.log('tabel sensor_data belum sinkron')
+                            myResolve(resolveValue);
+                        }
+                    } else {
+                        console.log('tabel clinical_data belum sinkron')
+                        myResolve(resolveValue);
+                    }
+                } else {
+                    console.log('tabel sampling belum sinkron')
+                    myResolve(resolveValue);
+                }
+            }
+    
+            synchronizedDB()
         });
     });
-    
+
     // "Consuming Code" (Must wait for a fulfilled Promise)
     insertSamplingPromise.then(
-        function(value) { 
+        function(value) {
             connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
                 if (err) throw err;
-                mainWindow.send('storePatientResponse', value)
+
+                if(value.sync){
+                    clicinal_data_row.database = cloud_database
+
+                    request.post(
+                        `http://${cloud_host}/store_clinical_data`,
+                        {
+                            json: clicinal_data_row,
+                        },
+                        (error, res, body) => {
+                          if (error) {
+                            console.error(error)
+                            return
+                          }
+                          console.log(`clinical_data statusCode: ${res.statusCode}`)
+                          console.log(body)
+                        }
+                    )
+                }
+
+                mainWindow.send('storePatientResponse', value.sampling_id)
             });
         },
-        function(error) { 
-            /* code if some error */ 
+
+        function(error) {
+            /* code if some error */
             console.log(error)
         }
     );
@@ -206,7 +375,7 @@ let header = `Timestamp;MQ2_ADC;MQ3_ADC;MQ4_ADC;MQ5_ADC;MQ6_ADC;MQ7_ADC;MQ8_ADC;
 
 let content = header
 
-ipcMain.on('recording', (event, data, presentase, sampling_id) => {
+ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
 
     if( presentase == 100 )
     {
@@ -217,7 +386,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id) => {
         }
 
         let savePromise = dialog.showSaveDialog(null, saveOptions)
-        
+
         savePromise.then(
             (value) =>{
                 console.log(value)
@@ -235,14 +404,14 @@ ipcMain.on('recording', (event, data, presentase, sampling_id) => {
             (error) => {
                 console.log(error)
             }
-        )        
+        )
     }
     else
     {
         content = content + `${timestamp()};${data[0]};${data[1]};${data[2]};${data[3]};${data[4]};${data[5]};${data[6]};${data[7]};${data[8]};${data[9]};${data[10]};${data[11]};${data[12]};${data[13]};${data[14]};${data[15]};${data[16]};${data[17]};${data[18]};${data[19]};${data[20]};${data[21]};${data[22]};${data[23]};${data[24]};${data[25]};${data[26]};${data[27]};${data[28]};${data[29]};${data[30]};${data[31]};${data[32]};${data[33]};${data[34]};${data[35]};${data[36]};${data[37]};${data[38]};${data[39]};${data[40]};${data[41]};${data[42]};${data[43]};${data[44]};${data[45]};${data[46]};${data[47]};${data[48]};${data[49]};${data[50]};${data[51]};${data[52]};${data[53]};${data[54]};${data[55]};${data[56]};${data[57]};${data[58]};${data[59]}`
 
         let sensor_data = {
-            sampling_id: sampling_id,
+            sampling_id         : sampling_id,
 
             MQ2_ADC             :   data[0],
             MQ3_ADC             :   data[1],
@@ -316,9 +485,34 @@ ipcMain.on('recording', (event, data, presentase, sampling_id) => {
             created_at: timestamp()
         }
 
+        // console.log(JSON.stringify(sensor_data))
+
         connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
             if (err) throw err;
+
+            if(sync_status){
+                sensor_data.database = cloud_database
+
+                request.post(
+                    `http://${cloud_host}/store_sensor_data`,
+                    {
+                        json: sensor_data,
+                    },
+                    (error, res, body) => {
+                    if (error) {
+                        console.error(error)
+                        return
+                    }
+                    console.log(`sensor_data statusCode: ${res.statusCode}`)
+                    console.log(body)
+                    }
+                )
+            }
         });
+
+        // cloud.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
+        //     if (err) throw err;
+        // });
     }
 
 })
@@ -327,19 +521,19 @@ let startResponse
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
-    
+
         // connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
         //     if (err) throw err;
         // });
 });
 
 ipcMain.on('stop', () => {
-    console.log("HAPUSSS")
+    // console.log("HAPUSSS")
     startResponse = clearInterval(startResponse)
 })
 
 ipcMain.on('pompaOn', () => {
-    console.log('pompa ON')
+    // console.log('pompa ON')
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
@@ -353,7 +547,7 @@ ipcMain.on('pompaOn', () => {
 })
 
 ipcMain.on('pompaOff', () => {
-    console.log('pompa OFF')
+    // console.log('pompa OFF')
     let options = {
         scriptPath: path.join(__dirname,"../python/")
     }
