@@ -140,6 +140,93 @@ ipcMain.on('disconnect', () => {
     //mainWindow.send('disconnectResponse', message)
 });
 
+function getMaxSamplingIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from sampling', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
+
+function getMaxSamplingIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_sampling_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
+function getMaxClinicalDataIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from clinical_data', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
+
+function getMaxClinicalDataIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_clinical_data_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
+function getMaxSensorDataIdLocal() {
+    return new Promise(resolve => {
+        connection.query('SELECT MAX(id) as id from sensor_data', function(err, res) {
+            // console.log(res[0].id)
+            resolve(res[0].id)
+        })
+    })
+}
+
+function getMaxSensorDataIdCloud() {
+    return new Promise(resolve => {
+        request.post(
+            `http://${cloud_host}/max_sensor_data_id`,
+            {
+                json: {
+                    'database': cloud_database
+                },
+            },
+            (error, res, body) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+                resolve(body)
+            }
+        )
+    })
+}
+
 ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
     let sampling = {        
         rs_id       :   1,
@@ -182,93 +269,6 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    function getMaxSamplingIdLocal() {
-        return new Promise(resolve => {
-            connection.query('SELECT MAX(id) as id from sampling', function(err, res) {
-                // console.log(res[0].id)
-                resolve(res[0].id)
-            })
-        })
-    }
-
-    function getMaxSamplingIdCloud() {
-        return new Promise(resolve => {
-            request.post(
-                `http://${cloud_host}/max_sampling_id`,
-                {
-                    json: {
-                        'database': cloud_database
-                    },
-                },
-                (error, res, body) => {
-                    if (error) {
-                        console.error(error)
-                        return
-                    }
-                    resolve(body)
-                }
-            )
-        })
-    }
-
-    function getMaxClinicalDataIdLocal() {
-        return new Promise(resolve => {
-            connection.query('SELECT MAX(id) as id from clinical_data', function(err, res) {
-                // console.log(res[0].id)
-                resolve(res[0].id)
-            })
-        })
-    }
-
-    function getMaxClinicalDataIdCloud() {
-        return new Promise(resolve => {
-            request.post(
-                `http://${cloud_host}/max_clinical_data_id`,
-                {
-                    json: {
-                        'database': cloud_database
-                    },
-                },
-                (error, res, body) => {
-                    if (error) {
-                        console.error(error)
-                        return
-                    }
-                    resolve(body)
-                }
-            )
-        })
-    }
-
-    function getMaxSensorDataIdLocal() {
-        return new Promise(resolve => {
-            connection.query('SELECT MAX(id) as id from sensor_data', function(err, res) {
-                // console.log(res[0].id)
-                resolve(res[0].id)
-            })
-        })
-    }
-
-    function getMaxSensorDataIdCloud() {
-        return new Promise(resolve => {
-            request.post(
-                `http://${cloud_host}/max_sensor_data_id`,
-                {
-                    json: {
-                        'database': cloud_database
-                    },
-                },
-                (error, res, body) => {
-                    if (error) {
-                        console.error(error)
-                        return
-                    }
-                    resolve(body)
-                }
-            )
-        })
-    }
-
     let insertSamplingPromise = new Promise(function(myResolve, myReject) {
         // "Producing Code" (May take some time)
 
@@ -280,8 +280,8 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
 
             clicinal_data_row.sampling_id = result.insertId
 
-            async function syncronizeDB() {
-                console.log('Syncronizing')
+            async function synchronizedDB() {
+                console.log('Syncronizing Check')
 
                 let resolveValue = {
                     'sampling_id' : result.insertId,
@@ -330,7 +330,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                 }
             }
     
-            syncronizeDB()
+            synchronizedDB()
         });
     });
 

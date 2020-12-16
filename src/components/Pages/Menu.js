@@ -4,6 +4,7 @@ import ambil_data from '../../images/ambil_data1.jpg';
 import history from '../../images/history1.png';
 import covid from '../../images/covid1.jpg';
 import TitleBar from '../Nav/TitleBar';
+const { ipcRenderer } = window;
 
 class Home extends Component {
     constructor(props) {
@@ -11,6 +12,13 @@ class Home extends Component {
         this.state = {
             redirect: null
         }
+
+        this.sync = this.sync.bind(this);
+    }
+
+    sync () {
+        console.log('sync')
+        ipcRenderer.send('dbSync')
     }
 
     render() {
@@ -58,6 +66,13 @@ class Home extends Component {
                         </div>
                         <button className="bg-gray-500 w-full p-3 text-xl font-semibold text-white cursor-not-allowed opacity-50 rounded-lg">Data Baru</button>
                     </div>
+                </div>
+
+                <div className="flex space-x-5 pt-8">
+                    <button 
+                        className="bg-orange-500 w-full p-3 text-xl font-semibold text-white rounded-lg"
+                        onClick={ () => this.sync() }
+                    >Sinkronisasi Database</button>
                 </div>
             </div>
         );
