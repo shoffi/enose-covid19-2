@@ -124,7 +124,7 @@ function timestamp() {
 }
 
 // Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+PythonShell.PythonShell.run('enose-mq.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
 
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
@@ -381,6 +381,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
     if( presentase == 100 )
     {
         clearInterval(startResponse)
+        console.log(`masuk 100!`)
 
         let saveOptions = {
             defaultPath: app.getPath('documents') + '/untitled.csv'
@@ -400,6 +401,8 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                         console.log(`file ${value.filePath} successfully created!`)
                         content = header
                     })
+                }else{
+                    content = header
                 }
             },
             (error) => {
