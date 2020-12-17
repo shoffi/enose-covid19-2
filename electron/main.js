@@ -277,7 +277,11 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
             async function synchronizedDB() {
                 console.log('Syncronizing Check')
 
+                sampling.id = result.insertId
+                console.log('sampling log = ' + JSON.stringify(sampling))
+
                 let resolveValue = {
+                    'sampling'    : sampling,
                     'sampling_id' : result.insertId,
                     'sync'        : false
                 }
@@ -332,9 +336,9 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
     // "Consuming Code" (Must wait for a fulfilled Promise)
     insertSamplingPromise.then(
         function(value) {
-            connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err) {
+            connection.query('INSERT INTO clinical_data SET ?', clicinal_data_row, function(err, clicinal_data_res) {
                 if (err) throw err;
-
+                
                 if(value.sync){
                     clicinal_data_row.database = cloud_database
 
@@ -355,6 +359,10 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                 }
                 else{
                     // logging gagal masukin ke cloud sampling
+                    console.log('logging gagal masukin ke cloud sampling')
+                    samplingLogger.insert(value.sampling)
+                    clicinal_data_row.id = clicinal_data_res.insertId
+                    clinicalLogger.insert(clicinal_data_row)
                 }
 
                 mainWindow.send('storePatientResponse', value.sampling_id)
@@ -506,6 +514,9 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                     console.log(body)
                     }
                 )
+            }else{
+                sensor_data.id = result.insertId
+                sensorLogger.insert(sensor_data)
             }
         });
 

@@ -19,7 +19,6 @@ class Log {
 
     insert  = (json_data) => {
         fs.readFile(this.path, 'utf8',(err, jsonString) => {
-            console.log(jsonString)
             try {
                 let data = JSON.parse(jsonString)
                 data.push(json_data)
