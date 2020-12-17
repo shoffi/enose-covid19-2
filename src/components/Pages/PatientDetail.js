@@ -44,23 +44,36 @@ class PatientDetail extends Component {
                     <div className="flex mx-auto pt-6 space-x-6">
 
                         <div className="w-1/4">
-                            <p className="text-xl mb-1">ID Pasien</p>
-                            <input
-                                type="text"
-                                onFocus={() => this.setState({inputName: 'PatientId'})}
-                                value = { this.state.allInputs.PatientId }
-                                onChange={ (event) => {
-                                    this.props.setPatientId(event.target.value)
-                                    this.setState({
-                                        allInputs: { ...this.state.allInputs, PatientId: event.target.value }
-                                    })
-                                } }
-                                className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                placeholder="ID Pasien"
-                            />
-                            <p className="text-gray-600 mt-3">
-                                Masukkan ID atau NIK pasien.
-                            </p>
+                            <div className="mb-2">
+                                <p className="text-xl mb-1">ID Pasien</p>
+                                <input
+                                    type="text"
+                                    onFocus={() => this.setState({inputName: 'PatientId'})}
+                                    value = { this.state.allInputs.PatientId }
+                                    onChange={ (event) => {
+                                        this.props.setPatientId(event.target.value)
+                                        this.setState({
+                                            allInputs: { ...this.state.allInputs, PatientId: event.target.value }
+                                        })
+                                    } }
+                                    className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                    placeholder="ID Pasien"
+                                />
+                                <p className="text-gray-600 mt-1 text-xs leading-tight">
+                                    Masukkan ID atau NIK pasien.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xl mb-1">Waktu</p>
+                                <button
+                                className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                                    <p
+                                    className="text-xl text-left flex-1 font-semibold px-4 py-2">
+                                    Pagi
+                                    </p>
+                                    <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                            </div>
                         </div>
 
                         <div className="w-3/4 grid grid-cols-3 gap-3 border-l pl-4">

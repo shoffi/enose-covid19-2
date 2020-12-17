@@ -23,6 +23,7 @@ const store = new Store({
 
 // MySQl Connection
 let { host, user, password, database } = store.get('database');
+console.log(host)
 
 let connection = mysql.createConnection({
     host    :   host,
