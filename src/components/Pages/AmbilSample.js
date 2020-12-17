@@ -20,6 +20,21 @@ class AmbilSample extends Component {
             saturasiOksigen: this.props.saturasiOksigen,
             gulaDarah: this.props.gulaDarah,
             denyutJantung: this.props.denyutJantung,
+            hasilSwab: [
+                { id: 1, value: 'Negatif Covid-19'},
+                { id: 2, value: 'Positif Covid-19'},
+                { id: 3, value: 'Tidak diketahui'},
+            ],
+            isHasilSelected: false,
+
+            alatPCR: [
+                { id: 1, value: 'A'},
+                { id: 2, value: 'B'},
+                { id: 3, value: 'C'},
+                { id: 4, value: 'D'},
+                { id: 5, value: 'E'},
+            ],
+            isPCRSelected: false,
 
             diseases: [
                 {id: 1, value: "Demam", isChecked: false},
@@ -49,6 +64,8 @@ class AmbilSample extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handlePatientId = this.handlePatientId.bind(this)
         this.startSampling = this.startSampling.bind(this)
+        this.toggleHasil = this.toggleHasil.bind(this)
+        this.togglePCR = this.togglePCR.bind(this)
     }
 
     componentDidMount(){
@@ -100,6 +117,17 @@ class AmbilSample extends Component {
         })
     }
 
+    toggleHasil() {
+        this.setState({
+            isHasilSelected: !this.state.isHasilSelected
+        })
+    }
+    togglePCR() {
+        this.setState({
+            isPCRSelected: !this.state.isPCRSelected
+        })
+    }
+
     render () {
         if (this.state.redirect) {
             console.log(this.state) 
@@ -134,8 +162,8 @@ class AmbilSample extends Component {
                     <div className="">
                         <h3 className="text-2xl text-center font-bold mb-4">Hasil PCR</h3>
                         <div className="flex items-start space-x-4">
-                            <div className="w-1/3 ">
-                                <p className="text-brand-green font-semibold mb-1">Hasil</p>
+                            <div className="w-1/3 relative">
+                                <p className="text-brand-green font-semibold mb-1">Hasil Swab</p>
                                 {/* <label class="inline-flex p-3 rounded-xl items-center bg-green-200 bg-opacity-25  w-full">
                                     <input
                                         type="checkbox"
@@ -146,6 +174,7 @@ class AmbilSample extends Component {
                                     <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>
                                 </label> */}
                                 <button
+                                onClick = { this.toggleHasil }
                                 className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                                     <p
                                     className="text-xl text-left flex-1 px-4 py-2">
@@ -154,17 +183,34 @@ class AmbilSample extends Component {
                                     <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <p className="text-xs text-gray-700 leading-tight mt-2">Jika Positif Covid-19, maka tidak perlu dicentang</p>
+                                { this.state.isHasilSelected && (<div className="absolute border bg-white w-full mt-2 rounded-md py-2 divide-y">
+                                    { this.state.hasilSwab.map(hasil => (
+                                        <div
+                                        key = { hasil.id }
+                                        onClick = { this.toggleHasil }
+                                        className="text-lg p-2 cursor-pointer">{ hasil.value }</div>
+                                    )) }
+                                </div>)}
                             </div>
-                            <div className="w-1/3">
+                            <div className="w-1/3 relative">
                                 <p className="text-brand-green font-semibold mb-1">Alat PCR</p>
                                 <button
+                                onClick = { this.togglePCR }
                                 className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                                     <p
                                     className="text-xl text-left flex-1 px-4 py-2">
-                                    jenis A
+                                    PCR Tipe A
                                     </p>
                                     <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
+                                { this.state.isPCRSelected && (<div className="absolute border bg-white w-full mt-2 rounded-md py-2 divide-y">
+                                    { this.state.alatPCR.map(pcr => (
+                                        <div
+                                        key = { pcr.id }
+                                        onClick = { this.togglePCR }
+                                        className="text-lg p-2 cursor-pointer">PCR Tipe { pcr.value }</div>
+                                    )) }
+                                </div>)}
                             </div>
                             <div className="w-1/3">
                                 <p className="text-brand-green font-semibold mb-1">CT PCR</p>

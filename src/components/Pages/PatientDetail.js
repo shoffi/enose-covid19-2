@@ -13,10 +13,24 @@ class PatientDetail extends Component {
         this.state = {
             redirect: null,
             isFocus: true,
+            times: [
+                { id: 1, value: 'Pagi'},
+                { id: 2, value: 'Siang'},
+                { id: 3, value: 'Malam'},
+            ],
+            isTimesSelected: false,
 
             allInputs: {},
             inputName: 'default'
         }
+
+        this.toggleWaktu = this.toggleWaktu.bind(this)
+    }
+
+    toggleWaktu() {
+        this.setState({
+            isTimesSelected: !this.state.isTimesSelected
+        })
     }
 
     render () {
@@ -65,14 +79,25 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <p className="text-xl mb-1">Waktu</p>
-                                <button
-                                className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
-                                    <p
-                                    className="text-xl text-left flex-1 font-semibold px-4 py-2">
-                                    Pagi
-                                    </p>
-                                    <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
+                                <div className="relative">
+                                    <button
+                                    onClick = { this.toggleWaktu }
+                                    className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                                        <p
+                                        className="text-xl text-left flex-1 font-semibold px-4 py-2">
+                                        Pagi
+                                        </p>
+                                        <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                                    </button>
+                                    { this.state.isTimesSelected && (<div className="absolute border bg-white w-full mt-2 rounded-md py-2 divide-y">
+                                        { this.state.times.map(waktu => (
+                                            <div
+                                            key = { waktu.id }
+                                            onClick = {this.toggleWaktu }
+                                            className="text-lg p-2 cursor-pointer">{ waktu.value }</div>
+                                        )) }
+                                    </div>)}
+                                </div>
                             </div>
                         </div>
 
