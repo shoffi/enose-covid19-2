@@ -400,6 +400,8 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                         console.log(`file ${value.filePath} successfully created!`)
                         content = header
                     })
+                }else{
+                    content = header
                 }
             },
             (error) => {
