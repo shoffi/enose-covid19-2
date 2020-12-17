@@ -18,17 +18,17 @@ class Log {
         fs.writeFileSync(this.path, JSON.stringify(this.data));
     }
 
-    insert  = async (sampling_data) => {
+    insert  = async (json_data) => {
         
         fs.readFile(this.path, 'utf8',(err, jsonString) => {
             console.log(jsonString)
             try {
                 let data = JSON.parse(jsonString)
-                data.push(sampling_data)
+                data.push(json_data)
                 fs.writeFileSync(this.path, JSON.stringify(data));
             } catch (error) {
                 let data = []
-                data.push(sampling_data)
+                data.push(json_data)
                 fs.writeFileSync(this.path, JSON.stringify(data));
             }
         })
