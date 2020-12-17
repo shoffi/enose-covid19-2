@@ -22,18 +22,9 @@ const store = new Store({
     }
 });
 
-const samplingLogger = new Log({
-    configName: 'sampling-log',
-    defaults: {
-        data: 'kosong'
-    }
-})
-
-samplingLogger.insert({
-    id: 1,
-    rs_id: 1,
-    nurse_id: 1
-})
+const samplingLogger = new Log({configName: 'sampling-log'})
+const clinicalLogger = new Log({configName: 'clinical-log'})
+const sensorLogger = new Log({configName: 'sensor-log'})
 
 // MySQl Connection
 let { host, user, password, database } = store.get('database');
@@ -51,10 +42,6 @@ function createWindow () {
     connection.connect(function (err) {
         console.log(err)
     })
-
-    // cloud.connect(function (err) {
-    //     console.log(err)
-    // })
 
     modal.setup();
 
