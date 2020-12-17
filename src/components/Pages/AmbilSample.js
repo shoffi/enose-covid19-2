@@ -123,6 +123,14 @@ class AmbilSample extends Component {
                 ></TitleBar>
 
                 <div className="py-8">
+                    <div className="flex justify-center">
+                        <div className="w-2/3">
+                            <p className="text-center text-xl font-light leading-snug text-gray-800">
+                                Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
+                            </p>
+                        </div>
+                    </div>
+                    <hr className="border my-3" />
                     <div className="flex items-center space-x-4">
                         <div className="w-1/2">
                             <p className="text-xl font-light leading-snug text-gray-800">
