@@ -381,6 +381,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
     if( presentase == 100 )
     {
         clearInterval(startResponse)
+        console.log(`masuk 100!`)
 
         let saveOptions = {
             defaultPath: app.getPath('documents') + '/untitled.csv'
