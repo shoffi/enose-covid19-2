@@ -123,22 +123,59 @@ class AmbilSample extends Component {
                 ></TitleBar>
 
                 <div className="py-8">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-1/2">
-                            <p className="text-xl font-light leading-snug text-gray-800">
-                            Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
+                    <div className="flex justify-center">
+                        <div className="w-2/3">
+                            <p className="text-center text-xl font-light leading-snug text-gray-800">
+                                Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
                             </p>
                         </div>
-                        <div className="w-1/2 bg-green-200 bg-opacity-25 p-3 rounded-xl">
-                            <label class="inline-flex items-center w-full">
-                                <input
-                                    type="checkbox"
-                                    checked={this.state.covidStatus}
-                                    onClick={this.handleCovidStatus}
-                                    class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
-                                ></input>
-                                <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>
-                            </label>
+                    </div>
+                    <hr className="border my-3" />
+                    <div className="">
+                        <h3 className="text-2xl text-center font-bold mb-4">Hasil PCR</h3>
+                        <div className="flex items-start space-x-4">
+                            <div className="w-1/3 ">
+                                <p className="text-brand-green font-semibold mb-1">Hasil</p>
+                                {/* <label class="inline-flex p-3 rounded-xl items-center bg-green-200 bg-opacity-25  w-full">
+                                    <input
+                                        type="checkbox"
+                                        checked={this.state.covidStatus}
+                                        onClick={this.handleCovidStatus}
+                                        class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
+                                    ></input>
+                                    <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>
+                                </label> */}
+                                <button
+                                className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                                    <p
+                                    className="text-xl text-left flex-1 px-4 py-2">
+                                    Negatif Covid-19
+                                    </p>
+                                    <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <p className="text-xs text-gray-700 leading-tight mt-2">Jika Positif Covid-19, maka tidak perlu dicentang</p>
+                            </div>
+                            <div className="w-1/3">
+                                <p className="text-brand-green font-semibold mb-1">Alat PCR</p>
+                                <button
+                                className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                                    <p
+                                    className="text-xl text-left flex-1 px-4 py-2">
+                                    jenis A
+                                    </p>
+                                    <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                            </div>
+                            <div className="w-1/3">
+                                <p className="text-brand-green font-semibold mb-1">CT PCR</p>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="35"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr className="border my-3" />

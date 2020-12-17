@@ -16,15 +16,16 @@
     "electron-modal": "^1.0.0",
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
+    "postcss": "^8.2.1",
     "python-shell": "^2.0.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
-    "react-simple-keyboard": "^2.5.87",
+    "react-simple-keyboard": "^2.5.88",
     "rpio": "^2.2.0",
-    "simple-keyboard": "^2.32.63"
+    "simple-keyboard": "^2.32.64"
   },
   "scripts": {
     "start": "npm run watch:css && export BROWSER=none && react-scripts start",
