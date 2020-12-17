@@ -4,6 +4,7 @@ const path = require('path');
 const mysql = require('mysql');
 const request = require('request');
 const Store = require('./Store.js');
+const Log = require('./Log.js');
 const modal = require('electron-modal');
 const PythonShell = require('python-shell');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
@@ -21,6 +22,19 @@ const store = new Store({
     }
 });
 
+const samplingLogger = new Log({
+    configName: 'sampling-log',
+    defaults: {
+        data: 'kosong'
+    }
+})
+
+samplingLogger.insert({
+    id: 1,
+    rs_id: 1,
+    nurse_id: 1
+})
+
 // MySQl Connection
 let { host, user, password, database } = store.get('database');
 
@@ -31,14 +45,7 @@ let connection = mysql.createConnection({
     database:   database
 })
 
-let { cloud_host, cloud_user, cloud_password, cloud_database } = store.get('cloud-vps');
-
-// let cloud = mysql.createConnection({
-//     host    :   cloud_host,
-//     user    :   cloud_user,
-//     password:   cloud_password,
-//     database:   cloud_database
-// })
+let { cloud_host, cloud_database } = store.get('cloud-vps');
 
 function createWindow () {
     connection.connect(function (err) {
@@ -308,6 +315,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                                 (error, res, body) => {
                                     if (error) {
                                         console.error(error)
+                                        // logging gagal masukin ke cloud sampling
                                         return
                                     }
                                     console.log(`sampling statusCode: ${res.statusCode}`)
@@ -357,6 +365,9 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                           console.log(body)
                         }
                     )
+                }
+                else{
+                    // logging gagal masukin ke cloud sampling
                 }
 
                 mainWindow.send('storePatientResponse', value.sampling_id)
@@ -501,6 +512,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                     (error, res, body) => {
                     if (error) {
                         console.error(error)
+                        // loggingnya di sini
                         return
                     }
                     console.log(`sensor_data statusCode: ${res.statusCode}`)
@@ -569,4 +581,57 @@ ipcMain.on('getPengaturan', () => {
 ipcMain.on('updatePengaturan', (event, input) => {
     let { proses1, proses2, proses3 } = input;
     store.set('config', { proses1, proses2, proses3 });
+})
+
+const insertSampling = async (sampling_id) => {
+    try {
+        let results = await new Promise( (resolve, reject) => {
+            connection.query("SELECT * FROM sampling WHERE id = ?", [sampling_id], function (err, results){
+                if (err) reject(err)
+                else resolve(results[0])
+            })
+        })
+    
+        let body = await new Promise( (resolve, reject) => {
+            request.post(
+                `http://${cloud_host}/store_sampling`,
+                {
+                    json: results,
+                },
+                (error, res, body) => {
+                    if (error) reject(error)
+                    else resolve(body)
+                }
+            )
+        } )
+
+        console.log(body)
+
+    } catch (error) {
+        
+    }
+}
+
+ipcMain.on('dbSync', async (event) => {
+    console.log('synchronization process')
+
+    const maxSamplingIdLocal = await getMaxSamplingIdLocal()
+    const maxSamplingIdCloud = await getMaxSamplingIdCloud()
+    const maxClinicalDataIdLocal = await getMaxClinicalDataIdLocal()
+    const maxClinicalDataIdCloud = await getMaxClinicalDataIdCloud()
+    const maxSensorDataIdLocal = await getMaxSensorDataIdLocal()
+    const maxSensorDataIdCloud = await getMaxSensorDataIdCloud()
+
+    // Sampling Table
+    if (maxSamplingIdLocal > maxSamplingIdCloud) {
+        console.log('Syncronizing Sampling Table')
+        
+        for (let sampling_id = maxSamplingIdCloud+1; sampling_id <= maxSamplingIdLocal; sampling_id++) {
+            
+            await insertSampling(sampling_id)
+            // await insertClinicalData(sampling_id)
+            // await insertSensorData(sampling_id)
+
+        }
+    }
 })
