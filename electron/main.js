@@ -388,7 +388,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
         console.log(`masuk 100!`)
 
         let saveOptions = {
-            defaultPath: app.getPath('documents') + '/untitled.csv'
+            defaultPath: app.getPath('documents') + '/sampling'+sampling_id+'.csv'
         }
 
         let savePromise = dialog.showSaveDialog(null, saveOptions)

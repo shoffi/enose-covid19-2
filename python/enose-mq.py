@@ -1,11 +1,12 @@
 import time
 #import Adafruit_GPIO.SPI as SPI
-import Adafruit_GPIO.SPI as SPI
+#import Adafruit_GPIO.SPI as SPI
 #import Adafruit_MCP3008
 import math
 import Adafruit_DHT
 import ADS1256
 import sys
+import threading
 
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN = 7
@@ -146,8 +147,8 @@ MQ9_LPGCurve         =  [2.30103, 0.325115, -0.471]
 
 #*********Variabel GLOBAL*********/
 VC_BOARD                    =    4.89  #//volt untuk sensor diukur dengan multitester
-CALIBRATION_SAMPLE_TIMES    =  2   #//jumlah kalibrasi, lebih lama lebih bagus misal 2 menit (240)
-CALIBRATION_SAMPLE_INTERVAL =  0.005 #//delay setiap jumlah kalibrasi (30*500ms=15000ms=15s)
+CALIBRATION_SAMPLE_TIMES    =  5   #//jumlah kalibrasi, lebih lama lebih bagus misal 2 menit (240)
+CALIBRATION_SAMPLE_INTERVAL =  0.05 #//delay setiap jumlah kalibrasi (30*500ms=15000ms=15s)
 READ_SAMPLE_INTERVAL        =  0.005 #//delay untuk merekam raw data analog
 READ_SAMPLE_TIMES           =  5    #//jumlah raw data yang direkam setiap kali kirim
 NUM_SENSOR                  =  8
@@ -168,7 +169,6 @@ MQ_RS_RO    =  [0, 0, 0, 0, 0, 0, 0, 0]
 MQ_RS_RO1    =  [0, 0, 0, 0, 0, 0, 0, 0]
 resistant = [0,0,0,0,0,0,0,0]
 voltage = [0,0,0,0,0,0,0,0]
-
 counter = 1
 lastSend = 0
 interval = 1
@@ -197,7 +197,7 @@ def MQCalibration():
       val = MQResistanceCalculation(MQ_RL_VALUE[j], vrl);
       MQ_RO[j] += val;
 
-    time.sleep(CALIBRATION_SAMPLE_INTERVAL)
+    #time.sleep(CALIBRATION_SAMPLE_INTERVAL)
 
   for j in range (0, NUM_SENSOR):
     MQ_RO[j] = MQ_RO[j] / CALIBRATION_SAMPLE_TIMES;
@@ -212,7 +212,7 @@ def MQGetSampleRs():
       resistant[j] = float("{:.3f}".format(x))
       MQ_RS[j] += rs;
 
-    #time.sleep(READ_SAMPLE_INTERVAL);
+    time.sleep(READ_SAMPLE_INTERVAL);
     #time.sleep(0.000005)
   
   for j in range (0,NUM_SENSOR):
@@ -314,18 +314,19 @@ def MQGetGasPercentage(rs_ro_ratio, gas_id):
   
 
 def readAndSendSensorData():
+  #sampler()
   #MQGetPercentage()
   #MQGetGasPercentage()
   global vrl
   temp_dht = 0 
   humi_dht = 0
-  MQGetSampleRs() #//250ms
+  #MQGetSampleRs() #//250ms
   humidity, temperature = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
   if humidity is not None and temperature is not None:
      x = temperature
      y = humidity
-     temp_dht = float("{:.5f}".format(x))
-     humi_dht = float("{:.5f}".format(y))
+     temp_dht = float("{:.3f}".format(x))
+     humi_dht = float("{:.3f}".format(y))
      return temp_dht, humi_dht;
   else:
      temp_dht = 0
@@ -484,14 +485,14 @@ def readAndSendSensorData():
   sys.stdout.flush()
   #time.sleep(1) 
    
+MQCalibration()
 
 def main():
-
-  MQCalibration()
   while True:
+    MQGetSampleRs()
     readAndSendSensorData()
     #time.sleep(0.1)
-    
-    
+
 if __name__ == "__main__":
-  main()
+   main()
+
