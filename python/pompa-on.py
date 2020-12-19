@@ -1,7 +1,7 @@
 from gpiozero import LED
 from signal import pause
 
-pompa = LED(17)
+pompa = LED(24)
 pompa.on()
 
 print("pompa on")
