@@ -148,7 +148,7 @@ MQ9_LPGCurve         =  [2.30103, 0.325115, -0.471]
 VC_BOARD                    =    4.89  #//volt untuk sensor diukur dengan multitester
 CALIBRATION_SAMPLE_TIMES    =  2   #//jumlah kalibrasi, lebih lama lebih bagus misal 2 menit (240)
 CALIBRATION_SAMPLE_INTERVAL =  0.005 #//delay setiap jumlah kalibrasi (30*500ms=15000ms=15s)
-READ_SAMPLE_INTERVAL        =  0.005 #//delay untuk merekam raw data analog
+READ_SAMPLE_INTERVAL        =  0.05 #//delay untuk merekam raw data analog
 READ_SAMPLE_TIMES           =  5    #//jumlah raw data yang direkam setiap kali kirim
 NUM_SENSOR                  =  8
 #array nama mq sensor

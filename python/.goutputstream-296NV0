@@ -1,16 +1,15 @@
 import time
 import ADS1256
-import sys
 import RPi.GPIO as GPIO
 
 ADC = ADS1256.ADS1256()
 ADC.ADS1256_init()
+sendData = ""
 
+temp_sht = 0
+humi_sht = 0
 
-def sensortgs():
-    sendData = ""
-    temp_sht = 0
-    humi_sht = 0
+while True:
     ADC_Value = ADC.ADS1256_GetAll()
     sendData += str(int(ADC_Value[0]*1023/0x7fffff))
     sendData += ";"
@@ -130,11 +129,9 @@ def sensortgs():
     sendData += ";"    
     sendData += str("null")#59
     sendData += ";"
-    print(sendData)
-    sys.stdout.flush()
-    
-    
 
-while True:
-    sensortgs()
+
+
+
+    print(sendData)
     time.sleep(1)
