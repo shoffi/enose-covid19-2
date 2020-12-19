@@ -44,7 +44,7 @@ class Home extends Component {
                             alt="Ambil Data" />
                         </div>
                         <button
-                        onClick={() => this.setState({redirect: '/patient-detail'})}
+                        onClick={() => this.setState({redirect: '/register-patient'})}
                         className="bg-orange-500 w-full p-3 text-xl font-semibold text-white rounded-lg">
                         Ambil Sample</button>
                     </div>

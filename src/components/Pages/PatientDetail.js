@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
-import Keyboard from "react-simple-keyboard";
+
+// import Keyboard from "react-simple-keyboard";
+// import CustomInput from '../Form/customInput.js';
 
 import TitleBar from '../Nav/TitleBar'
 import '../../styles/keyboard.css'
@@ -12,7 +14,7 @@ class PatientDetail extends Component {
 
         this.state = {
             redirect: null,
-            isFocus: true,
+            isFocus: false,
             times: [
                 { id: 1, value: 'Pagi'},
                 { id: 2, value: 'Siang'},
@@ -21,16 +23,30 @@ class PatientDetail extends Component {
             isTimesSelected: false,
 
             allInputs: {},
-            inputName: 'default'
+            inputName: 'default',
+            layoutName: 'numeric',
         }
 
+        this.keyboard = React.createRef()
+
         this.toggleWaktu = this.toggleWaktu.bind(this)
+        this.toggleKeyboard = this.toggleKeyboard.bind(this)
     }
 
     toggleWaktu() {
         this.setState({
             isTimesSelected: !this.state.isTimesSelected
         })
+    }
+
+    toggleKeyboard() {
+        this.setState({
+            isFocus: !this.state.isFocus
+        })
+    }
+
+    focusKeyboard() {
+        this.keyboard.current.onFocus();
     }
 
     render () {
@@ -46,33 +62,70 @@ class PatientDetail extends Component {
         return (
             <div>
                 <TitleBar
-                    title={'Detail Pasien'}
+                    title={'Tanda-tanda Vital'}
                     back={true}
                     next={true}
-                    setBack={() => this.setState({redirect: '/menu'})}
-                    setNext={() => this.setState({redirect: '/ambil-sample'})}
-                    setNextName={'Pilih Gejala'}
+                    setBack={() => this.setState({redirect: '/register-patient'})}
+                    setNext={() => this.setState({redirect: '/symptom-patient'})}
+                    setNextName={'Hasil Lab'}
                 ></TitleBar>
 
                 <div className="py-8">
                     <div className="flex mx-auto pt-6 space-x-6">
 
-                        <div className="w-1/4">
+                        {/* <div className="w-1/4">
                             <div className="mb-2">
                                 <p className="text-xl mb-1">ID Pasien</p>
-                                <input
-                                    type="text"
-                                    onFocus={() => this.setState({inputName: 'PatientId'})}
-                                    value = { this.state.allInputs.PatientId }
-                                    onChange={ (event) => {
-                                        this.props.setPatientId(event.target.value)
-                                        this.setState({
-                                            allInputs: { ...this.state.allInputs, PatientId: event.target.value }
-                                        })
-                                    } }
-                                    className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                    placeholder="ID Pasien"
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        // onFocus={() => this.setState({inputName: 'PatientId'})}
+                                        onFocus={ this.toggleKeyboard }
+                                        onBlur={ this.toggleKeyboard }
+                                        value = { this.state.allInputs.PatientId }
+                                        onChange={ (event) => {
+                                            this.props.setPatientId(event.target.value)
+                                            this.setState({
+                                                allInputs: { ...this.state.allInputs, PatientId: event.target.value }
+                                            })
+                                        } }
+                                        className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="ID Pasien"
+                                    />
+                                    <CustomInput />
+                                    { this.state.isFocus && (
+                                        <div
+                                        ref = { this.keyboard }
+                                        className="absolute w-full z-10 mt-6">
+                                            <Keyboard
+                                                
+                                                layoutName={ this.state.layoutName }
+                                                layout={{
+                                                    numeric: [
+                                                        "1 2 3",
+                                                        "4 5 6",
+                                                        "7 8 9",
+                                                        " 0 .",
+                                                    ]
+                                                }}
+                                                onChange={this.onChangeKeyboard}
+                                                onKeyPress={this.onKeyPress}
+                                                inputName={this.state.inputName}
+                                                onChangeAll={ (inputs) => {
+                                                    this.setState({
+                                                        allInputs: inputs
+                                                    })
+                                                    for (const key in inputs) {
+                                                        if (inputs.hasOwnProperty(key)) {
+                                                            const value = inputs[key];
+                                                            this.props['set'+key] && this.props['set'+key](value)
+                                                        }
+                                                    }
+                                                } }
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                                 <p className="text-gray-600 mt-1 text-xs leading-tight">
                                     Masukkan ID atau NIK pasien.
                                 </p>
@@ -99,9 +152,9 @@ class PatientDetail extends Component {
                                     </div>)}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="w-3/4 grid grid-cols-3 gap-3 border-l pl-4">
+                        <div className="grid grid-cols-3 gap-3">
                             <div>
                                 <p className="text-xl mb-1">Suhu Tubuh</p>
                                 <div className="relative">
@@ -206,7 +259,7 @@ class PatientDetail extends Component {
                                 </div>
                             </div>
                             <div>
-                                <p className="text-xl mb-1">Denyut Jantung</p>
+                                <p className="text-xl mb-1">Denyut Nadi</p>
                                 <div className="relative">
                                     <input
                                         type="text"
@@ -226,36 +279,42 @@ class PatientDetail extends Component {
                                     <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">BPM</p>
                                 </div>
                             </div>
+                            <div>
+                                <p className="text-xl mb-1">Tekanan Darah</p>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="Tekanan Darah"
+                                    />
+                                    <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">BPM</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-xl mb-1">Respiration Rate</p>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="Respiration Rate"
+                                    />
+                                    <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">BPM</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-xl mb-1">SPO<sub>2</sub></p>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        className="w-full text-2xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+                                        placeholder="SPO2"
+                                    />
+                                    <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">BPM</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                { this.state.isFocus && (
-                    <Keyboard
-                        
-                        onChange={this.onChangeKeyboard}
-                        onKeyPress={this.onKeyPress}
-                        inputName={this.state.inputName}
-                        onChangeAll={ (inputs) => {
-                            this.setState({
-                                allInputs: inputs
-                            })
-                            for (const key in inputs) {
-                                if (inputs.hasOwnProperty(key)) {
-                                    const value = inputs[key];
-                                    this.props['set'+key] && this.props['set'+key](value)
-                                }
-                            }
-                        } }
-                    />
-                    // <Keyboard
-                    //     keyboardRef={r => (keyboard.current = r)}
-                    //     inputName={inputName}
-                    //     layoutName={layoutName}
-                    //     onChangeAll={onChangeAll}
-                    //     onKeyPress={onKeyPress}
-                    // />
-                )}
             </div>
         )
     }
