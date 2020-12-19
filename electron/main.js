@@ -124,7 +124,7 @@ function timestamp() {
 }
 
 // Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose-mq.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
 
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
@@ -385,35 +385,35 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
     {
         isShowSaveDialog = 1
         clearInterval(startResponse)
-        console.log(`masuk 100!`)
+        // console.log(`masuk 100!`)
 
-        let saveOptions = {
-            defaultPath: app.getPath('documents') + '/untitled.csv'
-        }
+        // let saveOptions = {
+        //     defaultPath: app.getPath('documents') + '/untitled.csv'
+        // }
 
-        let savePromise = dialog.showSaveDialog(null, saveOptions)
+        // let savePromise = dialog.showSaveDialog(null, saveOptions)
 
-        savePromise.then(
-            (value) =>{
-                console.log(value)
-                isShowSaveDialog = 0
-                if(!value.canceled) {
-                    fs.writeFile(value.filePath, content, (err) => {
-                        if(err) {
-                            console.log('error in creating file: '+ err.message)
-                        }
-                        console.log(`file ${value.filePath} successfully created!`)
-                        content = header
+        // savePromise.then(
+        //     (value) =>{
+        //         console.log(value)
+        //         isShowSaveDialog = 0
+        //         if(!value.canceled) {
+        //             fs.writeFile(value.filePath, content, (err) => {
+        //                 if(err) {
+        //                     console.log('error in creating file: '+ err.message)
+        //                 }
+        //                 console.log(`file ${value.filePath} successfully created!`)
+        //                 content = header
                         
-                    })
-                }else{
-                    content = header
-                }
-            },
-            (error) => {
-                console.log(error)
-            }
-        )
+        //             })
+        //         }else{
+        //             content = header
+        //         }
+        //     },
+        //     (error) => {
+        //         console.log(error)
+        //     }
+        // )
     }
     else
     {   

@@ -16,12 +16,22 @@ class MainChart extends Component {
             proses1 : this.props.proses1 * 1 * 1,
             proses2 : this.props.proses2 * 1 * 1,
             proses3 : this.props.proses3 * 1 * 1,
+
+            isModalOpen: false,
         }
 
         this.chartRef = createRef();
         this.setProgress = this.setProgress.bind(this);
         this.stopChart = this.stopChart.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
+
+    openModal() {
+        // e.preventDefault();
+        this.setState(state => ({
+            isModalOpen: !state.isModalOpen
+        }));
+    };
 
     setProgress (completed) {
         this.setState({
@@ -63,7 +73,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
-            width: 800,
+            width: 750,
             height: 300,
             series: [
                 {},
@@ -77,6 +87,7 @@ class MainChart extends Component {
                     // series style
                     stroke: "red",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -84,6 +95,7 @@ class MainChart extends Component {
                     label: "S2",
                     stroke: "blue",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -91,6 +103,7 @@ class MainChart extends Component {
                     label: "S3",
                     stroke: "green",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -98,6 +111,7 @@ class MainChart extends Component {
                     label: "S4",
                     stroke: "orange",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -105,6 +119,7 @@ class MainChart extends Component {
                     label: "S5",
                     stroke: "purple",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -112,6 +127,7 @@ class MainChart extends Component {
                     label: "S6",
                     stroke: "pink",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -119,6 +135,7 @@ class MainChart extends Component {
                     label: "S7",
                     stroke: "violet",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -126,12 +143,15 @@ class MainChart extends Component {
                     label: "S8",
                     stroke: "black",
                     width: 1,
-                },{
+                    auto: true,
+                },
+                {
                     show: true,
                     spanGaps: false,
                     label: "S9",
                     stroke: "brown",
                     width: 1,
+                    auto: true,
                 },
                 {
                     show: true,
@@ -139,6 +159,7 @@ class MainChart extends Component {
                     label: "S10",
                     stroke: "cyan",
                     width: 1,
+                    auto: true,
                 }
             ],
         };
@@ -175,7 +196,9 @@ class MainChart extends Component {
                 let now = parseInt((Date.now() - startTime)/1000)
                 let presentase = parseInt((now/totalTime)*100)
 
-                if(presentase === 100) {
+                if(presentase >= 100) {
+                    this.openModal()
+                    // alert('hahaha')
                     ipcRenderer.removeAllListeners('python-data')
                 }
                 
@@ -228,15 +251,15 @@ class MainChart extends Component {
         let isCompleted = this.state.completed === 100 ? true : false;
         
         return (
-            <div className="w-full">
+            <div className="w-full relative">
                 <TitleBar
                     title={'Proses Sampling'}
-                    back={isCompleted}
+                    back={false}
                     next={false}
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="relative mt-10 mb-10 h-72" style={{width:"100%"}}>
+                <div className="mt-10 mb-10 h-72" >
                     <div ref={this.chartRef}></div>
                 </div>
 
@@ -280,6 +303,26 @@ class MainChart extends Component {
                         }
                     </div>
                 </div>
+            
+                {/* Open Modal */}
+                
+                {this.state.isModalOpen && (
+                    <div className="absolute h-full flex items-center bg-white w-full z-1 top-0">
+                        <div className="mx-auto bg-white overflow-hidden">
+                            <div className="flex items-center p-3">
+                                <p className="text-2xl font-semibold text-brand-green">Data berhasil disimpan!</p>
+                            </div>
+                            <button 
+                                onClick={() => this.openModal()}
+                                className="bg-green-500 mr-3 w-1/4 p-3 text-xl font-semibold text-white rounded-lg">OK</button>
+                            <button 
+                                onClick={() => this.setState({redirect: '/ambil-sample'})}
+                                className="bg-orange-500 w-2/3 p-3 text-xl font-semibold text-white rounded-lg">Data pasien baru</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Close modal */}
             </div>
         )
     }
