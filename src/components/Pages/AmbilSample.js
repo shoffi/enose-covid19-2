@@ -37,27 +37,29 @@ class AmbilSample extends Component {
             isPCRSelected: false,
 
             diseases: [
-                {id: 1, value: "Demam", isChecked: false},
-                {id: 2, value: "Flu atau bersin", isChecked: false},
-                {id: 3, value: "Sakit Tenggorokan", isChecked: false},
                 {id: 4, value: "Batuk", isChecked: false},
-                {id: 5, value: "Sulit Bernapas", isChecked: false},
+                {id: 1, value: "Demam", isChecked: false},
+                {id: 9, value: "Diare", isChecked: false},
+                {id: 2, value: "Flu atau bersin", isChecked: false},
+                {id: 10, value: "Gangguan Pencernaan", isChecked: false},
+                {id: 11, value: "Gangguan Penciuman", isChecked: false},
+                {id: 8, value: "Mata Berair", isChecked: false},
                 {id: 6, value: "Mual", isChecked: false},
                 {id: 7, value: "Pusing", isChecked: false},
-                {id: 8, value: "Mata Berair", isChecked: false},
-                {id: 9, value: "Diare", isChecked: false},
+                {id: 3, value: "Sakit Tenggorokan", isChecked: false},
+                {id: 5, value: "Sulit Bernapas", isChecked: false},
             ],
 
             comorbidities: [
-                {id: 1+9, value: "Hipertensi", isChecked: false},
                 {id: 2+9, value: "Diabetes Mellitus", isChecked: false},
                 {id: 3+9, value: "Gangguan Imun", isChecked: false},
-                {id: 4+9, value: "Liver atau Penyakit Hati", isChecked: false},
-                {id: 5+9, value: "Ginjal", isChecked: false},
                 {id: 6+9, value: "Gangguan Pernapasan", isChecked: false},
+                {id: 5+9, value: "Ginjal", isChecked: false},
+                {id: 1+9, value: "Hipertensi", isChecked: false},
                 {id: 7+9, value: "Kanker", isChecked: false},
-                {id: 8+9, value: "Tuberkulosis", isChecked: false},
+                {id: 4+9, value: "Liver atau Penyakit Hati", isChecked: false},
                 {id: 9+9, value: "Penyakit Kardiovaskular", isChecked: false},
+                {id: 8+9, value: "Tuberkulosis", isChecked: false},
             ]
         }
 
@@ -145,34 +147,26 @@ class AmbilSample extends Component {
                     title={'Gejala Pasien'}
                     back={true}
                     next={true}
-                    setBack={() => this.setState({redirect: '/patient-detail'})}
+                    setBack={() => this.setState({redirect: '/symptom-patient'})}
                     setNext={() => this.startSampling()}
                     setNextName={'Start Sampling'}
                 ></TitleBar>
 
                 <div className="py-8">
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mb-5">
                         <div className="w-2/3">
                             <p className="text-center text-xl font-light leading-snug text-gray-800">
                                 Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
                             </p>
                         </div>
                     </div>
-                    <hr className="border my-3" />
+
+                    {/* <hr className="border my-3" />
                     <div className="">
                         <h3 className="text-2xl text-center font-bold mb-4">Hasil PCR</h3>
                         <div className="flex items-start space-x-4">
                             <div className="w-1/3 relative">
                                 <p className="text-brand-green font-semibold mb-1">Hasil Swab</p>
-                                {/* <label class="inline-flex p-3 rounded-xl items-center bg-green-200 bg-opacity-25  w-full">
-                                    <input
-                                        type="checkbox"
-                                        checked={this.state.covidStatus}
-                                        onClick={this.handleCovidStatus}
-                                        class="form-checkbox h-8 w-8 text-green-600 rounded-xl"
-                                    ></input>
-                                    <span class="ml-3 text-gray-800 text-xl">Negative COVID-19</span>
-                                </label> */}
                                 <button
                                 onClick = { this.toggleHasil }
                                 className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
@@ -223,12 +217,12 @@ class AmbilSample extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr className="border my-3" />
-                    <div className="flex space-x-4 h-64 scrolling-touch overflow-y-scroll">
+                    </div> */}
+
+                    <div className="flex space-x-4">
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Gejala</h3>
-                            <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl">
+                            <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl h-70 scrolling-touch overflow-y-scroll">
                                 {this.state.diseases.map(item => (
                                     <div className="w-full">
                                         <label class="inline-flex items-center w-full">
@@ -247,7 +241,7 @@ class AmbilSample extends Component {
                         </div>
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Penyakit Bawaan</h3>
-                            <div className="bg-yellow-200 bg-opacity-25 p-3 rounded-xl">
+                            <div className="bg-yellow-200 bg-opacity-25 p-3 rounded-xl h-70 scrolling-touch overflow-y-scroll">
                                 {this.state.comorbidities.map(item => (
                                     <div className="w-full">
                                         <label class="inline-flex items-center w-full">

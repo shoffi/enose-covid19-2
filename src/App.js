@@ -12,6 +12,8 @@ import MainChart from "./components/Pages/MainChart";
 import Welcome from "./components/Pages/Welcome";
 import Pengaturan from "./components/Pages/Pengaturan";
 import Modal from './components/Modal';
+import RegisterPatient from './components/Pages/RegisterPatient'
+import SymptomPatient from './components/Pages/SymptomPatient'
 
 const { ipcRenderer } = window; 
 
@@ -220,6 +222,14 @@ class App extends Component {
 
               <Route path='/menu' exact>
                   <Menu/>
+              </Route>
+
+              <Route path='/register-patient' exact>
+                <RegisterPatient />
+              </Route>
+
+              <Route path='/symptom-patient' exact>
+                <SymptomPatient />
               </Route>
 
               <Route path='/patient-detail' exact>
