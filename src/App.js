@@ -38,6 +38,16 @@ class App extends Component {
             saturasiOksigen: "",
             gulaDarah: "",
             denyutJantung: "",
+            tekananDarah: "",
+            respirationRate: "",
+            spo: "",
+            ctPcr: "",
+            ddimer: "",
+            hemoglobin: "",
+            leukosit: "",
+            trombosit: "",
+            LED: "",
+            bloodGas: "",
 
             toggleModal: false,
 
@@ -72,6 +82,16 @@ class App extends Component {
         this.setSaturasiOksigen = this.setSaturasiOksigen.bind(this);
         this.setGulaDarah = this.setGulaDarah.bind(this);
         this.setDenyutJantung = this.setDenyutJantung.bind(this);
+        this.setTekananDarah = this.setTekananDarah.bind(this);
+        this.setRespirationRate = this.setRespirationRate.bind(this);
+        this.setSpo = this.setSpo.bind(this);
+        this.setCtPcr = this.setCtPcr.bind(this);
+        this.setDdimer = this.setDdimer.bind(this);
+        this.setHemoglobin = this.setHemoglobin.bind(this);
+        this.setLeukosit = this.setLeukosit.bind(this);
+        this.setTrombosit = this.setTrombosit.bind(this);
+        this.setLED = this.setLED.bind(this);
+        this.setBloodGas = this.setBloodGas.bind(this);
 
         this.connect = this.connect.bind(this);
         this.disconnect = this.disconnect.bind(this);
@@ -168,6 +188,59 @@ class App extends Component {
           denyutJantung: value,
       })
     }
+    
+    setTekananDarah (value) {
+      this.setState({
+          tekananDarah: value,
+      })
+    }
+
+    setRespirationRate (value) {
+      this.setState({
+          respirationRate: value,
+      })
+    }
+    setCtPcr (value) {
+      this.setState({
+        ctPcr: value,
+      })
+    }
+    setDdimer (value) {
+      this.setState({
+        ddimer: value,
+      })
+    }
+    setHemoglobin (value) {
+      this.setState({
+        hemoglobin: value,
+      })
+    }
+    setLeukosit (value) {
+      this.setState({
+        leukosit: value,
+      })
+    }
+    setTrombosit (value) {
+      this.setState({
+        trombosit: value,
+      })
+    }
+    setLED (value) {
+      this.setState({
+        LED: value,
+      })
+    }
+    setBloodGas (value) {
+      this.setState({
+        bloodGas: value,
+      })
+    }
+
+    setSpo (value) {
+      this.setState({
+          spo: value,
+      })
+    }
 
     setToggleModal() {
       this.setState({
@@ -225,11 +298,24 @@ class App extends Component {
               </Route>
 
               <Route path='/register-patient' exact>
-                <RegisterPatient />
+                <RegisterPatient
+                  patientId={this.state.patientId}
+                  setPatientId={this.setPatientId}
+                />
               </Route>
 
               <Route path='/symptom-patient' exact>
-                <SymptomPatient />
+                <SymptomPatient
+                  ctPcr={this.state.ctPcr}
+                  ddimer={this.state.ddimer}
+                  setCtPcr={this.setCtPcr}
+                  setDdimer={this.setDdimer}
+                  setHemoglobin = {this.setHemoglobin}
+                  setLeukosit = {this.setLeukosit}
+                  setTrombosit = {this.setTrombosit}
+                  setLED = {this.setLED}
+                  setBloodGas = {this.setBloodGas}
+                />
               </Route>
 
               <Route path='/patient-detail' exact>
@@ -241,6 +327,9 @@ class App extends Component {
                     setSaturasiOksigen = {this.setSaturasiOksigen}
                     setGulaDarah = {this.setGulaDarah}
                     setDenyutJantung = {this.setDenyutJantung}
+                    setTekananDarah = { this.setTekananDarah }
+                    setRespirationRate = { this.setRespirationRate }
+                    setSpo = { this.setSpo }
                   />
               </Route>
               

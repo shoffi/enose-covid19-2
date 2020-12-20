@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import TitleBar from '../Nav/TitleBar'
+import TitleBar from '../Nav/TitleBar';
+import CustomInput from '../Form/customInput';
 
 class PatientDetail extends Component {
   constructor (props){
@@ -9,6 +10,11 @@ class PatientDetail extends Component {
       redirect: null,
     }
   }
+
+  // setPatientId = (data) => {
+  //   this.setState({ test: data })
+  // }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={{
@@ -19,16 +25,20 @@ class PatientDetail extends Component {
     return (
       <div className="w-full">
         <TitleBar
-          title={'Register Pasien'}
+          title={'Registrasi Pasien'}
           back={true}
           next={false}
           setBack={() => this.setState({redirect: '/menu'})}
         />
         <div className="h-full flex items-center justify-center">
-          <div className="w-1/3 bg-white space-y-3">
+          <div className="w-2/5 bg-white space-y-3 mb-16">
             <div>
-              <label className="block">ID Pasien</label>
-              <input className="w-full bg-gray-300 px-2 py-3" type="text" placeholder="ID Pasien" />
+              <CustomInput
+              data={this.props.patientId}
+              label={"ID Pasien"}
+              unit={""}
+              onchange={ this.props.setPatientId }
+              />
               <span className="text-xs text-gray-600">Masukkan ID atau NIK Pasien</span>
             </div>
             <div>
@@ -37,7 +47,7 @@ class PatientDetail extends Component {
             </div>
             <button
             onClick={() => this.setState({redirect: '/patient-detail'})}
-            className="bg-brand-green p-2 w-full text-white">Pilih tanda vital</button>
+            className="bg-brand-green text-lg p-2 w-full text-white rounded-lg">Lanjutkan</button>
           </div>
         </div>
       </div>

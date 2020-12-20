@@ -385,7 +385,6 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
     {
         isShowSaveDialog = 1
         clearInterval(startResponse)
-<<<<<<< HEAD
         console.log(`masuk 100!`)
 
         let saveOptions = {
@@ -405,6 +404,10 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                         }
                         console.log(`file ${value.filePath} successfully created!`)
                         content = header
+                    })
+                }
+            })
+        
 
         // console.log(`masuk 100!`)
 

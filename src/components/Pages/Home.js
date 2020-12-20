@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import Keyboard from "react-simple-keyboard";
+import CustomInput from '../Form/customInput';
 
 class Home extends Component {
     constructor(props) {
@@ -88,26 +88,12 @@ class Home extends Component {
             <div className="relative w-full flex items-center">
                 <div className="flex w-4/5 mx-auto space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
-                        <div>
-                            <p className="text-brand-green mb-1">ID Perawat</p>
-                            <input
-                            type="text"
-                            value={this.props.nurseId} 
-                            onChange={ (event) => {
-                                this.props.setNurseId(event.target.value)
-                            }}
-                            onFocus={() => this.setState({isFocus: true})}
-                            // onBlur={() => this.setState({isFocus: false})}
-                            className="w-full font-semibold px-4 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                            placeholder="ID Perawat"
-                            />
-                            { this.state.isFocus && (
-                                <Keyboard 
-                                    onChange={this.onChangeKeyboard}
-                                    onKeyPress={this.onKeyPress}
-                                />
-                            )}
-                        </div>
+                        <CustomInput
+                        data={this.props.nurseId}
+                        label={"ID Perawat"}
+                        unit={""}
+                        onchange={ this.props.setNurseId }
+                        />
                         <div>
                             <p className="text-brand-green mb-1">Ruangan</p>
                             <p>{this.state.isModalOpen}</p>

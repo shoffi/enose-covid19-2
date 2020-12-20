@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import TitleBar from '../Nav/TitleBar';
+import CustomInput from '../Form/customInput';
 
 class AmbilSample extends Component {
     constructor(props) {
@@ -170,71 +171,63 @@ class AmbilSample extends Component {
                           </div>)}
                       </div>
                       <div className="w-1/3">
-                          <p className="text-brand-green font-semibold mb-1">CT PCR</p>
-                          <div className="relative">
-                              <input
-                                  type="text"
-                                  className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                                  placeholder="35"
-                              />
-                          </div>
+                        <CustomInput
+                        data={this.props.ctPcr}
+                        label={"CT PCR"}
+                        unit={""}
+                        onchange={ this.props.setCtPcr }
+                        />
                       </div>
                   </div>
                   <hr className="my-5" />
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">D-Dimer</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.ddimer}
+                        label={"D-Dimer"}
+                        unit={""}
+                        onchange={ this.props.setDdimer }
+                        />
                     </div>
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">Hemoglobin</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.hemoglobin}
+                        label={"Hemoglobin"}
+                        unit={""}
+                        onchange={ this.props.setHemoglobin }
+                        />
                     </div>
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">Leukosit</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.leukosit}
+                        label={"Leukosit"}
+                        unit={""}
+                        onchange={ this.props.setLeukosit }
+                        />
                     </div>
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">Trombosit</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.trombosit}
+                        label={"Trombosit"}
+                        unit={""}
+                        onchange={ this.props.setTrombosit }
+                        />
                     </div>
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">LED</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.LED}
+                        label={"LED"}
+                        unit={""}
+                        onchange={ this.props.setLED }
+                        />
                     </div>
                     <div>
-                      <p className="text-brand-green font-semibold mb-1">Blood Gas Analysis</p>
-                      <div className="relative">
-                        <input
-                        type="text"
-                        className="w-full text-xl font-semibold pl-3 pr-10 py-2 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-                        placeholder="35" />
-                      </div>
+                        <CustomInput
+                        data={this.props.bloodGas}
+                        label={"Blood Gas Analysis"}
+                        unit={""}
+                        onchange={ this.props.setBloodGas }
+                        />
                     </div>
                   </div>
 
