@@ -90,6 +90,7 @@ class Home extends Component {
                     <div className="flex-1 text-2xl space-y-3">
                         <CustomInput
                         data={this.props.nurseId}
+                        value={this.props.nurseId}
                         label={"ID Perawat"}
                         unit={""}
                         onchange={ this.props.setNurseId }

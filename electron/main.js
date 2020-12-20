@@ -121,7 +121,8 @@ function timestamp() {
 }
 
 // Terima data dari python setiap detik
-PythonShell.PythonShell.run('enose-dummy.py', {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
+let { pythonFile } = store.get('sensor')
+PythonShell.PythonShell.run(pythonFile, {scriptPath: path.join(__dirname,"../python/")} ).stdout.on('data', (data) => {mainWindow.send('python-data', data)})
 
 ipcMain.on('mounted', () => {
     let { rumahSakit } = store.get('ID');
@@ -226,6 +227,9 @@ function getMaxSensorDataIdCloud() {
 }
 
 ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
+    
+    console.log(detailPatient)
+
     let sampling = {        
         rs_id       :   1,
         nurse_id    :   detailPatient.nurse_id,
@@ -258,14 +262,16 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
 
     let clicinal_data_row = {
         sampling_id: "",
-        temperature: clinical_data.temperature,
-        uric_acid: clinical_data.uric_acid,
-        cholestrol: clinical_data.cholestrol,
-        oxygen_saturation: clinical_data.oxygen_saturation,
-        glucose: clinical_data.glucose,
-        heart_rate: clinical_data.heart_rate,
+        temperature: clinical_data.temperature ? clinical_data.temperature :  null,
+        uric_acid: clinical_data.uric_acid ? clinical_data.uric_acid :  null,
+        cholestrol: clinical_data.cholestrol ? clinical_data.cholestrol : null,
+        oxygen_saturation: clinical_data.oxygen_saturation ? clinical_data.oxygen_saturation : null,
+        glucose: clinical_data.glucose ? clinical_data.glucose : null,
+        heart_rate: clinical_data.heart_rate ? clinical_data.heart_rate : null,
         created_at: timestamp(),
     }
+
+    console.log('clinical data row = '+ JSON.stringify(clicinal_data_row))
 
     let insertSamplingPromise = new Promise(function(myResolve, myReject) {
         // "Producing Code" (May take some time)
@@ -282,7 +288,6 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                 console.log('Syncronizing Check')
 
                 sampling.id = result.insertId
-                console.log('sampling log = ' + JSON.stringify(sampling))
 
                 let resolveValue = {
                     'sampling'    : sampling,

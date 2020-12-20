@@ -8,38 +8,43 @@ class AmbilSample extends Component {
         super(props);
         
         this.state = {
-          redirect: null,
+            redirect: null,
 
-          nurse_id: this.props.nurseId,
-          ruang_id: this.props.ruangId,
-          patient_id: this.props.patientId,
-          covidStatus: this.props.covidStatus,
+            nurse_id: this.props.nurseId,
+            ruang_id: this.props.ruangId,
+            patient_id: this.props.patientId,
+            covidStatus: this.props.covidStatus,
 
-          suhuTubuh: this.props.suhuTubuh,
-          asamUrat: this.props.asamUrat,
-          kolestrol: this.props.kolestrol,
-          saturasiOksigen: this.props.saturasiOksigen,
-          gulaDarah: this.props.gulaDarah,
-          denyutJantung: this.props.denyutJantung,
-          hasilSwab: [
-              { id: 1, value: 'Negatif Covid-19'},
-              { id: 2, value: 'Positif - Tanpa gejala'},
-              { id: 3, value: 'Positif - Ringan'},
-              { id: 4, value: 'Positif - Sedang/moderat'},
-              { id: 5, value: 'Positif - Berat/Pneumonia Berat'},
-              { id: 6, value: 'Positif - Kritis'},
-              { id: 7, value: 'Tidak diketahui'},
-          ],
-          isHasilSelected: false,
-
-          alatPCR: [
-              { id: 1, value: 'A'},
-              { id: 2, value: 'B'},
-              { id: 3, value: 'C'},
-              { id: 4, value: 'D'},
-              { id: 5, value: 'E'},
-          ],
-          isPCRSelected: false,
+            suhuTubuh: this.props.suhuTubuh,
+            asamUrat: this.props.asamUrat,
+            kolestrol: this.props.kolestrol,
+            saturasiOksigen: this.props.saturasiOksigen,
+            gulaDarah: this.props.gulaDarah,
+            denyutJantung: this.props.denyutJantung,
+            hasilSwab: [
+                { id: 1, value: 'Negatif Covid-19'},
+                { id: 2, value: 'Positif - Tanpa gejala'},
+                { id: 3, value: 'Positif - Ringan'},
+                { id: 4, value: 'Positif - Sedang/moderat'},
+                { id: 5, value: 'Positif - Berat/Pneumonia Berat'},
+                { id: 6, value: 'Positif - Kritis'},
+                { id: 7, value: 'Tidak diketahui'},
+            ],
+            isHasilSelected: false,
+            bloodAnalysis: [
+                { id: 1, value: 'Asidosis respiratorik'},
+                { id: 2, value: 'Asidosis metabolik'},
+                { id: 3, value: 'Alkalosis resporatorik'},
+                { id: 4, value: 'Alkalosis metabolik'},
+            ],
+            alatPCR: [
+                { id: 1, value: 'A'},
+                { id: 2, value: 'B'},
+                { id: 3, value: 'C'},
+                { id: 4, value: 'D'},
+                { id: 5, value: 'E'},
+            ],
+            isPCRSelected: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -50,8 +55,8 @@ class AmbilSample extends Component {
     }
 
     componentDidMount(){
-        console.log("componentDidMount")
-        console.log(this.props)
+        console.log("SymptomPatient.js")
+        // console.log(this.props)
     }
 
     handleSubmit (event) {
@@ -111,11 +116,11 @@ class AmbilSample extends Component {
 
     render () {
         if (this.state.redirect) {
-            console.log(this.state) 
+            // console.log(this.state) 
             return <Redirect 
                         to={{
                             pathname: this.state.redirect,
-                            state: this.state
+                            // state: this.state
                         }}
                     />
         }
@@ -225,13 +230,33 @@ class AmbilSample extends Component {
                         onchange={ this.props.setLED }
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <CustomInput
                         data={this.props.bloodGas}
                         label={"Blood Gas Analysis"}
                         unit={""}
                         onchange={ this.props.setBloodGas }
                         />
+                    </div> */}
+                    <div>
+                        <p className="text-brand-green font-semibold mb-1">Blood Gas Analysis</p>
+                        <button
+                        onClick = { this.toggleHasil }
+                        className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                            <p
+                            className="text-xl text-left flex-1 px-3 py-1">
+                            Asidosis respiratorik
+                            </p>
+                            <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        { this.state.isHasilSelected && (<div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white w-full mt-2 rounded-md py-1 divide-y">
+                            { this.state.bloodAnalysis.map(hasil => (
+                                <div
+                                key = { hasil.id }
+                                onClick = { this.toggleHasil }
+                                className="p-2 cursor-pointer">{ hasil.value }</div>
+                            )) }
+                        </div>)}
                     </div>
                   </div>
 

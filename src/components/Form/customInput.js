@@ -13,7 +13,7 @@ class Input extends Component {
 
   state = {
     layoutName: "numeric",
-    input: "",
+    input: this.props.value,
     isFocus: false
   };
 

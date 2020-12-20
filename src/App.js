@@ -38,9 +38,11 @@ class App extends Component {
             saturasiOksigen: "",
             gulaDarah: "",
             denyutJantung: "",
+
             tekananDarah: "",
             respirationRate: "",
             spo: "",
+
             ctPcr: "",
             ddimer: "",
             hemoglobin: "",
@@ -181,6 +183,7 @@ class App extends Component {
       this.setState({
           gulaDarah: value,
       })
+      console.log(value)
     }
 
     setDenyutJantung (value) {
@@ -193,6 +196,7 @@ class App extends Component {
       this.setState({
           tekananDarah: value,
       })
+      console.log(value)
     }
 
     setRespirationRate (value) {
@@ -345,6 +349,17 @@ class App extends Component {
                     saturasiOksigen= {this.state.saturasiOksigen}
                     gulaDarah= {this.state.gulaDarah}
                     denyutJantung= {this.state.denyutJantung}
+                    tekananDarah= {this.state.tekananDarah}
+                    respirationRate= {this.state.respirationRate}
+                    spo= {this.state.spo}
+
+                    ctPcr= {this.state.ctPcr}
+                    ddimer= {this.state.ddimer}
+                    hemoglobin= {this.state.hemoglobin}
+                    leukosit= {this.state.leukosit}
+                    trombosit= {this.state.trombosit}
+                    LED= {this.state.LED}
+                    bloodGas= {this.state.bloodGas}
                   />
               </Route>
 
@@ -355,21 +370,26 @@ class App extends Component {
               <Route path='/data-baru' exact>
                   <Menu/>
               </Route>
+              {/* <Route path="/main-chart" exact>
+                  <MainChart 
+                    {...props}
+                    proses1={this.state.proses1}
+                    proses2={this.state.proses2}
+                    proses3={this.state.proses3}
+                  />
+              </Route> */}
+              <Route 
+                path="/main-chart" 
+                render={(props) => (
+                  <MainChart 
+                    {...props}
+                    proses1={this.state.proses1}
+                    proses2={this.state.proses2}
+                    proses3={this.state.proses3}
 
-              { this.state.renderMainChart ?  
-                <Route 
-                  path="/main-chart" 
-                  render={(props) => (
-                    <MainChart 
-                      {...props}
-                      proses1={this.state.proses1}
-                      proses2={this.state.proses2}
-                      proses3={this.state.proses3}
-                    />
-                  )}
-                />
-                : null
-              }
+                  />
+                )}
+              />
 
               <Route path='/pengaturan' exact>
                   <Pengaturan 

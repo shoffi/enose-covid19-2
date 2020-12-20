@@ -52,6 +52,10 @@ class PatientDetail extends Component {
         })
     }
 
+    componentDidMount(){
+        console.log('PatientDetail.js')
+    }
+
     focusKeyboard() {
         this.keyboard.current.onFocus();
     }
@@ -61,7 +65,7 @@ class PatientDetail extends Component {
             return  <Redirect 
                         to={{
                             pathname: this.state.redirect,
-                            state: this.state
+                            state: this.state.allInputs
                         }} 
                     />
         }

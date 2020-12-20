@@ -52,7 +52,7 @@ class MainChart extends Component {
         let resultComorbidities = Object.keys(comorbidities).map( (key) => [comorbidities[key].isChecked ] )
         arrayAll = resultDisease.concat(resultComorbidities)
         
-        console.log(this.props.location)
+        console.log(this.props.location.state)
 
         let detailPatient = {
             'nurse_id': this.props.location.state.nurse_id,
@@ -60,6 +60,8 @@ class MainChart extends Component {
             'ruang_id': this.props.location.state.ruang_id,
             'covid_status': this.props.location.state.covidStatus,
         }
+        
+        // pcr_tool & ct_pcr
 
         let clinical_data = {
             'temperature': this.props.location.state.suhuTubuh,

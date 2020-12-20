@@ -20,11 +20,16 @@ class AmbilSample extends Component {
             saturasiOksigen: this.props.saturasiOksigen,
             gulaDarah: this.props.gulaDarah,
             denyutJantung: this.props.denyutJantung,
+
+            pcr_tool: 'pcr_tool',
+            ct_pcr: this.props.ctPcr,
+
             hasilSwab: [
                 { id: 1, value: 'Negatif Covid-19'},
                 { id: 2, value: 'Positif Covid-19'},
                 { id: 3, value: 'Tidak diketahui'},
             ],
+
             isHasilSelected: false,
 
             alatPCR: [
@@ -34,6 +39,7 @@ class AmbilSample extends Component {
                 { id: 4, value: 'D'},
                 { id: 5, value: 'E'},
             ],
+
             isPCRSelected: false,
 
             diseases: [
@@ -71,8 +77,7 @@ class AmbilSample extends Component {
     }
 
     componentDidMount(){
-        console.log("componentDidMount")
-        console.log(this.props)
+        console.log("AmbilSample.js")
     }
 
     handleSubmit (event) {
@@ -132,7 +137,7 @@ class AmbilSample extends Component {
 
     render () {
         if (this.state.redirect) {
-            console.log(this.state) 
+            // console.log(this.state)
             return <Redirect 
                         to={{
                             pathname: this.state.redirect,

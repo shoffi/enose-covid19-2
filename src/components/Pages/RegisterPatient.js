@@ -47,6 +47,7 @@ class PatientDetail extends Component {
               data={this.props.patientId}
               label={"ID Pasien"}
               unit={""}
+              value={this.props.patientId}
               onchange={ this.props.setPatientId }
               />
               <span className="text-xs text-gray-600">Masukkan ID atau NIK Pasien</span>
