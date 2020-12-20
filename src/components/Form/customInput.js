@@ -4,19 +4,47 @@ import '../../styles/keyboard.css'
 
 class Input extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.openKeyboard = this.openKeyboard.bind(this)
+    this.toggleKeyboard = this.toggleKeyboard.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
+
   state = {
     layoutName: "numeric",
     input: "",
     isFocus: false
   };
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  toggleKeyboard() {
+    this.setState({ isFocus : true })
+    // alert('You click input')
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      // alert('You clicked outside of me!');
+      this.setState({ isFocus : false })
+    }
+  }
+
   onChange = input => {
     this.setState({ input });
     console.log("Input changed", input);
+    this.props.onchange(input);
   };
 
   onChangeInput = event => {
@@ -25,41 +53,41 @@ class Input extends Component {
     this.keyboard.setInput(input);
   };
 
-  openKeyboard() {
-    this.setState({ isFocus: !this.state.isFocus });
-  }
-
   render() {
     return (
       <div className="relative">
-        <input
-          value={this.state.input}
-          placeholder={"Tap on the virtual keyboard to start"}
-          onChange={this.onChangeInput}
-          onFocus={this.openKeyboard}
-          onBlur={this.openKeyboard}
-          className="w-full text-xl font-semibold pl-2 pr-10 py-1 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
-        />
-        {this.state.isFocus && (
-          <div className="absolute">
-            <Keyboard
-              keyboardRef = {r => (this.keyboard = r)}
-              layoutName = {this.state.layoutName}
-              onChange = {this.onChange}
-              onKeyPress = {this.onKeyPress}
-              layout = {{
-                numeric: [
-                  "1 2 3",
-                  "4 5 6",
-                  "7 8 9",
-                  ". 0 {bksp}",
-                ]
-              }}
-              display = {{
-                '{bksp}': 'Del',
-              }} />
-          </div>
-        )}
+        <label className="block font-semibold text-brand-green mb-1">{ this.props.label }</label>
+        <div className="relative">
+          <input
+            type="text"
+            value={ this.state.input }
+            placeholder={ this.props.label }
+            onChange={ this.onChangeInput }
+            onClick={ this.toggleKeyboard }
+            className="w-full text-xl font-semibold pl-2 pr-10 py-1 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+          />
+          <p className="absolute mx-3 text-xl text-gray-600 flex items-center inset-y-0 right-0">{ this.props.unit }</p>
+        </div>
+        {this.state.isFocus && (<div
+        ref={this.setWrapperRef}
+        className="absolute w-full mt-2 z-10">
+          <Keyboard
+            keyboardRef = {r => (this.keyboard = r)}
+            layoutName = {this.state.layoutName}
+            onChange = {this.onChange}
+            onKeyPress = {this.onKeyPress}
+            layout = {{
+              numeric: [
+                "1 2 3",
+                "4 5 6",
+                "7 8 9",
+                ". 0 {bksp}",
+              ]
+            }}
+            display = {{
+              '{bksp}': 'Hapus',
+            }} />
+        </div>)}
       </div>
     )
   }
