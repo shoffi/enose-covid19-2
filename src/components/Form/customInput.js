@@ -65,6 +65,7 @@ class Input extends Component {
             onChange={ this.onChangeInput }
             onClick={ this.toggleKeyboard }
             className="w-full text-xl font-semibold pl-2 pr-10 py-1 bg-gray-200 placeholder-gray-400 outline-none border-4 border-gray-200 focus:border-brand-orange rounded-lg"
+            required={this.props.required ? this.props.required : false}
           />
           <p className="absolute mx-3 text-xl text-gray-600 flex items-center inset-y-0 right-0">{ this.props.unit }</p>
         </div>

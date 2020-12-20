@@ -94,6 +94,7 @@ class Home extends Component {
                         label={"ID Perawat"}
                         unit={""}
                         onchange={ this.props.setNurseId }
+                        required={true}
                         />
                         <div>
                             <p className="text-brand-green mb-1">Ruangan</p>

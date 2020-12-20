@@ -21,7 +21,7 @@ class AmbilSample extends Component {
             gulaDarah: this.props.gulaDarah,
             denyutJantung: this.props.denyutJantung,
 
-            pcr_tool: 'pcr_tool',
+            pcr_tool: '',
             ct_pcr: this.props.ctPcr,
 
             hasilSwab: [
