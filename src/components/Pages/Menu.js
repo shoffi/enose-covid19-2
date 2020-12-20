@@ -21,6 +21,7 @@ class Home extends Component {
         ipcRenderer.send('dbSync')
         ipcRenderer.on('dbSyncDone', (event) => {
             alert(`sinkronisasi selesai`)
+            ipcRenderer.removeAllListeners('dbSyncDone')
         })
     }
 

@@ -449,62 +449,62 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
             TEMPERATURE         :   data[9],
             HUMIDITY            :   data[10],
 
-            MQ2_PPM_LPG         :   data[11],
-            MQ2_PPM_CO          :   data[12],
-            MQ2_PPM_SMOKE       :   data[13],
-            MQ2_PPM_ALCOHOL     :   data[14],
-            MQ2_PPM_CH4         :   data[15],
-            MQ2_PPM_H2          :   data[16],
-            MQ2_PPM_PROPANE     :   data[17],
+            MQ2_PPM_LPG         :   data[11] ? data[11] : null,
+            MQ2_PPM_CO          :   data[12] ? data[12] : null,
+            MQ2_PPM_SMOKE       :   data[13] ? data[13] : null,
+            MQ2_PPM_ALCOHOL     :   data[14] ? data[14] : null,
+            MQ2_PPM_CH4         :   data[15] ? data[15] : null,
+            MQ2_PPM_H2          :   data[16] ? data[16] : null,
+            MQ2_PPM_PROPANE     :   data[17] ? data[17] : null,
 
-            MQ3_PPM_ALCOHOL     :   data[18],
-            MQ3_PPM_BENZINE     :   data[19],
-            MQ3_PPM_CH4         :   data[20],
-            MQ3_PPM_CO          :   data[21],
-            MQ3_PPM_HEXANE      :   data[22],
-            MQ3_PPM_LPG         :   data[23],
+            MQ3_PPM_ALCOHOL     :   data[18] ? data[18] : null,
+            MQ3_PPM_BENZINE     :   data[19] ? data[19] : null,
+            MQ3_PPM_CH4         :   data[20] ? data[20] : null,
+            MQ3_PPM_CO          :   data[21] ? data[21] : null,
+            MQ3_PPM_HEXANE      :   data[22] ? data[22] : null,
+            MQ3_PPM_LPG         :   data[23] ? data[23] : null,
 
-            MQ4_PPM_ALCOHOL     :   data[24],
-            MQ4_PPM_CH4         :   data[25],
-            MQ4_PPM_CO          :   data[26],
-            MQ4_PPM_H2          :   data[27],
-            MQ4_PPM_LPG         :   data[28],
-            MQ4_PPM_SMOKE       :   data[29],
+            MQ4_PPM_ALCOHOL     :   data[24] ? data[24] : null,
+            MQ4_PPM_CH4         :   data[25] ? data[25] : null,
+            MQ4_PPM_CO          :   data[26] ? data[26] : null,
+            MQ4_PPM_H2          :   data[27] ? data[27] : null,
+            MQ4_PPM_LPG         :   data[28] ? data[28] : null,
+            MQ4_PPM_SMOKE       :   data[29] ? data[29] : null,
 
-            MQ5_PPM_ALCOHOL     :   data[30],
-            MQ5_PPM_CH4         :   data[31],
-            MQ5_PPM_CO          :   data[32],
-            MQ5_PPM_H2          :   data[33],
-            MQ5_PPM_LPG         :   data[34],
+            MQ5_PPM_ALCOHOL     :   data[30] ? data[30] : null,
+            MQ5_PPM_CH4         :   data[31] ? data[31] : null,
+            MQ5_PPM_CO          :   data[32] ? data[32] : null,
+            MQ5_PPM_H2          :   data[33] ? data[33] : null,
+            MQ5_PPM_LPG         :   data[34] ? data[34] : null,
 
-            MQ6_PPM_ALCOHOL     :   data[35],
-            MQ6_PPM_CH4         :   data[36],
-            MQ6_PPM_CO          :   data[37],
-            MQ6_PPM_H2          :   data[38],
-            MQ6_PPM_LPG         :   data[39],
+            MQ6_PPM_ALCOHOL     :   data[35] ? data[35] : null,
+            MQ6_PPM_CH4         :   data[36] ? data[36] : null,
+            MQ6_PPM_CO          :   data[37] ? data[37] : null,
+            MQ6_PPM_H2          :   data[38] ? data[38] : null,
+            MQ6_PPM_LPG         :   data[39] ? data[39] : null,
 
-            MQ7_PPM_ALCOHOL     :   data[40],
-            MQ7_PPM_CH4         :   data[41],
-            MQ7_PPM_CO          :   data[42],
-            MQ7_PPM_H2          :   data[43],
-            MQ7_PPM_LPG         :   data[44],
+            MQ7_PPM_ALCOHOL     :   data[40] ? data[40] : null,
+            MQ7_PPM_CH4         :   data[41] ? data[41] : null,
+            MQ7_PPM_CO          :   data[42] ? data[42] : null,
+            MQ7_PPM_H2          :   data[43] ? data[43] : null,
+            MQ7_PPM_LPG         :   data[44] ? data[44] : null,
 
-            MQ8_PPM_ALCOHOL     :   data[45],
-            MQ8_PPM_CH4         :   data[46],
-            MQ8_PPM_CO          :   data[47],
-            MQ8_PPM_H2          :   data[48],
-            MQ8_PPM_LPG         :   data[49],
+            MQ8_PPM_ALCOHOL     :   data[45] ? data[45] : null,
+            MQ8_PPM_CH4         :   data[46] ? data[46] : null,
+            MQ8_PPM_CO          :   data[47] ? data[47] : null,
+            MQ8_PPM_H2          :   data[48] ? data[48] : null,
+            MQ8_PPM_LPG         :   data[49] ? data[49] : null,
 
-            MQ9_PPM_CH4         :   data[50],
-            MQ9_PPM_CO          :   data[51],
-            MQ9_PPM_LPG         :   data[52],
+            MQ9_PPM_CH4         :   data[50] ? data[50] : null,
+            MQ9_PPM_CO          :   data[51] ? data[51] : null,
+            MQ9_PPM_LPG         :   data[52] ? data[52] : null,
 
-            MQ135_PPM_ACETON    :   data[53],
-            MQ135_PPM_ALCOHOL   :   data[54],
-            MQ135_PPM_CO        :   data[55],
-            MQ135_PPM_CO2       :   data[56],
-            MQ135_PPM_NH4       :   data[57],
-            MQ135_PPM_TOLUOL    :   data[58],
+            MQ135_PPM_ACETON    :   data[53] ? data[53] : null,
+            MQ135_PPM_ALCOHOL   :   data[54] ? data[54] : null,
+            MQ135_PPM_CO        :   data[55] ? data[55] : null,
+            MQ135_PPM_CO2       :   data[56] ? data[56] : null,
+            MQ135_PPM_NH4       :   data[57] ? data[57] : null,
+            MQ135_PPM_TOLUOL    :   data[58] ? data[58] : null,
 
             created_at: timestamp()
         }
@@ -549,10 +549,6 @@ let startResponse
 
 ipcMain.on('start', (event, pengambilan_id, totalTime) => {
     console.log('starting.... ' + pengambilan_id)
-
-        // connection.query('INSERT INTO sensor_data SET ?', sensor_data, function(err, result, fields) {
-        //     if (err) throw err;
-        // });
 });
 
 ipcMain.on('stop', () => {
@@ -603,23 +599,27 @@ const insertSampling = (sampling_json) => {
     return new Promise( (resolve, reject) => {
         try {
             fs.readFile(sampling_json, 'utf8',(err, samplingJsonString) => {
-                let samplingJsonData = JSON.parse(samplingJsonString)
-                samplingJsonData.forEach(element => {
-                    request.post(
-                        `http://${cloud_host}/sync_sampling`,
-                        {
-                            json: element,
-                        },
-                        (error, res, body) => {
-                            if(error) throw error;
-                            samplingJsonData.shift()
-                            fs.writeFileSync(sampling_json, JSON.stringify(samplingJsonData));
-                            console.log(body)
-                            console.log('sinkronisasi sampling done')
-                        }
-                    ) 
-                });
-                resolve(samplingJsonString)
+                if(err){
+
+                }else{
+                    let samplingJsonData = JSON.parse(samplingJsonString)
+                    samplingJsonData.forEach(element => {
+                        request.post(
+                            `http://${cloud_host}/sync_sampling`,
+                            {
+                                json: element,
+                            },
+                            (error, res, body) => {
+                                if(error) throw error;
+                                samplingJsonData.shift()
+                                fs.writeFileSync(sampling_json, JSON.stringify(samplingJsonData));
+                                console.log(body)
+                                console.log('sinkronisasi sampling done')
+                            }
+                        ) 
+                    });
+                    resolve(samplingJsonString)
+                }
             })
     
         } catch (error) {
@@ -632,23 +632,27 @@ const insertClinical = (clinical_json) => {
     return new Promise( (resolve, reject) => {
         try {
             fs.readFile(clinical_json, 'utf8',(err, clinicalJsonString) => {
-                let clinicalJsonData = JSON.parse(clinicalJsonString)
-                clinicalJsonData.forEach(element => {
-                    request.post(
-                        `http://${cloud_host}/sync_clinical_data`,
-                        {
-                            json: element,
-                        },
-                        (error, res, body) => {
-                            if(error) throw error;
-                            clinicalJsonData.shift()
-                            fs.writeFileSync(clinical_json, JSON.stringify(clinicalJsonData));
-                            console.log(body)
-                            console.log('sinkronisasi clinical done')
-                        }
-                    ) 
-                });
-                resolve(clinicalJsonString)
+                if(err){
+
+                }else{
+                    let clinicalJsonData = JSON.parse(clinicalJsonString)
+                    clinicalJsonData.forEach(element => {
+                        request.post(
+                            `http://${cloud_host}/sync_clinical_data`,
+                            {
+                                json: element,
+                            },
+                            (error, res, body) => {
+                                if(error) throw error;
+                                clinicalJsonData.shift()
+                                fs.writeFileSync(clinical_json, JSON.stringify(clinicalJsonData));
+                                console.log(body)
+                                console.log('sinkronisasi clinical done')
+                            }
+                        ) 
+                    });
+                    resolve(clinicalJsonString)
+                }
             })
     
         } catch (error) {
@@ -661,27 +665,31 @@ const insertSensor = (sensor_json) => {
     return new Promise( (resolve, reject) => {
         try {
             fs.readFile(sensor_json, 'utf8',(err, sensorJsonString) => {
-                let sensorJsonData = JSON.parse(sensorJsonString)
-                sensorJsonData.forEach(element => {
-                    request.post(
-                        `http://${cloud_host}/sync_sensor_data`,
-                        {
-                            json: element,
-                        },
-                        (error, res, body) => {
-                            if(error) throw error;
-                            sensorJsonData.shift()
-                            fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
-                            console.log(body)
-                            console.log('sinkronisasi sensor done')
-                        }
-                    ) 
-                });
-                resolve(sensorJsonString)
+                if(err){
+
+                }else{
+                    let sensorJsonData = JSON.parse(sensorJsonString)
+                    sensorJsonData.forEach(element => {
+                        request.post(
+                            `http://${cloud_host}/sync_sensor_data`,
+                            {
+                                json: element,
+                            },
+                            (error, res, body) => {
+                                if(error) throw error;
+                                sensorJsonData.shift()
+                                fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
+                                console.log(body)
+                                console.log('sinkronisasi sensor done')
+                            }
+                        ) 
+                    });
+                    resolve(sensorJsonString)
+                }
             })
     
         } catch (error) {
-            reject(error)
+            reject()
         }  
     })
 }

@@ -59,8 +59,10 @@ class MainChart extends Component {
             'patient_id': this.props.location.state.patient_id,
             'ruang_id': this.props.location.state.ruang_id,
             'covid_status': this.props.location.state.covidStatus,
+            'pcr_tool': this.props.location.state.pcr_tool,
+            'ct_pcr': this.props.location.state.ct_pcr,
         }
-        
+
         // pcr_tool & ct_pcr
 
         let clinical_data = {
