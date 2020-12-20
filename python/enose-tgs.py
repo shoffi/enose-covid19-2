@@ -2,6 +2,24 @@ import time
 import ADS1256
 import sys
 import RPi.GPIO as GPIO
+import smbus
+ 
+# Get I2C bus
+bus = smbus.SMBus(1) 
+# SHT31 address, 0x44(68)
+bus.write_i2c_block_data(0x44, 0x2C, [0x06]) # b669fbc0
+#print(bus)
+time.sleep(0.5)
+# SHT31 address, 0x44(68)
+# Read data back from 0x00(00), 6 bytes
+# Temp MSB, Temp LSB, Temp CRC, Humididty MSB, Humidity LSB, Humidity CRC
+data = bus.read_i2c_block_data(0x44, 0x00, 6)
+# Convert the data
+temp = data[0] * 256 + data[1]
+#print(temp)
+cTemp = -45 + (175 * temp / 65535.0)
+fTemp = -49 + (315 * temp / 65535.0)
+humidity = 100 * (data[3] * 256 + data[4]) / 65535.0
 
 ADC = ADS1256.ADS1256()
 ADC.ADS1256_init()
@@ -30,9 +48,9 @@ def sensortgs():
     sendData += ";"
     sendData += str("0")
     sendData += ";"
-    sendData += str(temp_sht) #10
+    sendData += str(ctemp) #10
     sendData += ";"
-    sendData += str(humi_sht) #11
+    sendData += str(humidity) #11
     sendData += ";"
     sendData += str("null")#12
     sendData += ";"
