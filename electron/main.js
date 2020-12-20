@@ -235,7 +235,9 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         nurse_id    :   detailPatient.nurse_id,
         room_id     :   detailPatient.ruang_id.id,
         patient_id  :   detailPatient.patient_id,
-        covid_status:   !detailPatient.covid_status,
+        covid_status:   detailPatient.covid_status,
+        pcr_tool    :   detailPatient.pcr_tool ? detailPatient.pcr_tool :null,
+        ct_pcr      :   detailPatient.ct_pcr ? detailPatient.ct_pcr : null,
 
         s1  :   input[0][0],
         s2  :   input[1][0],
@@ -445,7 +447,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
             MQ7_ADC             :   data[5],
             MQ8_ADC             :   data[6],
             MQ9_ADC             :   data[7],
-            MQ135_ADC           :   data[8],
+            MQ135_ADC           :   data[8] ? data[8] : null,
             TEMPERATURE         :   data[9],
             HUMIDITY            :   data[10],
 
