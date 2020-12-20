@@ -24,9 +24,8 @@ class Home extends Component {
 
     handleSubmit(event) { 
         event.preventDefault();
-        let status = true;
-        
-        if (status) {
+        if (this.props.nurseId !== '') {
+            console.log('nurse_id = ' + this.props.nurseId )
             this.setState({
                 redirect: '/menu',
                 isConnected: true
