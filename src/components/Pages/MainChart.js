@@ -18,12 +18,14 @@ class MainChart extends Component {
             proses3 : this.props.proses3 * 1 * 1,
 
             isModalOpen: false,
+            isStopModalOpen: false
         }
 
         this.chartRef = createRef();
         this.setProgress = this.setProgress.bind(this);
         this.stopChart = this.stopChart.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.stopModal = this.stopModal.bind(this);
     }
 
     openModal() {
@@ -41,7 +43,11 @@ class MainChart extends Component {
 
     stopChart () {
         ipcRenderer.send('stop')
-        this.setState({redirect: '/menu'})
+        this.setState({redirect: '/ambil-sample'})
+    }
+
+    stopModal () {
+        this.setState({isStopModalOpen: true})
     }
 
     componentDidMount() {
@@ -266,11 +272,7 @@ class MainChart extends Component {
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="mt-10 mb-10 h-72" >
-                    <div ref={this.chartRef}></div>
-                </div>
-
-                <div className="flex space-x-3">
+                <div className="flex space-x-3 mt-10">
                     <div className="w-1/12 text-center leading-tight">
                         <h3 className="text-2xl font-bold">
                             {this.state.completed}
@@ -305,13 +307,17 @@ class MainChart extends Component {
                                 Kembali
                             </button>)
                         : (<button
-                            onClick={ this.stopChart }
+                            onClick={ this.stopModal }
                             className="flex items-center justify-center w-full h-full py-2 bg-red-600 text-white text-xl rounded-lg">
                                 <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                 berhenti
                             </button>)
                         }
                     </div>
+                </div>
+
+                <div className="mt-10 mb-10 h-72" >
+                    <div ref={this.chartRef}></div>
                 </div>
             
                 {/* Open Modal */}
@@ -328,6 +334,28 @@ class MainChart extends Component {
                             <button 
                                 onClick={() => this.setState({redirect: '/menu'})}
                                 className="bg-orange-500 w-2/3 p-3 text-xl font-semibold text-white rounded-lg">Data pasien baru</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Close modal */}
+
+                {/* Stop Modal */}
+                
+                {this.state.isStopModalOpen && (
+                    <div className="absolute h-full flex items-center bg-white w-full z-1 top-0">
+                        <div className="mx-auto bg-white overflow-hidden">
+                            <div className="flex items-center p-3">
+                                <p className="text-2xl font-semibold text-brand-green">Apakah anda yakin membatalkan proses sampling?</p>
+                            </div>
+                            <div className="text-center space-x-3">
+                                <button 
+                                    onClick={this.stopChart}
+                                    className="bg-green-500 w-1/3 p-3 text-xl font-semibold text-white rounded-lg">YA</button>
+                                <button 
+                                    onClick={ () => this.setState({isStopModalOpen: false})}
+                                    className="bg-red-500 w-1/3 p-3 text-xl font-semibold text-white rounded-lg">Tidak</button>
+                            </div>
                         </div>
                     </div>
                 )}

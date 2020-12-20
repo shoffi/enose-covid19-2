@@ -31,6 +31,7 @@ class App extends Component {
             ruangId: "",
             patientId: "",
             covidStatus: 0,
+            waktuTes: "",
 
             suhuTubuh: "",
             asamUrat: "",
@@ -77,6 +78,7 @@ class App extends Component {
         this.setNurseId = this.setNurseId.bind(this);
         this.setRuangId = this.setRuangId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
+        this.setWaktuTes = this.setWaktuTes.bind(this)
 
         this.setSuhuTubuh = this.setSuhuTubuh.bind(this);
         this.setAsamUrat = this.setAsamUrat.bind(this);
@@ -152,6 +154,13 @@ class App extends Component {
     setPatientId(value) {
       this.setState({
           patientId: value,
+      });
+    }
+
+    setWaktuTes(value) {
+      console.log('setWaktuTes =' + value)
+      this.setState({
+          waktuTes: value,
       });
     }
 
@@ -305,6 +314,8 @@ class App extends Component {
                 <RegisterPatient
                   patientId={this.state.patientId}
                   setPatientId={this.setPatientId}
+                  waktuTes={this.state.waktuTes}
+                  setWaktuTes={this.setWaktuTes}
                 />
               </Route>
 
