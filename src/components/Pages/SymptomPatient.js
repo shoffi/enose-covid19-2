@@ -37,6 +37,7 @@ class AmbilSample extends Component {
                 { id: 3, value: 'Alkalosis resporatorik'},
                 { id: 4, value: 'Alkalosis metabolik'},
             ],
+            isbloodAnalysisSelected: false,
             alatPCR: [
                 { id: 1, value: 'A'},
                 { id: 2, value: 'B'},
@@ -52,6 +53,7 @@ class AmbilSample extends Component {
         this.startSampling = this.startSampling.bind(this)
         this.toggleHasil = this.toggleHasil.bind(this)
         this.togglePCR = this.togglePCR.bind(this)
+        this.toggleAnalysis = this.toggleAnalysis.bind(this)
     }
 
     componentDidMount(){
@@ -103,15 +105,31 @@ class AmbilSample extends Component {
         })
     }
 
-    toggleHasil() {
+    toggleHasil(hasil_id) {
         this.setState({
             isHasilSelected: !this.state.isHasilSelected
         })
+        if(hasil_id > 0) {
+            this.props.setHasilSwab(hasil_id)
+        }
     }
-    togglePCR() {
+
+    togglePCR(pcr_id) {
         this.setState({
             isPCRSelected: !this.state.isPCRSelected
         })
+        if(pcr_id > 0) {
+            this.props.setPcrTool(pcr_id)
+        }
+    }
+
+    toggleAnalysis(analysis_id) {
+        this.setState({
+            isbloodAnalysisSelected: !this.state.isbloodAnalysisSelected
+        })
+        if(analysis_id > 0) {
+            this.props.setBloodAnalysis(analysis_id)
+        }
     }
 
     render () {
@@ -123,6 +141,91 @@ class AmbilSample extends Component {
                             // state: this.state
                         }}
                     />
+        }
+
+        let hasilSwab;
+        switch (this.props.hasilSwab) {
+            case 1:
+                hasilSwab = 'Negatif Covid-19'
+                break;
+            
+            case 2:
+                hasilSwab = 'Positif - Tanpa gejala'
+                break;
+
+            case 3:
+                hasilSwab = 'Positif - Ringan'
+                break;
+
+            case 4:
+                hasilSwab = 'Positif - Sedang/Moderat'
+                break;
+
+            case 5:
+                hasilSwab = 'Positif - Berat/Pneumonia Berat'
+                break;
+            
+            case 6:
+                hasilSwab = 'Positif - Kritis'
+                break;
+            
+            case 7:
+                hasilSwab = 'Tidak diketahui'
+                break;
+            
+            default:
+                hasilSwab = 'Pilih Salah Satu'
+                break;
+        }
+
+        let alatPcr;
+        switch (this.props.pcrTool) {
+            case 1:
+                alatPcr = "PCR Tipe A"
+                break;
+            
+            case 2:
+                alatPcr = "PCR Tipe B"
+                break;
+
+            case 3:
+                alatPcr = "PCR Tipe C"
+                break;
+
+            case 4:
+                alatPcr = "PCR Tipe D"
+                break;
+
+            case 5:
+                alatPcr = "PCR Tipe E"
+                break;
+            
+            default:
+                alatPcr = 'Pilih Salah Satu'
+                break;
+        }
+
+        let bloodAnalysis;
+        switch (this.props.bloodAnalysis) {
+            case 1:
+                bloodAnalysis = "Asidosis respiratorik"
+                break;
+            
+            case 2:
+                bloodAnalysis = "Asidosis metabolik"
+                break;
+
+            case 3:
+                bloodAnalysis = "Alkalosis respiratorik"
+                break;
+
+            case 4:
+                bloodAnalysis = "Alkalosis metabolik"
+                break;
+            
+            default:
+                bloodAnalysis = 'Pilih Salah Satu'
+                break;
         }
         
         return (
@@ -141,11 +244,11 @@ class AmbilSample extends Component {
                       <div className="w-1/3 relative">
                           <p className="text-brand-green font-semibold mb-1">Hasil Swab</p>
                           <button
-                          onClick = { this.toggleHasil }
+                          onClick = { () => this.toggleHasil(-1) }
                           className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                               <p
                               className="text-xl text-left flex-1 px-3 py-1">
-                              Negatif Covid-19
+                                {hasilSwab}
                               </p>
                               <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                           </button>
@@ -154,7 +257,7 @@ class AmbilSample extends Component {
                               { this.state.hasilSwab.map(hasil => (
                                   <div
                                   key = { hasil.id }
-                                  onClick = { this.toggleHasil }
+                                  onClick = { () => this.toggleHasil(hasil.id) }
                                   className="p-2 cursor-pointer">{ hasil.value }</div>
                               )) }
                           </div>)}
@@ -162,11 +265,11 @@ class AmbilSample extends Component {
                       <div className="w-1/3 relative">
                           <p className="text-brand-green font-semibold mb-1">Alat PCR</p>
                           <button
-                          onClick = { this.togglePCR }
+                          onClick = { () => this.togglePCR(-1) }
                           className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                               <p
                               className="text-xl text-left flex-1 px-4 py-1">
-                              PCR Tipe A
+                                  {alatPcr}
                               </p>
                               <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                           </button>
@@ -174,7 +277,7 @@ class AmbilSample extends Component {
                               { this.state.alatPCR.map(pcr => (
                                   <div
                                   key = { pcr.id }
-                                  onClick = { this.togglePCR }
+                                  onClick = { () => this.togglePCR(pcr.id) }
                                   className="p-2 cursor-pointer">PCR Tipe { pcr.value }</div>
                               )) }
                           </div>)}
@@ -230,33 +333,28 @@ class AmbilSample extends Component {
                         onchange={ this.props.setLED }
                         />
                     </div>
-                    {/* <div>
-                        <CustomInput
-                        data={this.props.bloodGas}
-                        label={"Blood Gas Analysis"}
-                        unit={""}
-                        onchange={ this.props.setBloodGas }
-                        />
-                    </div> */}
                     <div>
                         <p className="text-brand-green font-semibold mb-1">Blood Gas Analysis</p>
                         <button
-                        onClick = { this.toggleHasil }
+                        onClick = { () => this.toggleAnalysis(-1) }
                         className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                             <p
                             className="text-xl text-left flex-1 px-3 py-1">
-                            Asidosis respiratorik
+                                {bloodAnalysis}
                             </p>
                             <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        { this.state.isHasilSelected && (<div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white w-full mt-2 rounded-md py-1 divide-y">
-                            { this.state.bloodAnalysis.map(hasil => (
-                                <div
-                                key = { hasil.id }
-                                onClick = { this.toggleHasil }
-                                className="p-2 cursor-pointer">{ hasil.value }</div>
-                            )) }
-                        </div>)}
+                        { this.state.isbloodAnalysisSelected && 
+                            (
+                                <div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white w-full mt-2 rounded-md py-1 divide-y">
+                                    { this.state.bloodAnalysis.map(hasil => (
+                                        <div
+                                        key = { hasil.id }
+                                        onClick = { () => this.toggleAnalysis(hasil.id) }
+                                        className="p-2 cursor-pointer">{ hasil.value }</div>
+                                    )) }
+                                </div>
+                            )}
                     </div>
                   </div>
 

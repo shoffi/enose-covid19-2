@@ -63,7 +63,7 @@ class PatientDetail extends Component {
           setBack={() => this.setState({redirect: '/menu'})}
         />
 
-        <div className="h-full flex items-center justify-center">
+        <div className="mt-5 h-full flex items-center justify-center">
           <div className="w-2/5 bg-white space-y-3 mb-16">
             <div>
               <CustomInput

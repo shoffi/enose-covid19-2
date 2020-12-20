@@ -54,6 +54,10 @@ class App extends Component {
 
             toggleModal: false,
 
+            hasilSwab: "",
+            pcrTool:"",
+            bloodAnalysis:"",
+
             isConnected: false,
             proses1 : null,
             proses2 : null,
@@ -79,6 +83,9 @@ class App extends Component {
         this.setRuangId = this.setRuangId.bind(this);
         this.setPatientId = this.setPatientId.bind(this);
         this.setWaktuTes = this.setWaktuTes.bind(this)
+        this.setHasilSwab = this.setHasilSwab.bind(this)
+        this.setPcrTool = this.setPcrTool.bind(this)
+        this.setBloodAnalysis = this.setBloodAnalysis.bind(this)
 
         this.setSuhuTubuh = this.setSuhuTubuh.bind(this);
         this.setAsamUrat = this.setAsamUrat.bind(this);
@@ -161,6 +168,24 @@ class App extends Component {
       console.log('setWaktuTes =' + value)
       this.setState({
           waktuTes: value,
+      });
+    }
+
+    setHasilSwab(value) {
+      this.setState({
+          hasilSwab: value,
+      });
+    }
+
+    setPcrTool(value) {
+      this.setState({
+          pcrTool: value,
+      });
+    }
+
+    setBloodAnalysis(value) {
+      this.setState({
+          bloodAnalysis: value,
       });
     }
 
@@ -330,6 +355,12 @@ class App extends Component {
                   setTrombosit = {this.setTrombosit}
                   setLED = {this.setLED}
                   setBloodGas = {this.setBloodGas}
+                  hasilSwab = {this.state.hasilSwab}
+                  setHasilSwab = {this.setHasilSwab}
+                  pcrTool = {this.state.pcrTool}
+                  setPcrTool = {this.setPcrTool}
+                  bloodAnalysis = {this.state.bloodAnalysis}
+                  setBloodAnalysis = {this.setBloodAnalysis}
                 />
               </Route>
 
