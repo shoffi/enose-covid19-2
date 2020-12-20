@@ -403,7 +403,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
         let savePromise = dialog.showSaveDialog(null, saveOptions)
 
         savePromise.then(
-            (value) =>{
+            (value) => {
                 console.log(value)
                 isShowSaveDialog = 0
                 if(!value.canceled) {
@@ -414,7 +414,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
                         console.log(`file ${value.filePath} successfully created!`)
                         content = header
                     })
-                }else{
+                else{
                     content = header
                 }
             },
