@@ -56,7 +56,7 @@ class Input extends Component {
   render() {
     return (
       <div className="relative">
-        <label className="block text-lg font-semibold text-brand-green mb-1">{ this.props.label }</label>
+        <label className="block font-semibold text-brand-green mb-1">{ this.props.label }</label>
         <div className="relative">
           <input
             type="text"

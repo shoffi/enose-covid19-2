@@ -325,8 +325,8 @@ class PatientDetail extends Component {
                             <div>
                                 <CustomInput
                                 data={ this.state.allInputs.TekananDarah }
-                                label={"Denyut Nadi"}
-                                unit={"BPM"}
+                                label={"Tekanan Darah"}
+                                unit={"mmHg"}
                                 onchange={ this.props.setTekananDarah }
                                 />
                             </div>
@@ -334,15 +334,15 @@ class PatientDetail extends Component {
                                 <CustomInput
                                 data={ this.state.allInputs.respirationRate }
                                 label={"Respiration Rate"}
-                                unit={"BPM"}
+                                unit={""}
                                 onchange={ this.props.setRespirationRate }
                                 />
                             </div>
                             <div>
                                 <CustomInput
                                 data={ this.state.allInputs.spo }
-                                label={`SPO2`}
-                                unit={"BPM"}
+                                label={'SPO2'}
+                                unit={"%"}
                                 onchange={ this.props.setSpo }
                                 />
                             </div>

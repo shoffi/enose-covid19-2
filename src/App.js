@@ -59,7 +59,7 @@ class App extends Component {
             ruangan: [
               {id: 1, name: 'ICU'},
               {id: 2, name: 'Rawat Inap'},
-              {id: 3, name: 'Kesehatan'},
+              {id: 3, name: 'ERIKA'},
           ],
         };
 

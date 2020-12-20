@@ -23,8 +23,12 @@ class AmbilSample extends Component {
           denyutJantung: this.props.denyutJantung,
           hasilSwab: [
               { id: 1, value: 'Negatif Covid-19'},
-              { id: 2, value: 'Positif Covid-19'},
-              { id: 3, value: 'Tidak diketahui'},
+              { id: 2, value: 'Positif - Tanpa gejala'},
+              { id: 3, value: 'Positif - Ringan'},
+              { id: 4, value: 'Positif - Sedang/moderat'},
+              { id: 5, value: 'Positif - Berat/Pneumonia Berat'},
+              { id: 6, value: 'Positif - Kritis'},
+              { id: 7, value: 'Tidak diketahui'},
           ],
           isHasilSelected: false,
 
@@ -135,18 +139,18 @@ class AmbilSample extends Component {
                           onClick = { this.toggleHasil }
                           className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                               <p
-                              className="text-xl text-left flex-1 px-4 py-2">
+                              className="text-xl text-left flex-1 px-3 py-1">
                               Negatif Covid-19
                               </p>
                               <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                           </button>
-                          <p className="text-xs text-gray-700 leading-tight mt-2">Jika Positif Covid-19, maka tidak perlu dicentang</p>
-                          { this.state.isHasilSelected && (<div className="absolute border bg-white w-full mt-2 rounded-md py-2 divide-y">
+                          <p className="text-xs text-gray-700 leading-tight mt-2">Jika tidak ada hasil swab hari ini, maka pilih<br /><span className="font-bold text-brand-green">tidak diketahui</span></p>
+                          { this.state.isHasilSelected && (<div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white w-full mt-2 rounded-md py-1 divide-y">
                               { this.state.hasilSwab.map(hasil => (
                                   <div
                                   key = { hasil.id }
                                   onClick = { this.toggleHasil }
-                                  className="text-lg p-2 cursor-pointer">{ hasil.value }</div>
+                                  className="p-2 cursor-pointer">{ hasil.value }</div>
                               )) }
                           </div>)}
                       </div>
@@ -156,17 +160,17 @@ class AmbilSample extends Component {
                           onClick = { this.togglePCR }
                           className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                               <p
-                              className="text-xl text-left flex-1 px-4 py-2">
+                              className="text-xl text-left flex-1 px-4 py-1">
                               PCR Tipe A
                               </p>
                               <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                           </button>
-                          { this.state.isPCRSelected && (<div className="absolute border bg-white w-full mt-2 rounded-md py-2 divide-y">
+                          { this.state.isPCRSelected && (<div className="absolute z-10 border bg-white w-full mt-2 rounded-md py-2 divide-y">
                               { this.state.alatPCR.map(pcr => (
                                   <div
                                   key = { pcr.id }
                                   onClick = { this.togglePCR }
-                                  className="text-lg p-2 cursor-pointer">PCR Tipe { pcr.value }</div>
+                                  className="p-2 cursor-pointer">PCR Tipe { pcr.value }</div>
                               )) }
                           </div>)}
                       </div>

@@ -142,7 +142,7 @@ class AmbilSample extends Component {
         }
         
         return (
-            <div>
+            <div className="w-full">
                 <TitleBar
                     title={'Gejala Pasien'}
                     back={true}
@@ -153,13 +153,13 @@ class AmbilSample extends Component {
                 ></TitleBar>
 
                 <div className="py-8">
-                    <div className="flex justify-center mb-5">
+                    {/* <div className="flex justify-center mb-5">
                         <div className="w-2/3">
                             <p className="text-center text-xl font-light leading-snug text-gray-800">
                                 Pilih sesuai dengan gejala yang dirasakan pasien saat ini. Jika pasien Negatif, silahkan pilih opsi <span className="font-semibold text-green-700">Negatif Covid-19</span>.
                             </p>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <hr className="border my-3" />
                     <div className="">
@@ -219,10 +219,10 @@ class AmbilSample extends Component {
                         </div>
                     </div> */}
 
-                    <div className="flex space-x-4">
+                    <div className="flex space-x-4 mt-6">
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Gejala</h3>
-                            <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl h-70 scrolling-touch overflow-y-scroll">
+                            <div className="bg-purple-200 bg-opacity-25 p-3 rounded-xl h-72 scrolling-touch overflow-y-scroll">
                                 {this.state.diseases.map(item => (
                                     <div className="w-full">
                                         <label class="inline-flex items-center w-full">
@@ -241,7 +241,7 @@ class AmbilSample extends Component {
                         </div>
                         <div className="w-1/2">
                             <h3 className="text-lg text-gray-800 font-semibold mb-3 px-3">Penyakit Bawaan</h3>
-                            <div className="bg-yellow-200 bg-opacity-25 p-3 rounded-xl h-70 scrolling-touch overflow-y-scroll">
+                            <div className="bg-yellow-200 bg-opacity-25 p-3 rounded-xl h-72 scrolling-touch overflow-y-scroll">
                                 {this.state.comorbidities.map(item => (
                                     <div className="w-full">
                                         <label class="inline-flex items-center w-full">
