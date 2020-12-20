@@ -24,7 +24,7 @@ class Home extends Component {
 
     handleSubmit(event) { 
         event.preventDefault();
-        if (this.props.nurseId !== '') {
+        if (this.props.nurseId !== '' && this.props.ruangId !== '') {
             console.log('nurse_id = ' + this.props.nurseId )
             this.setState({
                 redirect: '/menu',
