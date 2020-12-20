@@ -73,7 +73,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
-            width: 750,
+            width: 800,
             height: 300,
             series: [
                 {},
@@ -322,7 +322,7 @@ class MainChart extends Component {
                                 onClick={() => this.openModal()}
                                 className="bg-green-500 mr-3 w-1/4 p-3 text-xl font-semibold text-white rounded-lg">OK</button>
                             <button 
-                                onClick={() => this.setState({redirect: '/ambil-sample'})}
+                                onClick={() => this.setState({redirect: '/menu'})}
                                 className="bg-orange-500 w-2/3 p-3 text-xl font-semibold text-white rounded-lg">Data pasien baru</button>
                         </div>
                     </div>
