@@ -93,7 +93,7 @@ class MainChart extends Component {
 
         console.log(detailPatient)
 
-        // ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
+        ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
             width: 800,
