@@ -296,48 +296,51 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                     'sampling_id' : result.insertId,
                     'sync'        : false
                 }
+
+                myResolve(resolveValue);
     
-                const maxSamplingIdLocal = await getMaxSamplingIdLocal() - 1
-                const maxSamplingIdCloud = await getMaxSamplingIdCloud()
-                const maxClinicalDataIdLocal = await getMaxClinicalDataIdLocal()
-                const maxClinicalDataIdCloud = await getMaxClinicalDataIdCloud()
-                const maxSensorDataIdLocal = await getMaxSensorDataIdLocal()
-                const maxSensorDataIdCloud = await getMaxSensorDataIdCloud()
+                // const maxSamplingIdLocal = await getMaxSamplingIdLocal() - 1
+                // const maxSamplingIdCloud = await getMaxSamplingIdCloud()
+                // const maxClinicalDataIdLocal = await getMaxClinicalDataIdLocal()
+                // const maxClinicalDataIdCloud = await getMaxClinicalDataIdCloud()
+                // const maxSensorDataIdLocal = await getMaxSensorDataIdLocal()
+                // const maxSensorDataIdCloud = await getMaxSensorDataIdCloud()
                 
-                if (maxSamplingIdLocal == maxSamplingIdCloud) {
-                    if (maxClinicalDataIdLocal == maxClinicalDataIdCloud) {
-                        if (maxSensorDataIdLocal == maxSensorDataIdCloud) {
-                            console.log("database sudah sinkron")
-                            sampling.database = cloud_database
-                            request.post(
-                                `http://${cloud_host}/store_sampling`,
-                                {
-                                    json: sampling,
-                                },
-                                (error, res, body) => {
-                                    if (error) {
-                                        console.error(error)
-                                        // logging gagal masukin ke cloud sampling
-                                        return
-                                    }
-                                    console.log(`sampling statusCode: ${res.statusCode}`)
-                                    console.log(body)
-                                    resolveValue.sync = true
-                                    myResolve(resolveValue);
-                                }
-                            )
-                        } else {
-                            console.log('tabel sensor_data belum sinkron')
-                            myResolve(resolveValue);
-                        }
-                    } else {
-                        console.log('tabel clinical_data belum sinkron')
-                        myResolve(resolveValue);
-                    }
-                } else {
-                    console.log('tabel sampling belum sinkron')
-                    myResolve(resolveValue);
-                }
+                // if (maxSamplingIdLocal == maxSamplingIdCloud) {
+                //     if (maxClinicalDataIdLocal == maxClinicalDataIdCloud) {
+                //         if (maxSensorDataIdLocal == maxSensorDataIdCloud) {
+                //             console.log("database sudah sinkron")
+                //             sampling.database = cloud_database
+                //             request.post(
+                //                 `http://${cloud_host}/store_sampling`,
+                //                 {
+                //                     json: sampling,
+                //                 },
+                //                 (error, res, body) => {
+                //                     if (error) {
+                //                         console.error(error)
+                //                         // logging gagal masukin ke cloud sampling
+                //                         return
+                //                     }
+                //                     console.log(`sampling statusCode: ${res.statusCode}`)
+                //                     console.log(body)
+                //                     resolveValue.sync = true
+                //                     myResolve(resolveValue);
+                //                 }
+                //             )
+                //         } else {
+                //             console.log('tabel sensor_data belum sinkron')
+                //             myResolve(resolveValue);
+                //         }
+                //     } else {
+                //         console.log('tabel clinical_data belum sinkron')
+                //         myResolve(resolveValue);
+                //     }
+                // } else {
+                //     console.log('tabel sampling belum sinkron')
+                //     myResolve(resolveValue);
+                // }
+
             }
     
             synchronizedDB()
