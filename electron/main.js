@@ -555,6 +555,13 @@ ipcMain.on('start', (event, pengambilan_id, totalTime) => {
 
 ipcMain.on('stop', () => {
     // console.log("HAPUSSS")
+    let options = {
+        scriptPath: path.join(__dirname,"../python/")
+    }
+    PythonShell.PythonShell.run('pompa-on.py', options, function (err, results) {
+        if (err) throw err
+        console.log(results)
+    })
     startResponse = clearInterval(startResponse)
 })
 
