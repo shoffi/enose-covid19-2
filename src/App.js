@@ -391,6 +391,7 @@ class App extends Component {
                     saturasiOksigen= {this.state.saturasiOksigen}
                     gulaDarah= {this.state.gulaDarah}
                     denyutJantung= {this.state.denyutJantung}
+
                     tekananDarah= {this.state.tekananDarah}
                     respirationRate= {this.state.respirationRate}
                     spo= {this.state.spo}
@@ -429,6 +430,17 @@ class App extends Component {
                     proses2={this.state.proses2}
                     proses3={this.state.proses3}
 
+                    tekananDarah= {this.state.tekananDarah}
+                    respirationRate= {this.state.respirationRate}
+                    spo= {this.state.spo}
+
+                    ctPcr= {this.state.ctPcr}
+                    ddimer= {this.state.ddimer}
+                    hemoglobin= {this.state.hemoglobin}
+                    leukosit= {this.state.leukosit}
+                    trombosit= {this.state.trombosit}
+                    LED= {this.state.LED}
+                    bloodGas= {this.state.bloodGas}
                   />
                 )}
               />
