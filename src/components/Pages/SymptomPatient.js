@@ -23,12 +23,13 @@ class AmbilSample extends Component {
             denyutJantung: this.props.denyutJantung,
             hasilSwab: [
                 { id: 1, value: 'Negatif Covid-19'},
-                { id: 2, value: 'Positif - Tanpa gejala'},
-                { id: 3, value: 'Positif - Ringan'},
-                { id: 4, value: 'Positif - Sedang/moderat'},
-                { id: 5, value: 'Positif - Berat/Pneumonia Berat'},
-                { id: 6, value: 'Positif - Kritis'},
-                { id: 7, value: 'Tidak diketahui'},
+                { id: 2, value: 'Negatif - Infeksi paru-paru'},
+                { id: 3, value: 'Positif - Tanpa gejala'},
+                { id: 4, value: 'Positif - Ringan'},
+                { id: 5, value: 'Positif - Sedang/moderat'},
+                { id: 6, value: 'Positif - Berat/Pneumonia Berat'},
+                { id: 7, value: 'Positif - Kritis'},
+                { id: 8, value: 'Tidak diketahui'},
             ],
             isHasilSelected: false,
             bloodAnalysis: [
@@ -109,8 +110,9 @@ class AmbilSample extends Component {
         this.setState({
             isHasilSelected: !this.state.isHasilSelected
         })
+        
         if(hasil_id > 0) {
-            this.props.setHasilSwab(hasil_id)
+            this.props.setCovidStatus(hasil_id)
         }
     }
 
@@ -143,38 +145,42 @@ class AmbilSample extends Component {
                     />
         }
 
-        let hasilSwab;
-        switch (this.props.hasilSwab) {
+        let hasil_swab;
+        switch (this.props.covidStatus) {
             case 1:
-                hasilSwab = 'Negatif Covid-19'
-                break;
-            
-            case 2:
-                hasilSwab = 'Positif - Tanpa gejala'
+                hasil_swab = 'Negatif Covid-19'
                 break;
 
+            case 2:
+                hasil_swab = 'Positif - Tanpa gejala'
+                break;
+            
             case 3:
-                hasilSwab = 'Positif - Ringan'
+                hasil_swab = 'Positif - Tanpa gejala'
                 break;
 
             case 4:
-                hasilSwab = 'Positif - Sedang/Moderat'
+                hasil_swab = 'Positif - Ringan'
                 break;
 
             case 5:
-                hasilSwab = 'Positif - Berat/Pneumonia Berat'
+                hasil_swab = 'Positif - Sedang/Moderat'
                 break;
-            
+
             case 6:
-                hasilSwab = 'Positif - Kritis'
+                hasil_swab = 'Positif - Berat/Pneumonia Berat'
                 break;
             
             case 7:
-                hasilSwab = 'Tidak diketahui'
+                hasil_swab = 'Positif - Kritis'
+                break;
+            
+            case 8:
+                hasil_swab = 'Tidak diketahui'
                 break;
             
             default:
-                hasilSwab = 'Pilih Salah Satu'
+                hasil_swab = 'Pilih Salah Satu'
                 break;
         }
 
@@ -249,7 +255,7 @@ class AmbilSample extends Component {
                           className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
                               <p
                               className="text-xl text-left flex-1 px-3 py-1">
-                                {hasilSwab}
+                                {hasil_swab}
                               </p>
                               <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                           </button>

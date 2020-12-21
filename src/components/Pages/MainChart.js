@@ -58,6 +58,8 @@ class MainChart extends Component {
         let resultComorbidities = Object.keys(comorbidities).map( (key) => [comorbidities[key].isChecked ] )
         arrayAll = resultDisease.concat(resultComorbidities)
 
+        // console.log(this.state)
+
         let detailPatient = {
             'nurse_id': this.props.location.state.nurse_id,
             'patient_id': this.props.location.state.patient_id,
@@ -86,13 +88,12 @@ class MainChart extends Component {
             'leukosit' : this.props.leukosit,
             'trombosit' : this.props.trombosit,
             'led' : this.props.LED,
-            'ddimer' : this.props.ddimer,
             'bloodGas': this.props.bloodGas
         }
 
-        console.log(clinical_data)
+        console.log(detailPatient)
 
-        ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
+        // ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
             width: 800,

@@ -30,7 +30,7 @@ class App extends Component {
             nurseId: "",
             ruangId: "",
             patientId: "",
-            covidStatus: 0,
+            covidStatus: "",
             waktuTes: "",
 
             suhuTubuh: "",
@@ -86,6 +86,7 @@ class App extends Component {
         this.setHasilSwab = this.setHasilSwab.bind(this)
         this.setPcrTool = this.setPcrTool.bind(this)
         this.setBloodAnalysis = this.setBloodAnalysis.bind(this)
+        this.setCovidStatus = this.setCovidStatus.bind(this)
 
         this.setSuhuTubuh = this.setSuhuTubuh.bind(this);
         this.setAsamUrat = this.setAsamUrat.bind(this);
@@ -173,7 +174,7 @@ class App extends Component {
 
     setHasilSwab(value) {
       this.setState({
-          hasilSwab: value,
+          covidStatus: value,
       });
     }
 
@@ -238,39 +239,52 @@ class App extends Component {
           respirationRate: value,
       })
     }
+
     setCtPcr (value) {
       this.setState({
         ctPcr: value,
       })
     }
+
     setDdimer (value) {
       this.setState({
         ddimer: value,
       })
     }
+
     setHemoglobin (value) {
       this.setState({
         hemoglobin: value,
       })
     }
+
     setLeukosit (value) {
       this.setState({
         leukosit: value,
       })
     }
+
     setTrombosit (value) {
       this.setState({
         trombosit: value,
       })
     }
+
     setLED (value) {
       this.setState({
         LED: value,
       })
     }
+
     setBloodGas (value) {
       this.setState({
         bloodGas: value,
+      })
+    }
+
+    setCovidStatus (value) {
+      this.setState({
+        covidStatus: value,
       })
     }
 
@@ -367,8 +381,8 @@ class App extends Component {
                   bloodGas= {this.state.bloodGas}
                   setBloodGas = {this.setBloodGas}
                   
-                  hasilSwab = {this.state.hasilSwab}
-                  setHasilSwab = {this.setHasilSwab}
+                  covidStatus = {this.state.covidStatus}
+                  setCovidStatus = {this.setCovidStatus} 
 
                   pcrTool = {this.state.pcrTool}
                   setPcrTool = {this.setPcrTool}
