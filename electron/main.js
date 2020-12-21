@@ -270,6 +270,13 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         oxygen_saturation: clinical_data.oxygen_saturation ? clinical_data.oxygen_saturation : null,
         glucose: clinical_data.glucose ? clinical_data.glucose : null,
         heart_rate: clinical_data.heart_rate ? clinical_data.heart_rate : null,
+
+        ddimer: clinical_data.ddimer ? clinical_data.ddimer : null,
+        hemoglobin: clinical_data.hemoglobin ? clinical_data.hemoglobin : null,
+        leukosit: clinical_data.leukosit ? clinical_data.leukosit : null,
+        trombosit: clinical_data.trombosit ? clinical_data.trombosit : null,
+        led: clinical_data.led ? clinical_data.led : null,
+        bloodGas: clinical_data.bloodGas ? clinical_data.bloodGas : null,
         created_at: timestamp(),
     }
 

@@ -87,7 +87,8 @@ class PatientDetail extends Component {
                         <div className="grid grid-cols-3 gap-3">
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.SuhuTubuh }
+                                data={ this.props.suhuTubuh }
+                                value={ this.props.suhuTubuh }
                                 label={"Suhu Tubuh"}
                                 unit={"°C"}
                                 onchange={ this.props.setSuhuTubuh }
@@ -112,7 +113,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.AsamUrat }
+                                data={ this.props.asamUrat }
+                                value={ this.props.asamUrat }
                                 label={"Asam urat"}
                                 unit={"mg/dL"}
                                 onchange={ this.props.setAsamUrat }
@@ -139,7 +141,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.AsamUrat }
+                                data={ this.props.kolestrol }
+                                value={ this.props.kolestrol }
                                 label={"Kolesterol"}
                                 unit={"mg/dL"}
                                 onchange={ this.props.setKolestrol }
@@ -166,7 +169,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.SaturasiOksigen }
+                                data={ this.props.saturasiOksigen }
+                                value={ this.props.saturasiOksigen }
                                 label={"Saturasi Oksigen"}
                                 unit={"%"}
                                 onchange={ this.props.setSaturasiOksigen }
@@ -193,7 +197,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.GulaDarah }
+                                data={ this.props.gulaDarah }
+                                value={ this.props.gulaDarah }
                                 label={"Gula Darah"}
                                 unit={"mg/dL"}
                                 onchange={ this.props.setGulaDarah }
@@ -220,7 +225,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.GulaDarah }
+                                data={ this.props.denyutJantung }
+                                value={ this.props.denyutJantung }
                                 label={"Denyut Nadi"}
                                 unit={"BPM"}
                                 onchange={ this.props.setDenyutJantung }
@@ -247,15 +253,17 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.TekananDarah }
-                                label={"Tekanan Darah"}
-                                unit={"mmHg"}
-                                onchange={ this.props.setTekananDarah }
+                                    data={ this.props.tekananDarah }
+                                    value={ this.props.tekananDarah }
+                                    label={"Tekanan Darah"}
+                                    unit={"mmHg"}
+                                    onchange={ this.props.setTekananDarah }
                                 />
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.respirationRate }
+                                data={ this.props.respirationRate }
+                                value={ this.props.respirationRate }
                                 label={"Respiration Rate"}
                                 unit={""}
                                 onchange={ this.props.setRespirationRate }
@@ -263,7 +271,8 @@ class PatientDetail extends Component {
                             </div>
                             <div>
                                 <CustomInput
-                                data={ this.state.allInputs.spo }
+                                data={ this.props.spo }
+                                value={ this.props.spo }
                                 label={'SPO2'}
                                 unit={"%"}
                                 onchange={ this.props.setSpo }

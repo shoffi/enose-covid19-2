@@ -58,7 +58,7 @@ class AmbilSample extends Component {
 
     componentDidMount(){
         console.log("SymptomPatient.js")
-        // console.log(this.props)
+        console.log(this.props.suhuTubuh)
     }
 
     handleSubmit (event) {
@@ -241,6 +241,7 @@ class AmbilSample extends Component {
 
                 <div className="py-8">
                   <div className="flex items-start space-x-4">
+
                       <div className="w-1/3 relative">
                           <p className="text-brand-green font-semibold mb-1">Hasil Swab</p>
                           <button
@@ -262,6 +263,7 @@ class AmbilSample extends Component {
                               )) }
                           </div>)}
                       </div>
+
                       <div className="w-1/3 relative">
                           <p className="text-brand-green font-semibold mb-1">Alat PCR</p>
                           <button
@@ -282,20 +284,24 @@ class AmbilSample extends Component {
                               )) }
                           </div>)}
                       </div>
+
                       <div className="w-1/3">
                         <CustomInput
-                        data={this.props.ctPcr}
-                        label={"CT PCR"}
-                        unit={""}
-                        onchange={ this.props.setCtPcr }
+                            data={this.props.ctPcr}
+                            value={this.props.ctPcr}
+                            label={"CT PCR"}
+                            unit={""}
+                            onchange={ this.props.setCtPcr }
                         />
                       </div>
+
                   </div>
                   <hr className="my-5" />
                   <div className="grid grid-cols-3 gap-3">
                     <div>
                         <CustomInput
                         data={this.props.ddimer}
+                        value={this.props.ddimer}
                         label={"D-Dimer"}
                         unit={""}
                         onchange={ this.props.setDdimer }
@@ -304,6 +310,7 @@ class AmbilSample extends Component {
                     <div>
                         <CustomInput
                         data={this.props.hemoglobin}
+                        value={this.props.hemoglobin}
                         label={"Hemoglobin"}
                         unit={""}
                         onchange={ this.props.setHemoglobin }
@@ -312,6 +319,7 @@ class AmbilSample extends Component {
                     <div>
                         <CustomInput
                         data={this.props.leukosit}
+                        value={this.props.leukosit}
                         label={"Leukosit"}
                         unit={""}
                         onchange={ this.props.setLeukosit }
@@ -320,6 +328,7 @@ class AmbilSample extends Component {
                     <div>
                         <CustomInput
                         data={this.props.trombosit}
+                        value={this.props.trombosit}
                         label={"Trombosit"}
                         unit={""}
                         onchange={ this.props.setTrombosit }
@@ -328,6 +337,7 @@ class AmbilSample extends Component {
                     <div>
                         <CustomInput
                         data={this.props.LED}
+                        value={this.props.LED}
                         label={"LED"}
                         unit={""}
                         onchange={ this.props.setLED }
