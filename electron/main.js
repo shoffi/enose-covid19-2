@@ -630,10 +630,13 @@ const insertSampling = (sampling_json) => {
                                 json: element,
                             },
                             (error, res, body) => {
-                                if(error) throw error;
-                                //samplingJsonData.shift()
-                                fs.writeFileSync(sampling_json, JSON.stringify(samplingJsonData));
-                                console.log(body)
+                                if(error) {
+                                    throw error;
+                                }else{
+                                    samplingJsonData.shift()
+                                    fs.writeFileSync(sampling_json, JSON.stringify(samplingJsonData));
+                                    console.log(body)
+                                }
                             }
                         ) 
                     });
@@ -663,10 +666,13 @@ const insertClinical = (clinical_json) => {
                                 json: element,
                             },
                             (error, res, body) => {
-                                if(error) throw error;
-                                //clinicalJsonData.shift()
-                                fs.writeFileSync(clinical_json, JSON.stringify(clinicalJsonData));
-                                console.log(body)
+                                if(error) {
+                                    throw error;
+                                } else {
+                                    clinicalJsonData.shift()
+                                    fs.writeFileSync(clinical_json, JSON.stringify(clinicalJsonData));
+                                    console.log(body)
+                                }
                             }
                         ) 
                     });
@@ -706,10 +712,13 @@ const insertSensor = (sensor_json) => {
                                     json: element,
                                 },
                                 (error, res, body) => {
-                                    if(error) throw error;
-                                    //sensorJsonData.shift()
-                                    fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
-                                    console.log(body)
+                                    if(error) {
+                                        throw error;
+                                    }else{
+                                        sensorJsonData.shift()
+                                        fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
+                                        console.log(body)
+                                    }
                                 }
                             ) 
                         });
