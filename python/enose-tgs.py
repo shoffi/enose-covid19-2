@@ -48,7 +48,7 @@ def sensortgs():
     sendData += ";"
     sendData += str("0")
     sendData += ";"
-    sendData += str(ctemp) #10
+    sendData += str(cTemp) #10
     sendData += ";"
     sendData += str(humidity) #11
     sendData += ";"

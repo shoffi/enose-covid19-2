@@ -616,6 +616,7 @@ const insertSampling = (sampling_json) => {
                 }else{
                     let samplingJsonData = JSON.parse(samplingJsonString)
                     samplingJsonData.forEach(element => {
+                        element.database = cloud_database
                         request.post(
                             `http://${cloud_host}/sync_sampling`,
                             {
@@ -623,10 +624,9 @@ const insertSampling = (sampling_json) => {
                             },
                             (error, res, body) => {
                                 if(error) throw error;
-                                samplingJsonData.shift()
+                                //samplingJsonData.shift()
                                 fs.writeFileSync(sampling_json, JSON.stringify(samplingJsonData));
                                 console.log(body)
-                                console.log('sinkronisasi sampling done')
                             }
                         ) 
                     });
@@ -649,6 +649,7 @@ const insertClinical = (clinical_json) => {
                 }else{
                     let clinicalJsonData = JSON.parse(clinicalJsonString)
                     clinicalJsonData.forEach(element => {
+                        element.database = cloud_database
                         request.post(
                             `http://${cloud_host}/sync_clinical_data`,
                             {
@@ -656,10 +657,9 @@ const insertClinical = (clinical_json) => {
                             },
                             (error, res, body) => {
                                 if(error) throw error;
-                                clinicalJsonData.shift()
+                                //clinicalJsonData.shift()
                                 fs.writeFileSync(clinical_json, JSON.stringify(clinicalJsonData));
                                 console.log(body)
-                                console.log('sinkronisasi clinical done')
                             }
                         ) 
                     });
@@ -673,6 +673,14 @@ const insertClinical = (clinical_json) => {
     })
 }
 
+const sleep = (duration) => {
+    return new Promise (
+        (resolve, reject) => {
+            setTimeout(resolve, duration)
+        }
+    )
+}
+
 const insertSensor = (sensor_json) => {
     return new Promise( (resolve, reject) => {
         try {
@@ -681,21 +689,24 @@ const insertSensor = (sensor_json) => {
 
                 }else{
                     let sensorJsonData = JSON.parse(sensorJsonString)
-                    sensorJsonData.forEach(element => {
-                        request.post(
-                            `http://${cloud_host}/sync_sensor_data`,
-                            {
-                                json: element,
-                            },
-                            (error, res, body) => {
-                                if(error) throw error;
-                                sensorJsonData.shift()
-                                fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
-                                console.log(body)
-                                console.log('sinkronisasi sensor done')
-                            }
-                        ) 
-                    });
+                    
+                        sensorJsonData.forEach(async(element) => {
+                            element.database = cloud_database
+                            await sleep(1000)
+                            request.post(
+                                `http://${cloud_host}/sync_sensor_data`,
+                                {
+                                    json: element,
+                                },
+                                (error, res, body) => {
+                                    if(error) throw error;
+                                    //sensorJsonData.shift()
+                                    fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
+                                    console.log(body)
+                                }
+                            ) 
+                        });
+                    
                     resolve(sensorJsonString)
                 }
             })
@@ -714,8 +725,12 @@ ipcMain.on('dbSync', async (event) => {
     let sensor_json = path.join(userDataPath, 'sensor-log.json');
 
     await insertSampling(sampling_json)
+    console.log('sampling done')
     await insertClinical(clinical_json)
+    console.log('clinical done')
     await insertSensor(sensor_json)
+    console.log('sensor done')
+    
     // sinkronisasi database selesai
     mainWindow.send('dbSyncDone')
 })
