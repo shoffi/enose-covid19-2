@@ -715,8 +715,8 @@ const insertSensor = (sensor_json) => {
                                     if(error) {
                                         throw error;
                                     }else{
-                                        sensorJsonData.shift()
-                                        fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
+                                        //sensorJsonData.shift()
+                                        //fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
                                         console.log(body)
                                     }
                                 }

@@ -96,7 +96,7 @@ class MainChart extends Component {
         ipcRenderer.send('storePatient', arrayAll, detailPatient, clinical_data)
 
         let opts = {
-            width: 800,
+            width: 850,
             height: 300,
             series: [
                 {},
@@ -329,8 +329,8 @@ class MainChart extends Component {
                     </div>
                 </div>
 
-                <div className="mt-10 mb-10 h-72" >
-                    <div ref={this.chartRef}></div>
+                <div className="mt-10 mb-10 h-72 mx-auto" >
+                    <div className="text-center" ref={this.chartRef}></div>
                 </div>
             
                 {/* Open Modal */}
