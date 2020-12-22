@@ -305,11 +305,34 @@ class AmbilSample extends Component {
                   <hr className="my-5" />
                   <div className="grid grid-cols-3 gap-3">
                     <div>
+                        <p className="text-brand-green font-semibold mb-1">Blood Gas Analysis</p>
+                        <button
+                        onClick = { () => this.toggleAnalysis(-1) }
+                        className="flex items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
+                            <p
+                            className="text-xl text-left flex-1 px-3 py-1">
+                                {bloodAnalysis}
+                            </p>
+                            <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        { this.state.isbloodAnalysisSelected && 
+                            (
+                                <div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white mt-2 rounded-md py-1 divide-y">
+                                    { this.state.bloodAnalysis.map(hasil => (
+                                        <div
+                                        key = { hasil.id }
+                                        onClick = { () => this.toggleAnalysis(hasil.id) }
+                                        className="p-2 cursor-pointer">{ hasil.value }</div>
+                                    )) }
+                                </div>
+                            )}
+                    </div>
+                    <div>
                         <CustomInput
                         data={this.props.ddimer}
                         value={this.props.ddimer}
                         label={"D-Dimer"}
-                        unit={""}
+                        unit={"ng/ml"}
                         onchange={ this.props.setDdimer }
                         />
                     </div>
@@ -318,7 +341,7 @@ class AmbilSample extends Component {
                         data={this.props.hemoglobin}
                         value={this.props.hemoglobin}
                         label={"Hemoglobin"}
-                        unit={""}
+                        unit={"Hgb"}
                         onchange={ this.props.setHemoglobin }
                         />
                     </div>
@@ -327,7 +350,7 @@ class AmbilSample extends Component {
                         data={this.props.leukosit}
                         value={this.props.leukosit}
                         label={"Leukosit"}
-                        unit={""}
+                        unit={"Wbc"}
                         onchange={ this.props.setLeukosit }
                         />
                     </div>
@@ -336,7 +359,7 @@ class AmbilSample extends Component {
                         data={this.props.trombosit}
                         value={this.props.trombosit}
                         label={"Trombosit"}
-                        unit={""}
+                        unit={"Plt"}
                         onchange={ this.props.setTrombosit }
                         />
                     </div>
@@ -348,29 +371,6 @@ class AmbilSample extends Component {
                         unit={""}
                         onchange={ this.props.setLED }
                         />
-                    </div>
-                    <div>
-                        <p className="text-brand-green font-semibold mb-1">Blood Gas Analysis</p>
-                        <button
-                        onClick = { () => this.toggleAnalysis(-1) }
-                        className="flex w-full items-center bg-gray-200 border-4 border-gray-200 focus:outline-none rounded-lg">
-                            <p
-                            className="text-xl text-left flex-1 px-3 py-1">
-                                {bloodAnalysis}
-                            </p>
-                            <svg class="w-8 h-8 text-brand-orange mx-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        { this.state.isbloodAnalysisSelected && 
-                            (
-                                <div className="absolute z-10 h-56 scrolling-touch overflow-y-scroll border bg-white w-full mt-2 rounded-md py-1 divide-y">
-                                    { this.state.bloodAnalysis.map(hasil => (
-                                        <div
-                                        key = { hasil.id }
-                                        onClick = { () => this.toggleAnalysis(hasil.id) }
-                                        className="p-2 cursor-pointer">{ hasil.value }</div>
-                                    )) }
-                                </div>
-                            )}
                     </div>
                   </div>
 

@@ -251,11 +251,18 @@ class PatientDetail extends Component {
                                     <p className="mx-3 text-xl text-gray-600 flex items-center absolute inset-y-0 right-0">BPM</p>
                                 </div> */}
                             </div>
-                            <div>
+                            <div className="flex space-x-2">
                                 <CustomInput
                                     data={ this.props.tekananDarah }
                                     value={ this.props.tekananDarah }
-                                    label={"Tekanan Darah"}
+                                    label={"Sistolik"}
+                                    unit={"mmHg"}
+                                    onchange={ this.props.setTekananDarah }
+                                />
+                                <CustomInput
+                                    data={ this.props.tekananDarah }
+                                    value={ this.props.tekananDarah }
+                                    label={"Diastolik"}
                                     unit={"mmHg"}
                                     onchange={ this.props.setTekananDarah }
                                 />
