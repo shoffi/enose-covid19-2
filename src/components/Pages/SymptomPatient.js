@@ -241,7 +241,16 @@ class AmbilSample extends Component {
                     back={true}
                     next={true}
                     setBack={() => this.setState({redirect: '/patient-detail'})}
-                    setNext={() => this.setState({redirect: '/ambil-sample'})}
+                    setNext={
+                        () => {
+                            if(this.props.covidStatus == ''){
+                                // alert(this.props.covidStatus)
+                                alert('Hasil Swab harus diisi!')
+                            }else{
+                                this.setState({redirect: '/ambil-sample'})
+                            }
+                        }
+                    }
                     setNextName={'Gejala Pasien'}
                 ></TitleBar>
 
