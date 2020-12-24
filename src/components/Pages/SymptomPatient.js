@@ -372,6 +372,15 @@ class AmbilSample extends Component {
                         onchange={ this.props.setLED }
                         />
                     </div>
+                    <div>
+                        <CustomInput
+                        data={this.props.LED}
+                        value={this.props.LED}
+                        label={"Limfosit"}
+                        unit={"Lymph"}
+                        onchange={ this.props.setLED }
+                        />
+                    </div>
                   </div>
 
                 </div>
