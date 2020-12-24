@@ -238,6 +238,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         room_id     :   detailPatient.ruang_id.id,
         patient_id  :   detailPatient.patient_id,
         covid_status:   detailPatient.covid_status,
+        waktu_tes   :   detailPatient.waktu_tes,
         pcr_tool    :   detailPatient.pcr_tool ? detailPatient.pcr_tool :null,
         ct_pcr      :   detailPatient.ct_pcr ? detailPatient.ct_pcr : null,
 

@@ -466,6 +466,8 @@ class App extends Component {
                     proses2={this.state.proses2}
                     proses3={this.state.proses3}
 
+                    waktuTes={this.state.waktuTes}
+
                     tekananDarah= {this.state.tekananDarah}
                     respirationRate= {this.state.respirationRate}
                     spo= {this.state.spo}

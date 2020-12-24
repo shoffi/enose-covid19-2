@@ -33,7 +33,7 @@ class AmbilSample extends Component {
             ],
             isHasilSelected: false,
             bloodAnalysis: [
-                { id: 0, value: 'Normal'},
+                { id: 5, value: 'Normal'},
                 { id: 1, value: 'Asidosis respiratorik'},
                 { id: 2, value: 'Asidosis metabolik'},
                 { id: 3, value: 'Alkalosis resporatorik'},
@@ -221,6 +221,10 @@ class AmbilSample extends Component {
 
         let bloodAnalysis;
         switch (this.props.bloodAnalysis) {
+            case 5:
+                bloodAnalysis = "Normal"
+                break;
+
             case 1:
                 bloodAnalysis = "Asidosis respiratorik"
                 break;
