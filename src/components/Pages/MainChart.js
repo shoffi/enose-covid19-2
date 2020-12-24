@@ -220,16 +220,13 @@ class MainChart extends Component {
                 let presentase = parseInt((now/totalTime)*100)
 
                 if(presentase >= 100) {
-
-
                     this.openModal()
-                    // alert('hahaha')
-
                     ipcRenderer.removeAllListeners('python-data')
                 }
                 
                 data = data.split(';')
-                ipcRenderer.send('recording', data, presentase, sampling_id, sync_status)
+
+                ipcRenderer.send('recording', data, presentase, this.props.location.state.patient_id, sampling_id, sync_status)
 
                 timeArray.push(Math.round((new Date()).getTime() / 1000))
                 sensor0Array.push(data[0])

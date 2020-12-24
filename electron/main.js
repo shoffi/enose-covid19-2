@@ -2,12 +2,14 @@ const fs = require('fs');
 const url = require('url');
 const path = require('path');
 const mysql = require('mysql');
+const AdmZip = require('adm-zip');
 const request = require('request');
 const Store = require('./Store.js');
 const Log = require('./Log.js');
 const electron = require('electron');
 const modal = require('electron-modal');
 const PythonShell = require('python-shell');
+const Json2csvParser = require("json2csv").Parser;
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { resolve } = require('path');
 
@@ -31,7 +33,6 @@ const sensorLogger = new Log({configName: 'sensor-log'})
 
 // MySQl Connection
 let { host, user, password, database } = store.get('database');
-console.log(host)
 
 let connection = mysql.createConnection({
     host    :   host,
@@ -406,7 +407,7 @@ let content = header
 
 let isShowSaveDialog = 0
 
-ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
+ipcMain.on('recording', (event, data, presentase, patient_id, sampling_id, sync_status) => {
     
     if( presentase >= 100 && isShowSaveDialog==0)
     {
@@ -418,7 +419,7 @@ ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
             fs.mkdirSync(dir);
         }
 
-        let filePath = dir + '/sampling_'+sampling_id+'.csv'
+        let filePath = dir + '/'+patient_id+'_'+sampling_id+'.csv'
 
         fs.writeFile(filePath, content, (err) => {
             if(err) {
@@ -712,6 +713,10 @@ const sleep = (duration) => {
     )
 }
 
+// const inserEachSensor = (data) => {
+//     new Promise
+// }
+
 const insertSensor = (sensor_json) => {
     return new Promise( (resolve, reject) => {
         try {
@@ -721,25 +726,25 @@ const insertSensor = (sensor_json) => {
                 }else{
                     let sensorJsonData = JSON.parse(sensorJsonString)
                     
-                        sensorJsonData.forEach(async(element) => {
-                            element.database = cloud_database
-                            await sleep(1000)
-                            request.post(
-                                `http://${cloud_host}/sync_sensor_data`,
-                                {
-                                    json: element,
-                                },
-                                (error, res, body) => {
-                                    if(error) {
-                                        throw error;
-                                    }else{
-                                        //sensorJsonData.shift()
-                                        //fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
-                                        console.log(body)
-                                    }
+                    sensorJsonData.forEach(async(element) => {
+                        element.database = cloud_database
+                        await sleep(1000)
+                        request.post(
+                            `http://${cloud_host}/sync_sensor_data`,
+                            {
+                                json: element,
+                            },
+                            (error, res, body) => {
+                                if(error) {
+                                    throw error;
+                                }else{
+                                    //sensorJsonData.shift()
+                                    //fs.writeFileSync(sensor_json, JSON.stringify(sensorJsonData));
+                                    console.log(body)
                                 }
-                            ) 
-                        });
+                            }
+                        ) 
+                    });
                     
                     resolve(sensorJsonString)
                 }
@@ -751,7 +756,7 @@ const insertSensor = (sensor_json) => {
     })
 }
 
-ipcMain.on('dbSync', async (event) => {
+ipcMain.on('dbSyncOld', async (event) => {
     console.log('synchronization process')
 
     let sampling_json = path.join(userDataPath, 'sampling-log.json');
@@ -768,3 +773,70 @@ ipcMain.on('dbSync', async (event) => {
     // sinkronisasi database selesai
     mainWindow.send('dbSyncDone')
 })
+
+ipcMain.on('dbSync', async (event) => {
+    console.log('PROSES SINKRONISASI')
+    
+    const getSamplingSync = () => {
+        return new Promise( (resolve, reject) => {
+            connection.query('select * from sensor_data', (err, res) => {
+                if (err){
+                    reject()
+                }
+                else {
+                    resolve(res)
+                }
+            })
+        } )
+    }
+
+    const SQLtoCSV = (data) => {
+        return new Promise( (resolve, reject) => {
+            try {
+                const json2csvParser = new Json2csvParser({ header: true});
+                const csv = json2csvParser.parse(data);
+
+                let dir = app.getPath('documents') + '/enose-csv/db-csv'
+            
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                }
+
+                let namaCSV = path.join(dir + '/' + cloud_database + ' ' + timestamp() +'.csv')
+                
+                fs.writeFile( namaCSV, csv, function(error) {
+                    if (error) reject()
+
+                    resolve(namaCSV)
+                })
+            } catch (error) {
+                reject()
+            }
+        } )
+    }
+
+    const CSVtoZIP = (file) => {
+        new Promise ( (resolve, reject) => {
+            try {
+                let namaZIP = file.replace('.csv','.zip')
+                const zip = new AdmZip()
+                zip.addLocalFile(file)
+                zip.writeZip(namaZIP);
+
+            } catch (error) {
+                reject()
+            }
+        } )
+    }
+    
+    const Sync = async () => {
+        let sampling_rows = await getSamplingSync()
+        let sql2csv = await SQLtoCSV(sampling_rows)
+        await CSVtoZIP(sql2csv)
+        // console.log(sql2csv)
+        mainWindow.send('dbSyncDone')
+    }
+    
+    Sync()
+})
+
