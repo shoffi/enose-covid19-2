@@ -228,7 +228,7 @@ function getMaxSensorDataIdCloud() {
 
 ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
     
-    console.log(detailPatient)
+    // console.log(detailPatient)
 
     let sampling = {        
         rs_id       :   1,
@@ -280,7 +280,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
         created_at: timestamp(),
     }
 
-    console.log('clinical data row = '+ JSON.stringify(clicinal_data_row))
+    // console.log('clinical data row = '+ JSON.stringify(clicinal_data_row))
 
     let insertSamplingPromise = new Promise(function(myResolve, myReject) {
         // "Producing Code" (May take some time)
@@ -294,7 +294,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
             clicinal_data_row.sampling_id = result.insertId
 
             async function synchronizedDB() {
-                console.log('Syncronizing Check')
+                // console.log('Syncronizing Check')
 
                 sampling.id = result.insertId
 
@@ -303,6 +303,8 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                     'sampling_id' : result.insertId,
                     'sync'        : false
                 }
+
+                console.log(resolveValue)
 
                 myResolve(resolveValue);
     
@@ -380,7 +382,7 @@ ipcMain.on('storePatient', (event, input, detailPatient, clinical_data) => {
                 }
                 else{
                     // logging gagal masukin ke cloud sampling
-                    console.log('logging gagal masukin ke cloud sampling')
+                    // console.log('logging gagal masukin ke cloud sampling')
                     samplingLogger.insert(value.sampling)
                     clicinal_data_row.id = clicinal_data_res.insertId
                     clinicalLogger.insert(clicinal_data_row)
@@ -405,12 +407,28 @@ let content = header
 let isShowSaveDialog = 0
 
 ipcMain.on('recording', (event, data, presentase, sampling_id, sync_status) => {
-    console.log("presentase = "+presentase)
-    console.log(isShowSaveDialog)
+    
     if( presentase >= 100 && isShowSaveDialog==0)
     {
-        isShowSaveDialog = 1
+        // isShowSaveDialog = 1
         clearInterval(startResponse)
+        let dir = app.getPath('documents') + '/enose-csv'
+        
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        let filePath = dir + '/sampling_'+sampling_id+'.csv'
+
+        fs.writeFile(filePath, content, (err) => {
+            if(err) {
+                console.log('error in creating file: '+ err.message)
+            } else{
+                console.log(`file ${filePath} successfully created!`)
+                content = header
+            }
+        })
+
         // console.log(`masuk 100!`)
 
         // let saveOptions = {
