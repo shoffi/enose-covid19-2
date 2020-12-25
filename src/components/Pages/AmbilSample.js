@@ -165,10 +165,9 @@ class AmbilSample extends Component {
                         <h3 className="text-lg text-brand-green font-semibold mb-1 px-3">Gejala</h3>
                         <div className="bg-purple-200 bg-opacity-25 space-y-1 border-2 border-purple-600 p-3 rounded-xl h-64 scrolling-touch overflow-y-scroll">
                             {this.state.diseases.map(item => (
-                                <div className="w-full">
+                                <div key={item.id} className="w-full">
                                     <label className="inline-flex items-center w-full">
                                         <input
-                                            key={item.id}
                                             type="checkbox"
                                             checked={item.isChecked}
                                             onClick={this.handleDiseaseCheckboxes}
@@ -185,7 +184,7 @@ class AmbilSample extends Component {
                         <h3 className="text-lg text-brand-green font-semibold mb-1 px-3">Penyakit Bawaan</h3>
                         <div className="bg-yellow-200 bg-opacity-25 space-y-1 border-2 border-yellow-600 p-3 rounded-xl h-64 scrolling-touch overflow-y-scroll">
                             {this.state.comorbidities.map(item => (
-                                <div className="w-full">
+                                <div key={item.id} className="w-full">
                                     <label className="inline-flex items-center w-full">
                                         <input
                                             key={item.id}

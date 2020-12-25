@@ -71,7 +71,7 @@ class Input extends Component {
         </div>
         {this.state.isFocus && (<div
         ref={this.setWrapperRef}
-        className="absolute w-full mt-2 z-10">
+        className="absolute w-64 mt-2 z-10">
           <Keyboard
             keyboardRef = {r => (this.keyboard = r)}
             layoutName = {this.state.layoutName}

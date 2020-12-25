@@ -283,11 +283,11 @@ class MainChart extends Component {
                     setBack={() => this.stopChart()}
                 ></TitleBar>
 
-                <div className="flex space-x-3 mt-10">
+                <div className="flex items-center space-x-3 mt-6">
                     <div className="w-1/12 text-center leading-tight">
-                        <h3 className="text-2xl font-bold">
+                        <h3 className="text-xl font-bold">
                             {this.state.completed}
-                            <span className="ml-1 text-xl text-gray-700 font-light">%</span>
+                            <span className="ml-1 font-semibold text-lg text-gray-500">%</span>
                         </h3>
                         <Stopwatch
                             setProgress={this.setProgress}
@@ -298,11 +298,11 @@ class MainChart extends Component {
                     </div>
 
                     {/* Progress bar */}
-                    <div className="flex-1 relative rounded-lg overflow-hidden">
-                        <div className="bg-gray-300 w-full h-full "></div>
+                    <div className="flex-1 relative">
+                        <div className="bg-gray-300 w-full h-10 rounded-lg"></div>
                         <div
                             style={{width: `${this.state.completed}%`}}
-                            className="absolute top-0 bg-green-500 h-full transition-all ease-out duration-500">
+                            className="absolute top-0 bg-green-500 h-10 transition-all ease-out duration-500">
                         </div>
                     </div>
                     
@@ -313,21 +313,21 @@ class MainChart extends Component {
                             onClick={() => this.setState({
                                 redirect:'/menu'
                             })}
-                            className="flex items-center justify-center w-full h-full py-2 bg-orange-600 text-white text-xl rounded-lg">
+                            className="flex items-center justify-center w-full py-2 font-semibold bg-orange-600 text-white text-lg rounded-lg">
                                 {/* <svg className="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> */}
                                 Kembali
                             </button>)
                         : (<button
                             onClick={ this.stopModal }
-                            className="flex items-center justify-center w-full h-full py-2 bg-red-600 text-white text-xl rounded-lg">
-                                <svg className="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            className="flex items-center justify-center w-full py-2 font-semibold bg-red-600 text-white text-lg rounded-lg">
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                 berhenti
                             </button>)
                         }
                     </div>
                 </div>
 
-                <div className="mt-10 mb-10 h-72 mx-auto" >
+                <div className="mt-4 mb-10 h-72 mx-auto" >
                     <div className="text-center" ref={this.chartRef}></div>
                 </div>
             
