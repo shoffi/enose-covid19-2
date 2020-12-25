@@ -85,6 +85,7 @@ class Home extends Component {
 
         return (
             <div className="relative w-full flex items-center">
+                
                 <div className="flex w-4/5 mx-auto space-x-6 items-end">
                     <div className="flex-1 text-2xl space-y-3">
                         <CustomInput
