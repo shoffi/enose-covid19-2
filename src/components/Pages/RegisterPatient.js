@@ -59,7 +59,9 @@ class PatientDetail extends Component {
           title={'Registrasi Pasien'}
           back={true}
           next={false}
-          setBack={() => this.setState({redirect: '/menu'})}
+          setBack={
+            () => this.setState({redirect: '/menu'})
+          }
         />
 
         <div className="mt-5 h-full flex items-center justify-center">
@@ -97,7 +99,7 @@ class PatientDetail extends Component {
             <button
             onClick={
               () => {
-                if(this.props.patientId !== ''){
+                if(this.props.patientId !== '' && this.props.waktuTes !== ''){
                   this.setState({redirect: '/patient-detail'})
                 }else{
                   alert('id pasien dan waktu test wajib diisi')
