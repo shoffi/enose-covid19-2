@@ -808,24 +808,29 @@ ipcMain.on('dbSync', async (event) => {
     const SQLtoCSV = (data) => {
         return new Promise( (resolve, reject) => {
             try {
-                const json2csvParser = new Json2csvParser({ header: true});
-                const csv = json2csvParser.parse(data);
+                if (data != '') {
+                    const json2csvParser = new Json2csvParser({ header: true});
+                    const csv = json2csvParser.parse(data);
 
-                let dir = app.getPath('documents') + '/enose-csv/db-csv'
-            
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir);
-                }
-
-                let namaCSV = path.join(dir + '/' + cloud_database + ' ' + timestamp() +'.csv')
-                // let namaCSV = path.join(dir + '/' + cloud_database +'.csv')
+                    let dir = app.getPath('documents') + '/enose-csv/db-csv'
                 
-                fs.writeFile( namaCSV, csv, function(error) {
-                    if (error) reject()
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir);
+                    }
 
-                    resolve(namaCSV)
-                })
+                    let namaCSV = path.join(dir + '/' + cloud_database + ' ' + timestamp() +'.csv')
+                    // let namaCSV = path.join(dir + '/' + cloud_database +'.csv')
+                    
+                    fs.writeFile( namaCSV, csv, function(error) {
+                        if (error) reject()
+
+                        resolve(namaCSV)
+                    })
+                }else{
+                    resolve(null)
+                }
             } catch (error) {
+                console.log(error)
                 reject()
             }
         } )
@@ -834,13 +839,18 @@ ipcMain.on('dbSync', async (event) => {
     const CSVtoZIP = (file) => {
         return new Promise ( (resolve, reject) => {
             try {
-                let namaZIP = file.replace('.csv','.zip')
-                const zip = new AdmZip()
-                zip.addLocalFile(file)
-                zip.writeZip(namaZIP);
-                console.log(namaZIP)
-                resolve(namaZIP)
+                if(file != null){
+                    let namaZIP = file.replace('.csv','.zip')
+                    const zip = new AdmZip()
+                    zip.addLocalFile(file)
+                    zip.writeZip(namaZIP);
+                    console.log(namaZIP)
+                    resolve(namaZIP)
+                }else{
+                    resolve(null)
+                }
             } catch (error) {
+                console.log(error)
                 reject()
             }
         } )
@@ -849,35 +859,30 @@ ipcMain.on('dbSync', async (event) => {
     const uploadZIP = (file) => {
         return new Promise( (resolve, reject) => {
             try {
-                console.log('masuk uploadZIP')
-                console.log(file)
-                let form = {
-                    'hello': "haihai",
-                    'zip': fs.createReadStream(file),
-                };
-                
-                request.post({url:`http://${cloud_host}/upload_zip`, formData: form}, function(err, httpResponse, body) {
-                    if (err) {
-                        console.log(err);
-                        reject()
-                    }else{
-                        console.log('HAHAHAHAHAHAH')
-                        resolve()
-                    }
-                });
-                // let form = request.form()
-                // form.append('zip', fs.createReadStream(file));
-                // form.submit(`http://${cloud_host}/upload_zip`, function(err, res) {
-                //     if (error) {
-                //         console.error(error)
-                //         return
-                //     }
-                //     console.log(res)
-                //     resolve()
-                // });
+                if(file != null){
+                    console.log('masuk uploadZIP')
+                    console.log(file)
+                    let form = {
+                        'hello': "haihai",
+                        'zip': fs.createReadStream(file),
+                    };
+                    
+                    request.post({url:`http://${cloud_host}/upload_zip`, formData: form}, function(err, httpResponse, body) {
+                        if (err) {
+                            console.log(err);
+                            reject()
+                        }else{
+                            console.log('HAHAHAHAHAHAH')
+                            resolve()
+                        }
+                    });
+                }else{
+                    resolve(null)
+                }
             } catch (error) {
-                reject()
                 throw error
+                console.log(error)
+                reject()
             }
         } )
     }
@@ -886,6 +891,7 @@ ipcMain.on('dbSync', async (event) => {
         return new Promise( (resolve, reject) => {
             connection.query('update sensor_data set cloud_backup = 2 where cloud_backup = 1', (err, res) => {
                 if (err){
+                    console.log(error)
                     reject()
                 }
                 else {
@@ -897,12 +903,17 @@ ipcMain.on('dbSync', async (event) => {
     
     const Sync = async () => {
         await ZeroToOne()
+        console.log('####### PROSES ZeroToOne Selesai ####### ')
         let sampling_rows = await getSamplingSync()
+        console.log('####### PROSES getSamplingSync Selesai ####### ')
         let sql2csv = await SQLtoCSV(sampling_rows)
+        console.log('####### PROSES SQLtoCSV Selesai ####### ')
         let csv2zip = await CSVtoZIP(sql2csv)
-        console.log("csv2zip = "+csv2zip)
+        console.log('####### PROSES CSVtoZIP Selesai ####### ')
         await uploadZIP(csv2zip)
+        console.log('####### PROSES uploadZIP Selesai ####### ')
         await OneToTwo()
+        console.log('####### PROSES OneToTwo Selesai ####### ')
         mainWindow.send('dbSyncDone')
     }
     

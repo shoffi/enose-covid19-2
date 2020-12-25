@@ -46,7 +46,7 @@ class Home extends Component {
                             this.setState({
                                 loading: true
                             })
-                            // this.sync()
+                            this.sync()
                         }}
                         setNextName={'Database Sync'}
                     >
