@@ -11,7 +11,7 @@ class Home extends Component {
         super(props);
         this.state = {
             redirect: null,
-            loading: true,
+            loading: false,
         }
 
         this.sync = this.sync.bind(this);
